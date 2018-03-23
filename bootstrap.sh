@@ -1,27 +1,68 @@
 #!/usr/bin/env bash
 
+# install missing packaging
+
+
 cd "$(dirname "${BASH_SOURCE}")";
 
 git pull origin master;
 
+function install_packages() {
+    declare -a packages=(
+					"stow"
+					"vim"
+					"tmux"
+					"zsh"
+					"ack quake"
+					)
+
+    ## now loop through the above array
+    for i in "${packages[@]}"
+    do
+        echo "================================================================================"
+        echo "====================================== $i ======================================"
+        echo "================================================================================"
+        # sudo apt-get install "$i"
+        # or do whatever with individual element of the array
+    done
+}
+
+#function restore_symulink() {
+#    #function_body
+#}
+
+function restore_dotfiles() {
+    #function_body
+    cd dotfiles
+    declare -a resorte_config=(
+					"vim"
+					"tmux"
+					"zsh"
+					)
+
+    for i in "${resorte_config[@]}"
+    do
+		stow $i
+    done
+}
+
+# function make_folders() {
+
+# }
+
 function doIt() {
-	rsync --exclude ".git/" \
-		--exclude ".DS_Store" \
-		--exclude ".osx" \
-		--exclude "bootstrap.sh" \
-		--exclude "README.md" \
-		--exclude "LICENSE-MIT.txt" \
-		-avh --no-perms . ~;
-	source ~/.bash_profile;
+    install_packages
+    restore_dotfiles
+    make_folders
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
-	doIt;
+    doIt;
 else
-	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
-	echo "";
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		doIt;
-	fi;
+    read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
+    echo "";
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        doIt;
+    fi;
 fi;
 unset doIt;
