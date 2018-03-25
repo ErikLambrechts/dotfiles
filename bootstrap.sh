@@ -8,23 +8,16 @@ cd "$(dirname "${BASH_SOURCE}")";
 git pull origin master;
 
 function install_packages() {
-    declare -a packages=(
-					"stow"
-					"vim"
-					"tmux"
-					"zsh"
-					"ack quake"
-					)
 
-    ## now loop through the above array
-    for i in "${packages[@]}"
-    do
-        echo "================================================================================"
-        echo "====================================== $i ======================================"
-        echo "================================================================================"
-        # sudo apt-get install "$i"
-        # or do whatever with individual element of the array
-    done
+	## now loop through the above array
+	for i in "${packages[@]}"
+	do
+		echo "================================================================================"
+		echo "====================================== $i ======================================"
+		echo "================================================================================"
+		# sudo apt-get install "$i"
+		# or do whatever with individual element of the array
+	done
 }
 
 #function restore_symulink() {
@@ -32,13 +25,14 @@ function install_packages() {
 #}
 
 function restore_dotfiles() {
-    #function_body
-    cd dotfiles
-    declare -a resorte_config=(
-					"vim"
-					"tmux"
-					"zsh"
-					)
+	#function_body
+	cd dotfiles
+	declare -a resorte_config=(
+	"vim"
+	"tmux"
+	"zsh"
+	"ranger"
+	)
 
     for i in "${resorte_config[@]}"
     do
