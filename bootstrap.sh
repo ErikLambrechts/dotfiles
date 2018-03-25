@@ -8,6 +8,21 @@ cd "$(dirname "${BASH_SOURCE}")";
 git pull origin master;
 
 function install_packages() {
+	declare -a packages=(
+	"stow"
+	"vim"
+	"tmux"
+	"zsh"
+	"ack"
+	"quake"
+	"ranger caca-utils highlight atool w3m poppler-utils mediainfo"
+	"filezilla"
+	"kicad"
+	"openscad"
+	"pdfmod"
+	"texstudio"
+	"pip"
+	)
 
 	## now loop through the above array
 	for i in "${packages[@]}"
@@ -22,6 +37,7 @@ function install_packages() {
 
 #function restore_symulink() {
 #    #function_body
+	# "bcnc"
 #}
 
 function restore_dotfiles() {
@@ -34,10 +50,10 @@ function restore_dotfiles() {
 	"ranger"
 	)
 
-    for i in "${resorte_config[@]}"
-    do
+	for i in "${resorte_config[@]}"
+	do
 		stow $i
-    done
+	done
 }
 
 # function make_folders() {
@@ -45,18 +61,18 @@ function restore_dotfiles() {
 # }
 
 function doIt() {
-    install_packages
-    restore_dotfiles
-    make_folders
+	install_packages
+	restore_dotfiles
+	make_folders
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
-    doIt;
+	doIt;
 else
-    read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
-    echo "";
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        doIt;
-    fi;
+	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
+	echo "";
+	if [[ $REPLY =~ ^[Yy]$ ]]; then
+		doIt;
+	fi;
 fi;
 unset doIt;
