@@ -14,6 +14,7 @@ function install_packages() {
 	"tmux"
 	"zsh"
 	"ack"
+	"numix-icon-theme"
 	"quake"
 	"ranger caca-utils highlight atool w3m poppler-utils mediainfo"
 	"filezilla"
@@ -22,6 +23,7 @@ function install_packages() {
 	"pdfmod"
 	"texstudio"
 	"pip"
+	"vlc"
 	)
 
 	## now loop through the above array
@@ -30,8 +32,7 @@ function install_packages() {
 		echo "================================================================================"
 		echo "====================================== $i ======================================"
 		echo "================================================================================"
-		# sudo apt-get install "$i"
-		# or do whatever with individual element of the array
+		sudo apt-get install "$i"
 	done
 }
 

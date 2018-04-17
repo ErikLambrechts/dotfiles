@@ -1,1 +1,8 @@
 /tmp/*
+/vim/.vim/plugged/*
+/vim/.vim/autoload/*
+/vim/.vim/tmp/backup/*
+/vim/.vim/undodir/*
+/vim/.vim/view/*
+/tmux/.tmux/resurrect/*
+/vim/.vim/session/*

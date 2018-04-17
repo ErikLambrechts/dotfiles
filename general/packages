@@ -1,0 +1,8 @@
+entr
+xdotool
+
+pdfmod
+sudo pip3 install wpgtk
+wpg-install.sh
+
+stow
