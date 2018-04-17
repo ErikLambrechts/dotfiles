@@ -1,0 +1,41 @@
+priority -1
+
+snippet claswig "generator for swig construction"
+#ifndef ${2:`!v substitute(vim_snippets#Filename('$1_H','ClassName'),'.*','\U&\E','')`}
+#define $2
+namespace spline{
+class ${1:`!v substitute(substitute(vim_snippets#Filename('$1','ClassName'),'^.','\u&',''), '_\(\w\)', '\u\1', 'g')`}
+{
+private:
+	${3}
+
+public:
+	$1();
+	virtual ~$1();
+};
+} // namespace spline
+#endif /* $2 */
+endsnippet
+
+snippet cout "debug cout"
+std::cout << "\x1b[31m$1 : " << $1 << "\x1b[0m" << std::endl;
+endsnippet
+
+snippet guardes "Include header once only guard"
+#ifndef TAJGA_${1:`!p
+if not snip.c:
+	import string
+	snip.rv = re.sub(r'[^A-Za-z0-9]+','_', path).upper()
+	i = snip.rv.find("_SRC_")
+	if i != -1:
+		snip.rv = snip.rv[i+5:]
+else:
+	snip.rv = snip.c`}_
+#define TAJGA_$1_
+
+${VISUAL}${0}
+
+#endif /* TAJGA_$1_ */
+
+endsnippet
+

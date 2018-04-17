@@ -1,0 +1,44 @@
+snippet print "print(...)" b
+print($1)
+$0
+endsnippet
+
+snippet print_blank "print blank line" b
+print("$1")
+$0
+endsnippet
+
+snippet print_end "print(..., end=)" b
+print($1, end="")
+$0
+endsnippet
+
+snippet list_comprehention "[for]" b
+[$1 for ${2:i} in $3 ] $0
+endsnippet
+
+snippet debug "print debug"
+print("${1:${VISUAL:variable}} : ", $1)
+print(`!p snip.rv = snip.fn`)
+$0
+endsnippet
+
+# set_trace
+snippet pdb "set_trace"
+import pdb; pdb.set_trace()$0
+endsnippet
+
+snippet notimp "raise NotImplementedError" b
+raise NotImplementedError
+endsnippet
+
+snippet wow
+${1:Text}`!p snip.rv = (75-2*len(t[1]))*' '+t[1].upper()`
+endsnippet
+
+snippet us "replace specials with underscores" w
+`!p
+import re
+snip.rv = re.sub("[^0-9a-zA-Z]", "_", snip.v.text)
+`
+endsnippet

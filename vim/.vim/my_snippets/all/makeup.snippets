@@ -1,0 +1,12 @@
+snippet title "convert selection in title" w
+`!p
+c = '='
+snip += c * 80
+for l in snip.v.text.split('\n'):
+	if len(l) > 0:
+		l = (' ' + l.strip().upper() + ' ')
+	snip += l.center(80, c)
+snip += c * 80
+`
+endsnippet
+
