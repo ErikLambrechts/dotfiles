@@ -1,6 +1,7 @@
-filetype off                  " required
+" filetype off                  " required
 
 call plug#begin('~/.vim/plugged')
+" Plug 'junegunn/vim-plug'
 
 Plug 'tpope/vim-commentary'             " commentary
 Plug 'tpope/vim-surround'               " delete, change and add such surroundings in pairs
@@ -452,6 +453,7 @@ let g:startify_bookmarks = [
             \ { 'v': '~/.vimrc' },
             \ { 'z': '~/.zshrc' },
             \ { 't': '~/.tmux.conf' },
+            \ { 'b': '~/Dotfiles/bootstrap.sh' },
             \ ]
 
 nnoremap <Leader>v :Startify<CR>
@@ -594,17 +596,3 @@ endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
-
-function! s:search_mode_start()
-    cnoremap <tab> <c-f>a<c-n>
-    let s:old_complete_opt = &completeopt
-    set completeopt-=noinsert
-endfunction
-
-function! s:search_mode_stop()
-    cunmap <tab>
-    let &completeopt = s:old_complete_opt
-endfunction
-
-autocmd CmdlineEnter [/\?] call <SID>search_mode_start()
-autocmd CmdlineLeave [/\?] call <SID>search_mode_stop()
