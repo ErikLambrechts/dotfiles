@@ -121,7 +121,8 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 # Base16 Shell
 # if status --is-interactive
-eval sh $HOME/.config/base16-shell/scripts/base16-default-dark.sh
+# eval sh $HOME/.config/base16-shell/scripts/base16-default-dark.sh
+eval sh $HOME/.config/base16-shell/scripts/base16-bright.sh
 # end
 
 # Spline spline spline

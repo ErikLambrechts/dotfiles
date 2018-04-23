@@ -84,6 +84,7 @@ syntax on
 let base16colorspace=256
 " colorscheme base16-default-dark
 colorscheme base16-default-light
+colorscheme base16-bright
 
 " " backup/persistance settings
 set backupdir=~/.vim/tmp/backup//
@@ -354,7 +355,7 @@ nnoremap <Leader>k yy:@"<cr>
 vnoremap <Leader>k yy:@"<cr>
 
 " clean hightlight on new search
-" nnoremap / :noh<cr>/
+nnoremap / :noh<cr>/
 
 " jump assinment end line
 au FileType c,cpp,h,hpp set matchpairs+==:;

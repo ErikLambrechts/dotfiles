@@ -21,7 +21,13 @@ function install_packages {
 	"silversearcher-ag"
 	"numix-icon-theme"
 	"guake"
-	"ranger caca-utils highlight atool w3m poppler-utils mediainfo"
+	"ranger"
+	"caca-utils"
+	"highlight"
+	"atool"
+	"w3m"
+	"poppler-utils"
+	"mediainfo"
 	"filezilla"
 	"kicad"
 	"openscad"
@@ -35,7 +41,6 @@ function install_packages {
 	"entr"
 	"xdotool"
 	"htop"
-
 	)
 
 	## now loop through the above array
@@ -44,7 +49,7 @@ function install_packages {
 		echo "================================================================================"
 		echo "====================================== $i ======================================"
 		echo "================================================================================"
-		sudo apt-get install -y "$i"
+		sudo apt install -y "$i"
 	done
 }
 
@@ -57,6 +62,7 @@ function install_theme() {
 	upt-add-repository ppa:numix/ppa
 	sudo apt-get update
 	sudo apt-get install numix-icon-theme-circle
+	git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
 }
 
 function intstall_vim(){
@@ -80,20 +86,19 @@ function restore_dotfiles() {
 }
 
 # function make_folders() {
-	cd
+	# cd
 #	mkdir Documents/Fonts
 #	mkdir Software
 #	mkdir Projects
 #	mkdir Snippets
 #	mkdir Screenshots
-
 # }
 
 function doIt() {
 	install_packages
-	restore_dotfiles
-	intstall_vim
-	install_theme
+	# restore_dotfiles
+	# intstall_vim
+	# install_theme
 #	make_folders
 }
 
