@@ -41,7 +41,20 @@ function install_packages {
 	"entr"
 	"xdotool"
 	"htop"
+	"build-essence"
+	"python3-dev"
 	)
+
+gawk
+translate-shell
+meshlab
+
+
+compizconfig-settings-manager
+
+
+
+
 
 	## now loop through the above array
 	for i in "${packages[@]}"
