@@ -133,7 +133,11 @@ bindkey '^[[1;5D' backward-word # [Ctrl-LeftArrow] - move backward one word
 export EDITOR=vi
 export VISUAL=vi
 
-source $HOME/.aliases.sh
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
+else
+	echo "aliases not loaded '~/.aliases' is missing"
+fi
 
 HIST_IGNORE_SPACE=" "
 setopt histignoredups
