@@ -68,7 +68,27 @@ HIST_STAMPS="dd/mm/yyyy"
 
 plugins=(git zsh-256color tmux vi-mode fzf zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
+# Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
+export KEYTIMEOUT=1
+# Updates editor information when the keymap changes.
+function zle-keymap-select() {
+  zle reset-prompt
+  zle -R
+}
 
+zle -N zle-keymap-select
+
+function vi_mode_prompt_info() {
+  # echo "%{$fg_bold[white]%}${${KEYMAP/vicmd/[% VI]%}/(main|viins)/}%{$reset_color%}"
+  # echo "${${KEYMAP/vicmd/%fg_bold[green]%}[% NORMAL]%}/(main|viins)/}"
+  _mode_indicator="%{$fg_bold[red]%}  ${${KEYMAP/vicmd/[% VI]%}/(main|viins)/%} %{$reset_color%}"
+  echo $_mode_indicator
+  # echo "${${KEYMAP/vicmd/[% NORMAL]%}/(main|viins)/[% INSERT]%}"
+}
+
+# define right prompt, regardless of whether the theme defined it
+RPS1='$(vi_mode_prompt_info) $(bureau_git_prompt)'
+RPS2=$RPS1
 
 # User configuration
 
@@ -116,6 +136,7 @@ export EDITOR=vi
 export VISUAL=vi
 
 alias e=exit
+# alias ee="kill $(jobs -p);exit"
 alias c=clear
 
 alias v=vim
@@ -168,3 +189,7 @@ alias weer="curl -4 http://wttr.in"
 
 alias project="vi \$(cat project) +vs"
 alias ccat='pygmentize -g'
+
+export SCIPOPTDIR="/usr/"
+
+export PATH=~/Software/micmac/bin:$PATH
