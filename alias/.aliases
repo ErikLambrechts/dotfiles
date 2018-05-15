@@ -1,6 +1,9 @@
-alias ins="sudo apt-get install"
+alias install="sudo apt-get install"
 
-
+# Language aliases
+alias rb='ruby'
+alias py='python'
+alias ipy='ipython'
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -13,6 +16,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
+
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
@@ -26,6 +30,7 @@ alias project="vi \$(cat project) +vs"
 alias ccat='pygmentize -g'
 alias rg="ranger"
 alias weer="curl -4 http://wttr.in"
+
 # alias matlab="matlab -nosplash"
 
 ## Colorize the ls output ##
@@ -42,6 +47,14 @@ alias cd..='cd ..'
 
  ## a quick way to get out of current directory ##
 alias ..='cd ..'
+alias ..='cd ..'         # Go up one directory
+alias cd..='cd ..'       # Common misspelling for going up one directory
+alias ...='cd ../..'     # Go up two directories
+alias ....='cd ../../..' # Go up three directories
+alias -- -='cd -'        # Go back
+
+# Shell History
+alias h='history'
 
 alias e=exit
 # alias ee="kill $(jobs -p);exit"
@@ -61,5 +74,9 @@ alias gitc="git checkout"
 alias gitcd="gitc develop"
 alias gitcm="gitc master"
 alias gitclean="git clean -d -f -x -n"
+
+alias txl='tmux ls'
+alias txn='tmux new -s'
+alias txa='tmux a -t'
 
 alias gn="gnome-terminal"
