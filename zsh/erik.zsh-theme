@@ -74,6 +74,19 @@ bureau_git_prompt () {
     fi
     _result="$_result$ZSH_THEME_GIT_PROMPT_SUFFIX"
   fi
+
+  echo $_result
+}
+
+fance_start () {
+  local _branch=$(bureau_git_branch)
+# PROMPT='%{$fg_bold[white]%}>%(1j. %j.)%{$reset_color%} $_LIBERTY '
+  local _n_proces="%(1j. %j.)"
+  # local _n_proces="%(2j.j.)"
+  # local _n_proces=""
+  local _result=""
+  _result="%{$fg_bold[white]%}>${_n_proces}%{$reset_color%} $_LIBERTY "
+
   echo $_result
 }
 
