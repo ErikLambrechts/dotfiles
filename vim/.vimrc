@@ -451,8 +451,10 @@ let g:startify_skiplist = [
 let g:startify_bookmarks = [
             \ { 'v': '~/.vimrc' },
             \ { 'z': '~/.zshrc' },
+            \ { 'b': '~/.bashrc' },
+            \ { 'a': '~/.aliases' },
             \ { 't': '~/.tmux.conf' },
-            \ { 'b': '~/Dotfiles/bootstrap.sh' },
+            \ { 'o': '~/Dotfiles/bootstrap.sh' },
             \ ]
 
 nnoremap <Leader>v :Startify<CR>
