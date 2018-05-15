@@ -116,7 +116,10 @@ bureau_precmd () {
 }
 
 setopt prompt_subst
-PROMPT='%{$fg_bold[white]%}>%{$reset_color%} $_LIBERTY '
+# add number of background processes
+PROMPT='$(fance_start)'
+# PROMPT='%{$fg_bold[white]%}>%(1j. %j.)%{$reset_color%} $_LIBERTY '
+# PROMPT='%{$fg_bold[white]%}>%{$reset_color%} $_LIBERTY '
 # RPROMPT='$(nvm_prompt_info) $(bureau_git_prompt)'
 RPROMPT='$(bureau_git_prompt)'
 
