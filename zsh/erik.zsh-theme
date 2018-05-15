@@ -134,7 +134,7 @@ PROMPT='$(fance_start)'
 # PROMPT='%{$fg_bold[white]%}>%(1j. %j.)%{$reset_color%} $_LIBERTY '
 # PROMPT='%{$fg_bold[white]%}>%{$reset_color%} $_LIBERTY '
 # RPROMPT='$(nvm_prompt_info) $(bureau_git_prompt)'
-RPROMPT='$(bureau_git_prompt)'
+# RPROMPT='$(bureau_git_prompt)'
 
 autoload -U add-zsh-hook
 add-zsh-hook precmd bureau_precmd
