@@ -1,7 +1,6 @@
-" filetype off                  " required
+filetype off                  " required
 
 call plug#begin('~/.vim/plugged')
-" Plug 'junegunn/vim-plug'
 
 Plug 'tpope/vim-commentary'             " commentary
 Plug 'tpope/vim-surround'               " delete, change and add such surroundings in pairs
@@ -40,7 +39,7 @@ Plug 'junegunn/fzf.vim'
   " Both options are optional. You don't have to install fzf in ~/.fzf
   " and you don't have to run install script if you use fzf only in Vim.
 
-Plug 'mileszs/ack.vim'
+" Plug 'mileszs/ack.vim'
 
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'godlygeek/tabular'
@@ -54,7 +53,8 @@ Plug 'jpalardy/vim-slime'               " slime : send text to interpreter
 Plug 'ddrscott/vim-side-search'         " search over files
 Plug 'xtal8/traces.vim'                 " highlight for commands
 
-" Plug 'lervag/vimtex'
+Plug 'lervag/vimtex'
+Plug 'vim-latex/vim-latex'
 " Plug 'JuliaEditorSupport/julia-vim'
 
 Plug 'metakirby5/codi.vim'
@@ -72,9 +72,6 @@ Plug 'chriskempson/base16-vim'
 Plug 'junegunn/goyo.vim'                " clean centered view
 Plug 'junegunn/limelight.vim'           " highlight current paragraf
 
-Plug 'morhetz/gruvbox'
-Plug 'altercation/vim-colors-solarized'
-
 call plug#end()            " required
 
 filetype plugin indent on    " required
@@ -83,7 +80,7 @@ syntax on
 "Colorscheme Settings"
 let base16colorspace=256
 " colorscheme base16-default-dark
-colorscheme base16-default-light
+" colorscheme base16-default-light
 colorscheme base16-bright
 
 " " backup/persistance settings
@@ -166,7 +163,7 @@ set foldmethod=indent                                       " fold based on inde
 
 set shortmess+=I                                            " no splash screen
 
-" set completeopt+=noinsert                                   " doe not insert from menu
+set completeopt+=noinsert                                   " doe not insert from menu
 set nocopyindent                                            " indedent is not recalculated
 set sessionoptions-=options
 
@@ -355,7 +352,8 @@ nnoremap <Leader>k yy:@"<cr>
 vnoremap <Leader>k yy:@"<cr>
 
 " clean hightlight on new search
-nnoremap / :noh<cr>/
+" nnoremap / :noh<cr>:set hlsearch<cr>/
+" nnoremap / :noh<cr>/
 
 " jump assinment end line
 au FileType c,cpp,h,hpp set matchpairs+==:;
