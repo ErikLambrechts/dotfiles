@@ -130,14 +130,13 @@ unset color_prompt force_color_prompt
 alias ins="sudo apt-get install"
 alias impscad="/home/erik/.cabal/bin/extopenscad"
 
+alias e=exit
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export path=$path:~/desktop/nos/amplide.linux64/
 
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+# BASE16_SHELL=$HOME/.config/base16-shell/
+# [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 # Base16 Shell
 # if status --is-interactive
-eval sh $HOME/.config/base16-shell/scripts/base16-default-dark.sh
+# eval sh $HOME/.config/base16-shell/scripts/base16-default-dark.sh
 # end
-export PYTHONPATH=$PYTHONPATH:~/Documents/casadi3.0/:~/Documents/cpp_spline/swig/
-export PYTHONPATH=$PYTHONPATH:~/Documents/optistack/python-optistack/
