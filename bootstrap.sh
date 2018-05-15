@@ -2,7 +2,6 @@
 
 # install missing packaging
 
-
 cd "$(dirname "${BASH_SOURCE}")";
 
 #git pull origin master;
@@ -11,6 +10,8 @@ function install_packages {
 	declare -a packages=(
 	"git"
 	"git-cola"
+	"gitg"
+	"gitk"
 	"meld"
 	"curl"
 	"cmake"
@@ -34,6 +35,7 @@ function install_packages {
 	"blender"
 	"pdfmod"
 	"texstudio"
+	"texlive-latex-extra"
 	"pip"
 	"vlc"
 	"calibre"
@@ -43,17 +45,19 @@ function install_packages {
 	"htop"
 	"build-essence"
 	"python3-dev"
+	"nodejs"
+	"npm"
+	# npm install -g http-server
 	)
 
-gawk
-translate-shell
-meshlab
+# gawk
+# translate-shell
+# meshlab
 
 
-compizconfig-settings-manager
+# compizconfig-settings-manager
 
-
-
+cat -n Dotfiles/bootstrap.sh | sort -k2 -u | sort -nk1,1 | cut -f2-
 
 
 	## now loop through the above array
