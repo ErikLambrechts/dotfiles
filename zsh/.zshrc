@@ -123,11 +123,9 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 # Base16 Shell
 # if status --is-interactive
-# eval sh $HOME/.config/base16-shell/scripts/base16-default-dark.sh
 eval sh $HOME/.config/base16-shell/scripts/base16-bright.sh
 # end
 
-# export MECO_BINARIES_OVERRIDE_CPP_SPLINES=/Documents/cpp_splines/build/swig
 
 bindkey '^[[1;5C' forward-word                        # [Ctrl-RightArrow] - move forward one word
 bindkey '^[[1;5D' backward-word # [Ctrl-LeftArrow] - move backward one word
