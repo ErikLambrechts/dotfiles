@@ -128,11 +128,8 @@ fi
 unset color_prompt force_color_prompt
 
 alias ins="sudo apt-get install"
-alias netbeans="/usr/local/netbeans-8.1/bin/netbeans"
 alias impscad="/home/erik/.cabal/bin/extopenscad"
-cat .text_terminal
 
-alias v="gvim"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export path=$path:~/desktop/nos/amplide.linux64/
 
@@ -144,15 +141,3 @@ eval sh $HOME/.config/base16-shell/scripts/base16-default-dark.sh
 # end
 export PYTHONPATH=$PYTHONPATH:~/Documents/casadi3.0/:~/Documents/cpp_spline/swig/
 export PYTHONPATH=$PYTHONPATH:~/Documents/optistack/python-optistack/
-
-[ -s "/home/erik/.scm_breeze/scm_breeze.sh" ] && source "/home/erik/.scm_breeze/scm_breeze.sh"
-
-export NVM_DIR="/home/erik/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-# added by Miniconda3 4.3.14 installer
-export PATH="/home/erik/miniconda3/bin:$PATH"
-alias project=vi $(cat project) +vs
-
-# added by Miniconda3 installer
-export PATH="/home/erik/miniconda3/bin:$PATH"
