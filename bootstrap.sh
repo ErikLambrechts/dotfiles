@@ -47,13 +47,15 @@ function install_packages {
 	"python3-dev"
 	"nodejs"
 	"npm"
+	"ctag"
+	"translate-shell"
+	"avrdude"
+	"meshlab"
 	# npm install -g http-server
 	)
 
 # gawk
-# translate-shell
-# meshlab
-
+# git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # compizconfig-settings-manager
 
