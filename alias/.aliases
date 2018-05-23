@@ -80,3 +80,7 @@ alias txn='tmux new -s'
 alias txa='tmux a -t'
 
 alias gn="gnome-terminal"
+alias py=python
+alias arduino="sudo /opt/arduino-1.8.5/arduino"
+alias bCNC="python ~/Software/bCNC/bCNC.py"
+alias bcnc="python ~/Software/bCNC/bCNC.py"
