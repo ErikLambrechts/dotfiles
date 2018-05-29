@@ -1,3 +1,5 @@
+alias ls=" ls"
+alias cd=" cd"
 alias install="sudo apt-get install"
 
 # Language aliases
