@@ -404,6 +404,11 @@ let g:UltiSnipsExpandTrigger = "<tab>"
 let g:ycm_python_binary_path = '/usr/local/bin/python3'
 set runtimepath+=~/.vim/my_snippets/
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_key_detailed_diagnostics = '<leader>d'
+let g:ycm_key_invoke_completion = '<C-Space>'
+let g:ycm_min_num_of_chars_for_completion = 1
+let g:ycm_complete_in_strings = 1
 
 """ tagbar
 
@@ -451,10 +456,9 @@ let g:startify_skiplist = [
 let g:startify_bookmarks = [
             \ { 'v': '~/.vimrc' },
             \ { 'z': '~/.zshrc' },
-            \ { 'b': '~/.bashrc' },
             \ { 'a': '~/.aliases' },
             \ { 't': '~/.tmux.conf' },
-            \ { 'o': '~/Dotfiles/bootstrap.sh' },
+            \ { 'b': '~/Dotfiles/bootstrap.sh' },
             \ ]
 
 nnoremap <Leader>v :Startify<CR>
