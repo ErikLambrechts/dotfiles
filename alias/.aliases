@@ -65,9 +65,6 @@ alias c=clear
 alias v=vim
 
 alias n="nautilus ."
-alias prjct="gnome-terminal -x zsh -c \"source ~/.zshrc; sh ~/project_tmux;\""
-# alias gncpp="gnome-terminal -x zsh -c \"source ~/.zshrc; sh ~/cpp_tmux; \""
-alias tk="tmux kill-session"
 
 alias gits="git stash"
 alias gitsl="git stash list"
@@ -77,6 +74,10 @@ alias gitcd="gitc develop"
 alias gitcm="gitc master"
 alias gitclean="git clean -d -f -x -n"
 
+alias prjct="gnome-terminal -x zsh -c \"source ~/.zshrc; sh ~/project_tmux;\""
+# alias gncpp="gnome-terminal -x zsh -c \"source ~/.zshrc; sh ~/cpp_tmux; \""
+alias tx='tmux'
+alias txk="tmux kill-session"
 alias txl='tmux ls'
 alias txn='tmux new -s'
 alias txa='tmux a -t'
