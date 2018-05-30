@@ -15,6 +15,9 @@ nmap <Leader>r :Prosession . <CR>
 let g:prosession_tmux_title = 0
 let g:prosession_on_startup = 0
 
+Plug 'lervag/vimtex'
+Plug 'vim-latex/vim-latex'  " needs to be before tmux-navigator for  <c-j> intervarence
+
 Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -53,8 +56,6 @@ Plug 'jpalardy/vim-slime'               " slime : send text to interpreter
 Plug 'ddrscott/vim-side-search'         " search over files
 Plug 'xtal8/traces.vim'                 " highlight for commands
 
-Plug 'lervag/vimtex'
-Plug 'vim-latex/vim-latex'
 " Plug 'JuliaEditorSupport/julia-vim'
 
 Plug 'metakirby5/codi.vim'
