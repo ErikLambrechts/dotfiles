@@ -205,11 +205,11 @@ nnoremap gp `[v`]
 " Make Y behave like other capitals
 nnoremap Y y$
 
-" easy panel movement
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
+" easy panel movement -> tmux-navigator
+" map <C-h> <C-w>h
+" map <C-j> <C-w>j
+" map <C-k> <C-w>k
+" map <C-l> <C-w>l
 
 " increment numbers
 noremap + <c-a>
