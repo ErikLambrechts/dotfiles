@@ -1,11 +1,12 @@
+alias e=" e"
+alias fg=" fg"
 alias ls=" ls"
 alias cd=" cd"
 alias install="sudo apt-get install"
 
 # Language aliases
-alias rb='ruby'
 alias py='python'
-alias ipy='ipython'
+alias ipy='ipython3'
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -74,6 +75,7 @@ alias gitcd="gitc develop"
 alias gitcm="gitc master"
 alias gitclean="git clean -d -f -x -n"
 alias gitconfig="git config --global credential.helper \"cache --timeout=14400\""
+alias gac="git add . && git commit -m"
 
 alias prjct="gnome-terminal -x zsh -c \"source ~/.zshrc; sh ~/project_tmux;\""
 # alias gncpp="gnome-terminal -x zsh -c \"source ~/.zshrc; sh ~/cpp_tmux; \""
