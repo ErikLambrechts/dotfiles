@@ -7,3 +7,13 @@
 /tmux/.tmux/resurrect/*
 /vim/.vim/session/*
 /vim/.vim/.netrwhist
+/tmux/.tmux/plugins/*
+/ranger/.config/ranger/commands.py
+/ranger/.config/ranger/commands_full.py
+/ranger/.config/ranger/history
+/ranger/.config/ranger/plugins/__init__.py
+/ranger/.config/ranger/plugins/bash_automatic_cd.sh
+/ranger/.config/ranger/rifle.conf
+/ranger/.config/ranger/scope.sh
+/ranger/.config/ranger/tagged
+/tmux/.tmux/sidebar/directory_widths.txt
