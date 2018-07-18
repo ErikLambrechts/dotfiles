@@ -79,45 +79,13 @@ function zle-keymap-select() {
 zle -N zle-keymap-select
 
 function vi_mode_prompt_info() {
-  # echo "%{$fg_bold[white]%}${${KEYMAP/vicmd/[% VI]%}/(main|viins)/}%{$reset_color%}"
-  # echo "${${KEYMAP/vicmd/%fg_bold[green]%}[% NORMAL]%}/(main|viins)/}"
   _mode_indicator="%{$fg_bold[red]%}  ${${KEYMAP/vicmd/[% VI]%}/(main|viins)/%} %{$reset_color%}"
   echo $_mode_indicator
-  # echo "${${KEYMAP/vicmd/[% NORMAL]%}/(main|viins)/[% INSERT]%}"
 }
 
 # define right prompt, regardless of whether the theme defined it
 RPS1='$(vi_mode_prompt_info) $(bureau_git_prompt)'
 RPS2=$RPS1
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
@@ -139,15 +107,45 @@ else
 	echo "aliases not loaded '~/.aliases' is missing"
 fi
 
-HIST_IGNORE_SPACE=" "
-setopt histignoredups
+#
+# History
+#
+
+export HISTSIZE=100000
+export HISTFILE="$HOME/.history"
+export SAVEHIST=$HISTSIZE
+
+#
+# Options
+#
+
+setopt autocd               # .. is shortcut for cd .. (etc)
+# setopt autoparamslash       # tab completing directory appends a slash
+setopt autopushd            # cd automatically pushes old dir onto dir stack
+setopt clobber              # allow clobbering with >, no need to use >!
+setopt correct              # command auto-correction
+setopt correctall           # argument auto-correction
+setopt noflowcontrol        # disable start (C-s) and stop (C-q) characters
+setopt nonomatch            # unmatched patterns are left unchanged
+setopt histignorealldups    # filter duplicates from history
+setopt histignorespace      # don't record commands starting with a space
+# setopt histverify           # confirm history expansion (!$, !!, !foo)
+setopt ignoreeof            # prevent accidental C-d from exiting shell
+setopt interactivecomments  # allow comments, even in interactive shells
+setopt printexitvalue       # for non-zero exit status
+setopt pushdignoredups      # don't push multiple copies of same dir onto stack
+# setopt pushdsilent          # don't print dir stack after pushing/popping
+setopt sharehistory         # share history across shells
 
 # added by Miniconda3 4.3.14 installer
 export PATH="/home/erik/miniconda3/bin:$PATH"
 export PATH=$HOME/mosek/7/tools/platform/linux64x86/bin/mosek:$PATH
 
-export GUROBI_HOME="/opt/gurobi752/linux64/"
-export GRB_LICENSE_FILE="/home/erik/Licenses/Gurobi/gurobi.lic"
+
+export GUROBI_HOME="/media/Data/Downloads/gurobi752/linux64"
+# "/opt/gurobi752/linux64/"
+export GRB_LICENSE_FILE="/media/Data/Licenses/Gurobi/gurobi.lic"
+# "/home/erik/Licenses/Gurobi/gurobi.lic"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
