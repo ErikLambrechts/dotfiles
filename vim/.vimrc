@@ -68,6 +68,9 @@ else
     "   Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'https://github.com/Valloric/YouCompleteMe' , { 'do': './install.py' }
 endif
+Plug 'https://github.com/ervandew/supertab'
+
+let g:deoplete#enable_at_startup = 1
 
 Plug 'https://github.com/lervag/vimtex'
 " Plug 'https://github.com/vim-latex/vim-latex'  " needs to be before tmux-navigator for  <c-j> intervarence
@@ -276,28 +279,28 @@ cmap w!! w !sudo tee > /dev/null %<CR>
 
 " need to save between tabs
 set hidden
-
-" Make sure Vim returns to the same line when you reopen a file.
-augroup line_return
-    au!
-    au BufReadPost *
-                \ if line("'\"") > 0 && line("'\"") <= line("$") |
-                \     execute 'normal! g`"zvzz' |
-                \ endif
-augroup END
-
-" change cursor in different modes
-if has("autocmd")
-    au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' |
-    redraw!
-    au InsertEnter,InsertChange *
-                \ if v:insertmode == 'i' |
-                \   silent execute '!echo -ne "\e[6 q"' | redraw! |
-                \ elseif v:insertmode == 'r' |
-                \   silent execute '!echo -ne "\e[4 q"' | redraw! |
-                \ endif
-    au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
-endif
+"
+" " Make sure Vim returns to the same line when you reopen a file.
+" augroup line_return
+"     au!
+"     au BufReadPost *
+"                 \ if line("'\"") > 0 && line("'\"") <= line("$") |
+"                 \     execute 'normal! g`"zvzz' |
+"                 \ endif
+" augroup END
+"
+" " change cursor in different modes
+" if has("autocmd")
+"     au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' |
+"     redraw!
+"     au InsertEnter,InsertChange *
+"                 \ if v:insertmode == 'i' |
+"                 \   silent execute '!echo -ne "\e[6 q"' | redraw! |
+"                 \ elseif v:insertmode == 'r' |
+"                 \   silent execute '!echo -ne "\e[4 q"' | redraw! |
+"                 \ endif
+"     au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+" endif
 
 " copy and paste from system clipboard
 vmap <Leader>y "+y
@@ -340,7 +343,7 @@ nnoremap s :<C-U>exec "normal i".RepeatChar(nr2char(getchar()), v:count1)<CR>
 nnoremap S :<C-U>exec "normal a".RepeatChar(nr2char(getchar()), v:count1)<CR>
 
 " redrawn highlights
-map <F2> :syn sync clear <CR>
+map <F3> :syn sync clear <CR>
 
 " smart j and k movement
 nnoremap <expr> j v:count ?  (v:count > 5 ?  "m'" . v:count : '') .  'j' : 'gj'
@@ -372,14 +375,14 @@ nnoremap <silent> N :call <SID>nice_next('N')<cr>
 
 "restore view after exicuting arg
 function! KeepEx(arg)
-  let l:winview = winsaveview()
-  execute a:arg
-  call winrestview(l:winview)
+    let l:winview = winsaveview()
+    execute a:arg
+    call winrestview(l:winview)
 endfunction
 
 " removing tailing whitespace on file save
 augroup prewrites
-   autocmd!
+    autocmd!
     autocmd BufWritePre,FileWritePre *  execute 'normal! ms' | :call KeepEx('silent! %s/\v\s+$//e') | :call histdel("search", -1) | execute 'normal! `s' | delmarks s<CR>
 augroup END
 
@@ -436,31 +439,32 @@ match ErrorMsg '\s\+$'
 
 let g:traces_whole_file_range = 0
 
-""" ultisnip, vim-snippets and YCM setting
+" """ ultisnip, vim-snippets and YCM setting
+let g:UltiSnipsSnippetsDir = "~/Dotfiles/vim/.vim/my_snippets/"
 
-" autoload snippets
-augroup load_ultisnips
-  autocmd!
-  autocmd FileType python,c,c++,latex call plug#load('ultisnips')
-        \| execute 'autocmd! load_ultisnips' | doautocmd FileType
-augroup END
+" " autoload snippets
+" augroup load_ultisnips
+"     autocmd!
+"     autocmd FileType python,c,c++,latex call plug#load('ultisnips')
+"                 \| execute 'autocmd! load_ultisnips' | doautocmd FileType
+" augroup END
 
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" " make YCM compatible with UltiSnips (using supertab)
+" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = "context"
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-" better key bindings for UltiSnipsExpandTrigger
+" let g:ycm_autoclose_preview_window_after_completion = 1
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+" " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
-let g:ycm_python_binary_path = '/usr/local/bin/python3'
+" let g:ycm_python_binary_path = '/usr/local/bin/python3'
 set runtimepath+=~/.vim/my_snippets/
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_key_detailed_diagnostics = '<leader>d'
-let g:ycm_key_invoke_completion = '<C-Space>'
-let g:ycm_min_num_of_chars_for_completion = 1
-let g:ycm_complete_in_strings = 1
+" let g:ycm_collect_identifiers_from_tags_files = 1
+" let g:ycm_key_detailed_diagnostics = '<leader>d'
+" let g:ycm_key_invoke_completion = '<C-Space>'
+" let g:ycm_min_num_of_chars_for_completion = 1
+" let g:ycm_complete_in_strings = 1
 
 """ tagbar
 
@@ -479,7 +483,7 @@ let g:startify_custom_header = [
             \ '   \ \ \_/ |\ \ \/\ \/\ \/\ \  ',
             \ '    \ \___/  \ \_\ \_\ \_\ \_\ ',
             \ '     \/__/    \/_/\/_/\/_/\/_/ ',
-\ ]
+            \ ]
 
 let g:startify_list_order = [
             \ ['   My most recently used files'],
@@ -538,10 +542,10 @@ let g:clang_library_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
 """ ale
 
 let g:ale_linters = {
-\   'python': ['flake8'],
-\   'c': ['clang'],
-\   'cpp': ['cpplint'],
-\}
+            \   'python': ['flake8'],
+            \   'c': ['clang'],
+            \   'cpp': ['cpplint'],
+            \}
 let g:ale_python_flake8_args = '--ignore=E,W,F403,F405 --select=F,C'
 let g:ale_c_clang_options = '-std=c11 -Wall -Wextra -fexceptions -DNDEBUG'
 let g:ale_c_cpplint_options = '--linelength=100 -std=c11 -Wall -Wextra -fexceptions -DNDEBUG'
@@ -574,30 +578,30 @@ let g:airline_symbols.linenr = ''
 let g:airline_symbols.maxlinenr = ''
 
 """ sidesearch
- " How should we execute the search?
- " " --heading and --stats are required!
+" How should we execute the search?
+" " --heading and --stats are required!
 let g:side_search_prg = 'ag --word-regexp'
-  \. " --ignore='*.js.map'"
-  \. " --heading --stats -B 1 -A 2"
+            \. " --ignore='*.js.map'"
+            \. " --heading --stats -B 1 -A 2"
 
 " Can use `vnew` or `new`
- let g:side_search_splitter = 'vnew'
+let g:side_search_splitter = 'vnew'
 
- " I like 40% splits, change it if you don't
- let g:side_search_split_pct = 0.4
+" I like 40% splits, change it if you don't
+let g:side_search_split_pct = 0.4
 
- " SideSearch current word and return to original window
- vnoremap <Leader>* y :SideSearch <C-r>"<CR> | wincmd p
+" SideSearch current word and return to original window
+vnoremap <Leader>* y :SideSearch <C-r>"<CR> | wincmd p
 
- " SideSearch current word and return to original window
- nnoremap <Leader>* :SideSearch <C-r><C-w><CR> | wincmd p
+" SideSearch current word and return to original window
+nnoremap <Leader>* :SideSearch <C-r><C-w><CR> | wincmd p
 
- nnoremap <Leader>/ :SideSearch
- " Create an shorter `SS` command
- " command! -complete=file -nargs=+ SS execute 'SideSearch <args>'
+nnoremap <Leader>/ :SideSearch
+" Create an shorter `SS` command
+" command! -complete=file -nargs=+ SS execute 'SideSearch <args>'
 
- " or command abbreviation
- " cabbrev SS SideSearch
+" or command abbreviation
+" cabbrev SS SideSearch
 
 """ fzf
 set rtp+=~/.fzf
@@ -622,33 +626,33 @@ nmap <Leader>a :Ag<CR>
 nnoremap <Leader>* :Ag <C-r><C-w><CR>
 vnoremap <Leader>a y :Ag <C-r>"<CR>
 inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
-    \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
-    \ fzf#wrap({'dir': expand('%:p:h')}))
+            \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
+            \ fzf#wrap({'dir': expand('%:p:h')}))
 
 """ Goyo """
 
 function! s:goyo_enter()
-  silent !tmux set status off
-  silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
-  set noshowmode
-  set noshowcmd
-  set scrolloff=999
-  Limelight
-  set nonumber                                                  " nubers : set absolut on
-  set norelativenumber                                          " nubers : set absolut on
-  " ...
+    silent !tmux set status off
+    silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+    set noshowmode
+    set noshowcmd
+    set scrolloff=999
+    Limelight
+    set nonumber                                                  " nubers : set absolut on
+    set norelativenumber                                          " nubers : set absolut on
+    " ...
 endfunction
 
 function! s:goyo_leave()
-  silent !tmux set status on
-  silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
-  set showmode
-  set showcmd
-  set scrolloff=5
-  Limelight!
-  set number                                                  " nubers : set absolut on
-  set relativenumber                                          " nubers : set absolut on
-  " ...
+    silent !tmux set status on
+    silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+    set showmode
+    set showcmd
+    set scrolloff=5
+    Limelight!
+    set number                                                  " nubers : set absolut on
+    set relativenumber                                          " nubers : set absolut on
+    " ...
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
