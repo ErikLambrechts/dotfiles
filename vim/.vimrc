@@ -14,17 +14,60 @@ Plug 'https://github.com/dhruvasagar/vim-prosession'
 nmap <Leader>r :Prosession . <CR>
 let g:prosession_tmux_title = 0
 let g:prosession_on_startup = 0
+if has('nvim')
+    Plug 'https://github.com/vim-syntastic/syntastic'
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
 
-Plug 'lervag/vimtex'
-Plug 'vim-latex/vim-latex'  " needs to be before tmux-navigator for  <c-j> intervarence
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 0
 
-Plug 'airblade/vim-gitgutter'
-Plug 'christoomey/vim-tmux-navigator'
+    let g:python3_host_prog = '/usr/bin/python3'
+    let g:python2_host_prog = '/usr/bin/python2'
+    set inccommand=nosplit  " previeuw subsitutions
 
-Plug 'wellle/targets.vim'
-Plug 'andymass/vim-matchup'
-Plug 'michaeljsmith/vim-indent-object'
-Plug 'bradford-smith94/quick-scope'
+    Plug 'https://github.com/machakann/vim-highlightedyank'
+    Plug 'https://github.com/roxma/nvim-completion-manager'
+endif
+
+if has('nvim')
+    Plug 'https://github.com/Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'https://github.com/zchee/deoplete-jedi'
+    Plug 'https://github.com/w0rp/ale'                         " linter
+    Plug 'https://github.com/autozimu/LanguageClient-neovim', {
+                \ 'branch': 'next',
+                \ 'do': 'bash install.sh',
+                \ }
+
+    Plug 'https://github.com/wellle/tmux-complete.vim'
+    Plug 'https://github.com/zchee/deoplete-clang'
+
+    set hidden
+
+    let g:LanguageClient_serverCommands = {
+                \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+                \ 'javascript': ['javascript-typescript-stdio'],
+                \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+                \ 'python': ['pyls'],
+                \ }
+    " deoplete tab-complete
+    inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+    nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+    " Or map each action separately
+    nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+else
+    "   Plug 'Shougo/deoplete.nvim'
+    "   Plug 'roxma/nvim-yarp'
+    "   Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'https://github.com/Valloric/YouCompleteMe' , { 'do': './install.py' }
+endif
 
 Plug 'https://github.com/lervag/vimtex'
 " Plug 'https://github.com/vim-latex/vim-latex'  " needs to be before tmux-navigator for  <c-j> intervarence
