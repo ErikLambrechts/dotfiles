@@ -2,15 +2,15 @@ filetype off                  " required
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'tpope/vim-commentary'             " commentary
-Plug 'tpope/vim-surround'               " delete, change and add such surroundings in pairs
-Plug 'tpope/vim-repeat'                 " plugins support
-Plug 'tpope/vim-endwise'                " compition for contructions
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-fugitive'                       " git wrapper
-Plug 'tpope/vim-obsession'
-Plug 'dhruvasagar/vim-prosession'
+Plug 'https://github.com/tpope/vim-commentary'             " commentary
+Plug 'https://github.com/tpope/vim-surround'               " delete, change and add such surroundings in pairs
+Plug 'https://github.com/tpope/vim-repeat'                 " plugins support
+Plug 'https://github.com/tpope/vim-endwise'                " compition for contructions
+Plug 'https://github.com/tpope/vim-unimpaired'
+Plug 'https://github.com/tpope/vim-abolish'
+Plug 'https://github.com/tpope/vim-fugitive'                       " git wrapper
+Plug 'https://github.com/tpope/vim-obsession'
+Plug 'https://github.com/dhruvasagar/vim-prosession'
 nmap <Leader>r :Prosession . <CR>
 let g:prosession_tmux_title = 0
 let g:prosession_on_startup = 0
@@ -25,53 +25,61 @@ Plug 'wellle/targets.vim'
 Plug 'andymass/vim-matchup'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'bradford-smith94/quick-scope'
+
+Plug 'https://github.com/lervag/vimtex'
+" Plug 'https://github.com/vim-latex/vim-latex'  " needs to be before tmux-navigator for  <c-j> intervarence
+
+Plug 'https://github.com/airblade/vim-gitgutter'
+Plug 'https://github.com/christoomey/vim-tmux-navigator'
+
+Plug 'https://github.com/wellle/targets.vim'
+Plug 'https://github.com/andymass/vim-matchup'
+Plug 'https://github.com/michaeljsmith/vim-indent-object'
+Plug 'https://github.com/bradford-smith94/quick-scope'
 nmap <leader>q <plug>(QuickScopeToggle)
 vmap <leader>q <plug>(QuickScopeToggle)
 
-Plug 'kshenoy/vim-signature'            " stuff for marks
+Plug 'https://github.com/kshenoy/vim-signature'            " stuff for marks
 
-Plug 'Valloric/YouCompleteMe' , { 'do': './install.py' }
 
-Plug 'ervandew/supertab'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+Plug 'https://github.com/SirVer/ultisnips'
+Plug 'https://github.com/honza/vim-snippets'
 
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run install script
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-  " Both options are optional. You don't have to install fzf in ~/.fzf
-  " and you don't have to run install script if you use fzf only in Vim.
+Plug 'https://github.com/junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'https://github.com/junegunn/fzf.vim'
+" Both options are optional. You don't have to install fzf in ~/.fzf
+" and you don't have to run install script if you use fzf only in Vim.
 
-" Plug 'mileszs/ack.vim'
+" Plug 'https://github.com/mileszs/ack.vim'
 
-Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'godlygeek/tabular'
-Plug 'vim-scripts/a.vim'                " switch .cpp .h
-Plug 'nelstrom/vim-visual-star-search'  " search selection
-Plug 'mhinz/vim-startify'               " startup screen
-Plug 'vim-scripts/Tagbar'               " togle tagbar
-Plug 'w0rp/ale'                         " linter
+Plug 'https://github.com/octol/vim-cpp-enhanced-highlight'
+Plug 'https://github.com/godlygeek/tabular'
+Plug 'https://github.com/vim-scripts/a.vim'                " switch .cpp .h
+Plug 'https://github.com/nelstrom/vim-visual-star-search'  " search selection
+Plug 'https://github.com/mhinz/vim-startify'               " startup screen
+Plug 'https://github.com/vim-scripts/Tagbar'               " togle tagbar
 
-Plug 'jpalardy/vim-slime'               " slime : send text to interpreter
-Plug 'ddrscott/vim-side-search'         " search over files
-Plug 'xtal8/traces.vim'                 " highlight for commands
+Plug 'https://github.com/jpalardy/vim-slime'               " slime : send text to interpreter
+Plug 'https://github.com/ddrscott/vim-side-search'         " search over files
+Plug 'https://github.com/xtal8/traces.vim'                 " highlight for commands
 
-" Plug 'JuliaEditorSupport/julia-vim'
+" Plug 'https://github.com/JuliaEditorSupport/julia-vim'
 
-Plug 'metakirby5/codi.vim'
+Plug 'https://github.com/metakirby5/codi.vim'
 
-Plug 'Ron89/thesaurus_query.vim'        " synonims
-Plug 'rhysd/vim-grammarous'
+Plug 'https://github.com/Ron89/thesaurus_query.vim'        " synonims
+Plug 'https://github.com/rhysd/vim-grammarous'
 
 "" themes
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'blueyed/vim-diminactive'
-Plug 'myusuf3/numbers.vim'              " relitive numbers
-Plug 'chriskempson/base16-vim'
+Plug 'https://github.com/vim-airline/vim-airline'
+Plug 'https://github.com/vim-airline/vim-airline-themes'
+Plug 'https://github.com/blueyed/vim-diminactive'
+Plug 'https://github.com/myusuf3/numbers.vim'              " relitive numbers
+Plug 'https://github.com/chriskempson/base16-vim'
 
-Plug 'junegunn/goyo.vim'                " clean centered view
-Plug 'junegunn/limelight.vim'           " highlight current paragraf
+Plug 'https://github.com/junegunn/goyo.vim'                " clean centered view
+Plug 'https://github.com/junegunn/limelight.vim'           " highlight current paragraf
 
 call plug#end()            " required
 
