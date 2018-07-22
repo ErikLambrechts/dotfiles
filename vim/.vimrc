@@ -73,6 +73,7 @@ Plug 'https://github.com/ervandew/supertab'
 let g:deoplete#enable_at_startup = 1
 
 Plug 'https://github.com/lervag/vimtex'
+let g:vimtex_compiler_progname = 'nvr'
 " Plug 'https://github.com/vim-latex/vim-latex'  " needs to be before tmux-navigator for  <c-j> intervarence
 
 Plug 'https://github.com/airblade/vim-gitgutter'
@@ -86,7 +87,6 @@ nmap <leader>q <plug>(QuickScopeToggle)
 vmap <leader>q <plug>(QuickScopeToggle)
 
 Plug 'https://github.com/kshenoy/vim-signature'            " stuff for marks
-
 
 Plug 'https://github.com/SirVer/ultisnips'
 Plug 'https://github.com/honza/vim-snippets'
@@ -169,16 +169,6 @@ autocmd FileType sh setlocal noexpandtab
 set listchars=tab:>-
 set cursorline                                              " Highlight current line
 
-" augroup win_enter
-"     autocmd!
-"     autocmd WinEnter * set cursorcolumn
-" augroup END
-
-" augroup win_leave
-"     autocmd!
-"     autocmd WinLeave * set nocursorcolumn
-" augroup END
-
 highlight Search ctermfg=Black
 highlight CursorLineNr ctermbg=0 ctermfg=7 cterm=bold
 highlight CursorLine term=bold cterm=bold
@@ -232,6 +222,7 @@ set wildignore+=*.spl                            " compiled spelling word lists
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=migrations                       " Django migrations
 set wildignore+=*.pyc                            " Python byte code
+
 ""gui options"
 set guioptions-=m               " remove menu bar
 set guioptions-=T               " remove toolbar
@@ -260,12 +251,6 @@ nnoremap gp `[v`]
 " Make Y behave like other capitals
 nnoremap Y y$
 
-" easy panel movement -> tmux-navigator
-" map <C-h> <C-w>h
-" map <C-j> <C-w>j
-" map <C-k> <C-w>k
-" map <C-l> <C-w>l
-
 " increment numbers
 noremap + <c-a>
 noremap - <c-x>
@@ -279,28 +264,6 @@ cmap w!! w !sudo tee > /dev/null %<CR>
 
 " need to save between tabs
 set hidden
-"
-" " Make sure Vim returns to the same line when you reopen a file.
-" augroup line_return
-"     au!
-"     au BufReadPost *
-"                 \ if line("'\"") > 0 && line("'\"") <= line("$") |
-"                 \     execute 'normal! g`"zvzz' |
-"                 \ endif
-" augroup END
-"
-" " change cursor in different modes
-" if has("autocmd")
-"     au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' |
-"     redraw!
-"     au InsertEnter,InsertChange *
-"                 \ if v:insertmode == 'i' |
-"                 \   silent execute '!echo -ne "\e[6 q"' | redraw! |
-"                 \ elseif v:insertmode == 'r' |
-"                 \   silent execute '!echo -ne "\e[4 q"' | redraw! |
-"                 \ endif
-"     au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
-" endif
 
 " copy and paste from system clipboard
 vmap <Leader>y "+y
@@ -441,6 +404,7 @@ let g:traces_whole_file_range = 0
 
 " """ ultisnip, vim-snippets and YCM setting
 let g:UltiSnipsSnippetsDir = "~/Dotfiles/vim/.vim/my_snippets/"
+let g:UltiSnipsEditSplit = "context"
 
 " " autoload snippets
 " augroup load_ultisnips
