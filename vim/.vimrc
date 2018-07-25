@@ -9,43 +9,40 @@ Plug 'https://github.com/tpope/vim-endwise'                " compition for contr
 Plug 'https://github.com/tpope/vim-unimpaired'
 Plug 'https://github.com/tpope/vim-abolish'
 Plug 'https://github.com/tpope/vim-fugitive'                       " git wrapper
+
+" seesions
 Plug 'https://github.com/tpope/vim-obsession'
 Plug 'https://github.com/dhruvasagar/vim-prosession'
 nmap <Leader>r :Prosession . <CR>
 let g:prosession_tmux_title = 0
 let g:prosession_on_startup = 0
+
 if has('nvim')
-    Plug 'https://github.com/vim-syntastic/syntastic'
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
-
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_auto_loc_list = 1
-    let g:syntastic_check_on_open = 1
-    let g:syntastic_check_on_wq = 0
-
+    " Plug 'donRaphaco/neotex', { 'for': 'tex' }
     let g:python3_host_prog = '/usr/bin/python3'
     let g:python2_host_prog = '/usr/bin/python2'
     set inccommand=nosplit  " previeuw subsitutions
 
     Plug 'https://github.com/machakann/vim-highlightedyank'
     Plug 'https://github.com/roxma/nvim-completion-manager'
-endif
 
-if has('nvim')
+    " Just to add the python go-to-definition and similar features, autocompletion
+    " from this plugin is disabled
+    Plug 'davidhalter/jedi-vim'
+    let g:jedi#completions_enabled = 0   " deoplete jedi complete compatible
+
     Plug 'https://github.com/Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'https://github.com/zchee/deoplete-jedi'
-    Plug 'https://github.com/w0rp/ale'                         " linter
+    " Completion from other opened files
+    Plug 'Shougo/context_filetype.vim'
     Plug 'https://github.com/autozimu/LanguageClient-neovim', {
-                \ 'branch': 'next',
                 \ 'do': 'bash install.sh',
                 \ }
 
     Plug 'https://github.com/wellle/tmux-complete.vim'
     Plug 'https://github.com/zchee/deoplete-clang'
 
-    set hidden
+    Plug 'https://github.com/w0rp/ale'                         " linter
 
     let g:LanguageClient_serverCommands = {
                 \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
@@ -56,23 +53,37 @@ if has('nvim')
     " deoplete tab-complete
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
+    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_ignore_case = 1
+    let g:deoplete#enable_smart_case = 1
+    " complete with words from any opened file
+    let g:context_filetype#same_filetypes = {}
+    let g:context_filetype#same_filetypes._ = '_'
+
     nnoremap <F5> :call LanguageClient_contextMenu()<CR>
     " Or map each action separately
     nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
     nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
     nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
+    " Indent text object
+    Plug 'michaeljsmith/vim-indent-object'
+
+    " Indentation based movements
+    Plug 'jeetsukumaran/vim-indentwise'
+
+    " " Better language packs
+    " Plug 'sheerun/vim-polyglot'
 else
-    "   Plug 'Shougo/deoplete.nvim'
-    "   Plug 'roxma/nvim-yarp'
-    "   Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'https://github.com/Valloric/YouCompleteMe' , { 'do': './install.py' }
 endif
+
 Plug 'https://github.com/ervandew/supertab'
 
-let g:deoplete#enable_at_startup = 1
 
-Plug 'https://github.com/lervag/vimtex'
+let g:deoplete#enable_at_startup = 1
+" https://github.com/bfredl/nvim-ipy
+" Plug 'https://github.com/lervag/vimtex'
 let g:vimtex_compiler_progname = 'nvr'
 " Plug 'https://github.com/vim-latex/vim-latex'  " needs to be before tmux-navigator for  <c-j> intervarence
 
@@ -238,6 +249,10 @@ endif
 " set global mark
 call setpos("'V", [bufnr('.vimrc'), 1, 1, 0])
 
+" scroll in insert mode
+inoremap <C-E> <C-X><C-E>
+inoremap <C-Y> <C-X><C-Y>
+
 " store and restore folds
 autocmd BufWinLeave *.* mkview!
 autocmd BufWinEnter *.* silent loadview
@@ -260,7 +275,7 @@ inoremap jk <Esc>
 inoremap kj <Esc>
 
 " save file as root
-cmap w!! w !sudo tee > /dev/null %<CR>
+cnoremap w!! w !sudo tee > /dev/null %<CR>
 
 " need to save between tabs
 set hidden
@@ -349,9 +364,6 @@ augroup prewrites
     autocmd BufWritePre,FileWritePre *  execute 'normal! ms' | :call KeepEx('silent! %s/\v\s+$//e') | :call histdel("search", -1) | execute 'normal! `s' | delmarks s<CR>
 augroup END
 
-" save with sudo rights
-cnoremap w!!  w !sudo tee %
-
 " global replace
 nnoremap <Leader>s :%s///ge<left><left><left>
 
@@ -371,7 +383,7 @@ vnoremap <Leader>k yy:@"<cr>
 
 " clean hightlight on new search
 " nnoremap / :noh<cr>:set hlsearch<cr>/
-" nnoremap / :noh<cr>/
+nnoremap / :noh<cr>/
 
 " jump assinment end line
 au FileType c,cpp,h,hpp set matchpairs+==:;
@@ -406,29 +418,18 @@ let g:traces_whole_file_range = 0
 let g:UltiSnipsSnippetsDir = "~/Dotfiles/vim/.vim/my_snippets/"
 let g:UltiSnipsEditSplit = "context"
 
-" " autoload snippets
-" augroup load_ultisnips
-"     autocmd!
-"     autocmd FileType python,c,c++,latex call plug#load('ultisnips')
-"                 \| execute 'autocmd! load_ultisnips' | doautocmd FileType
-" augroup END
+" autoload snippets
+augroup load_ultisnips
+    autocmd!
+    autocmd FileType python,c,c++,latex call plug#load('ultisnips')
+                \| execute 'autocmd! load_ultisnips' | doautocmd FileType
+augroup END
 
-" " make YCM compatible with UltiSnips (using supertab)
-" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = "context"
-" let g:ycm_autoclose_preview_window_after_completion = 1
-" let g:ycm_autoclose_preview_window_after_insertion = 1
 " " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
-" let g:ycm_python_binary_path = '/usr/local/bin/python3'
 set runtimepath+=~/.vim/my_snippets/
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
-" let g:ycm_collect_identifiers_from_tags_files = 1
-" let g:ycm_key_detailed_diagnostics = '<leader>d'
-" let g:ycm_key_invoke_completion = '<C-Space>'
-" let g:ycm_min_num_of_chars_for_completion = 1
-" let g:ycm_complete_in_strings = 1
 
 """ tagbar
 
@@ -484,24 +485,10 @@ let g:startify_bookmarks = [
 nnoremap <Leader>v :Startify<CR>
 nnoremap <Leader>V :vs<CR>:Startify<CR>
 
-""" A
-" nnoremap <Leader>a :Startify<CR>
-
 """ clang
 
 " path to directory where library can be found
-let g:clang_library_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
-
-" function! s:initClangCompletePython()
-"     if !has('python')
-"         echoe 'clang_complete: No python support
-"         available.'
-"         echoe 'Cannot use clang library'
-"         echoe 'Compile vim with python support
-"         to use libclang'
-"         return 0
-"     endif
-" endfunc
+" let g:clang_library_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
 
 """ ale
 
@@ -510,28 +497,36 @@ let g:ale_linters = {
             \   'c': ['clang'],
             \   'cpp': ['cpplint'],
             \}
-let g:ale_python_flake8_args = '--ignore=E,W,F403,F405 --select=F,C'
+let g:ale_python_flake8_args = '--ignore=E,F403,F405,C0111,E501  --select=F,C'
 let g:ale_c_clang_options = '-std=c11 -Wall -Wextra -fexceptions -DNDEBUG'
 let g:ale_c_cpplint_options = '--linelength=100 -std=c11 -Wall -Wextra -fexceptions -DNDEBUG'
 set statusline+=%{ALEGetStatusLine()}
 " let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-let g:ale_echo_msg_format = '%linter%: %s'
+let g:ale_statusline_format = ['E %d', 'W %d', '  ok']
 " nmap <silent> ]-a <Plug>(ale_previous_wrap)
 " nmap <silent> [-a <Plug>(ale_next_wrap)
+" let g:ale_set_loclist = 0
+" let g:ale_set_quickfix = 1
 let g:ale_sign_error = '>'
 let g:ale_sign_warning = '-'
+
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
 " Write this in your vimrc file
 let g:ale_lint_on_text_changed = 'never'
 " You can disable this option too
 " if you don't want linters to run on opening a file
-let g:ale_lint_on_enter = 0
+let g:ale_lint_on_enter = 1
 
 """ slime
 
 let g:slime_target = "tmux"
-xmap <c-c> <Plug>SlimeRegionSend
-nmap <c-c> <Plug>SlimeMotionSend
+let g:slime_no_mappings = 1
+xmap <c-c>  <Plug>SlimeRegionSend
+nmap <c-c>  <Plug>SlimeParagraphSend
+nmap <c-c>  <Plug>SlimeMotionSend
 
 """ airline
 
@@ -561,11 +556,6 @@ vnoremap <Leader>* y :SideSearch <C-r>"<CR> | wincmd p
 nnoremap <Leader>* :SideSearch <C-r><C-w><CR> | wincmd p
 
 nnoremap <Leader>/ :SideSearch
-" Create an shorter `SS` command
-" command! -complete=file -nargs=+ SS execute 'SideSearch <args>'
-
-" or command abbreviation
-" cabbrev SS SideSearch
 
 """ fzf
 set rtp+=~/.fzf
@@ -585,7 +575,7 @@ nmap <Leader>b :Buffers<CR>
 nmap <Leader>t :Tags<CR>
 nmap <Leader>l :Lines<CR>
 nmap <Leader>f :Files<CR>
-nmap <Leader>g :GFiles<CR>
+nmap <Leader>G :GFiles<CR>
 nmap <Leader>a :Ag<CR>
 nnoremap <Leader>* :Ag <C-r><C-w><CR>
 vnoremap <Leader>a y :Ag <C-r>"<CR>
