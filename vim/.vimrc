@@ -216,6 +216,8 @@ set foldenable                                              " enable folding
 set foldlevelstart=10                                       " open most folds by default
 set foldnestmax=10                                          " 10 nested fold max
 set foldmethod=indent                                       " fold based on indent level
+" autocmd FBufRead,BufNew Fileiletype vim set foldmethod=manual
+" autocmd FBufRead,BufNew vim set foldmethod=manual
 
 set shortmess+=I                                            " no splash screen
 
