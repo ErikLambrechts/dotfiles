@@ -1,3 +1,6 @@
+alias start="cd ~/Projects/super_geheim_scheidsrechter_ding/src/; ./run.sh"
+echo "start?"
+
 alias e=" e"
 alias fg=" fg"
 alias ls=" ls"
