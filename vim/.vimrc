@@ -93,6 +93,8 @@ Plug 'https://github.com/christoomey/vim-tmux-navigator'
 Plug 'https://github.com/wellle/targets.vim'
 Plug 'https://github.com/andymass/vim-matchup'
 Plug 'https://github.com/michaeljsmith/vim-indent-object'
+
+Plug 'https://github.com/itchyny/vim-cursorword'
 Plug 'https://github.com/bradford-smith94/quick-scope'
 nmap <leader>q <plug>(QuickScopeToggle)
 vmap <leader>q <plug>(QuickScopeToggle)
