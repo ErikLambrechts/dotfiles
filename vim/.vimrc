@@ -503,10 +503,12 @@ let g:ale_python_flake8_args = '--ignore=E,F403,F405,C0111,E501  --select=F,C'
 let g:ale_c_clang_options = '-std=c11 -Wall -Wextra -fexceptions -DNDEBUG'
 let g:ale_c_cpplint_options = '--linelength=100 -std=c11 -Wall -Wextra -fexceptions -DNDEBUG'
 set statusline+=%{ALEGetStatusLine()}
-" let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-let g:ale_statusline_format = ['E %d', 'W %d', '  ok']
-" nmap <silent> ]-a <Plug>(ale_previous_wrap)
-" nmap <silent> [-a <Plug>(ale_next_wrap)
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+" let g:ale_statusline_format = ['E %d', 'W %d', '  ok']
+nmap <silent> ]w <Plug>(ale_previous_wrap)
+nmap <silent> [w <Plug>(ale_next_wrap)
+nmap <silent> ]W <Plug>(ale_first)
+nmap <silent> [W <Plug>(ale_last)
 " let g:ale_set_loclist = 0
 " let g:ale_set_quickfix = 1
 let g:ale_sign_error = '>'
