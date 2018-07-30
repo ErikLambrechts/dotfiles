@@ -409,6 +409,15 @@ command! W w
 " highlight double whitelines
 match ErrorMsg '\s\+$'
 
+" neovim terminal mode
+if has('nvim')
+    highlight! link TermCursor Cursor
+    highlight! TermCursorNC ctermfg =white ctermbg=15
+
+"     tnoremap <Esc> <C-\><C-n>
+"     tnoremap <C-v><Esc> <Esc>
+endif
+
 """""""""""""""""
 " Plugin settings
 """""""""""""""""
