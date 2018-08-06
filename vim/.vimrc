@@ -293,6 +293,13 @@ vmap <Leader>P "+P
 " change next word
 nnoremap cn *``cgn
 
+" difftools
+if &diff
+    map <leader>1 :diffget LOCAL<CR>
+    map <leader>2 :diffget BASE<CR>
+    map <leader>3 :diffget REMOTE<CR>
+endif
+
 " use search and ctrl/ to jump to the searched without differnt highliting
 function! SearchJump()
     call histdel("search", -1)
