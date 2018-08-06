@@ -401,6 +401,11 @@ endif
 set undodir=~/.vim/undodir
 set undofile
 
+augroup vimrc
+    autocmd!
+    autocmd BufWritePre /tmp/* setlocal noundofile
+augroup END
+
 " Quickly fix spelling errors choosing the first result
 nmap <Leader>z z=1<CR><CR>
 
