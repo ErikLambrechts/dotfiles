@@ -1,4 +1,4 @@
-alias start="cd ~/Projects/super_geheim_scheidsrechter_ding/src/; ./run.sh"
+alias start="gnome-terminal -x zsh -c \"source ~/.zshrc; bash ~/Projects/super_geheim_scheidsrechter_ding/src/tmux_run; \""
 echo "start?"
 
 alias e=" e"
