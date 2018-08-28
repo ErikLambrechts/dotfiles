@@ -12,42 +12,56 @@ Plug 'https://github.com/tpope/vim-fugitive'                       " git wrapper
 " seesions
 Plug 'https://github.com/tpope/vim-obsession'
 Plug 'https://github.com/dhruvasagar/vim-prosession'
-nmap <Leader>r :Prosession . <CR>
 let g:prosession_tmux_title = 0
 let g:prosession_on_startup = 0
 
 if has('nvim')
-    " Plug 'donRaphaco/neotex', { 'for': 'tex' }
     let g:python3_host_prog = '/usr/bin/python3'
     let g:python2_host_prog = '/usr/bin/python2'
+    Plug 'https://github.com/autozimu/LanguageClient-neovim', {
+                \ 'branch': 'next',
+                \ 'do': 'bash install.sh',
+                \ }
+
+    " Plug 'donRaphaco/neotex', { 'for': 'tex' }
     set inccommand=nosplit  " previeuw subsitutions
 
     Plug 'https://github.com/machakann/vim-highlightedyank'
-    Plug 'https://github.com/roxma/nvim-completion-manager'
+    " Plug 'https://github.com/roxma/nvim-completion-manager'
 
     " Just to add the python go-to-definition and similar features, autocompletion
     " from this plugin is disabled
     Plug 'davidhalter/jedi-vim'
     let g:jedi#completions_enabled = 0   " deoplete jedi complete compatible
+    let g:jedi#auto_vim_configuration = 0
+    let g:jedi#smart_auto_mappings = 0
+    let g:jedi#show_call_signatures = 0
 
     Plug 'https://github.com/Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    let g:deoplete#enable_at_startup = 1
     Plug 'https://github.com/zchee/deoplete-jedi'
+    let g:deoplete#sources#jedi#show_docstring = 0
+    set completeopt-=preview
+    Plug 'https://github.com/zchee/deoplete-clang'
     " Completion from other opened files
     Plug 'Shougo/context_filetype.vim'
-    Plug 'https://github.com/autozimu/LanguageClient-neovim', {
-                \ 'do': 'bash install.sh',
-                \ }
 
+
+    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so.1'
+    let g:deoplete#sources#clang#clang_header = '/usr/include/clang/6.0.0/include/'
     Plug 'https://github.com/wellle/tmux-complete.vim'
-    Plug 'https://github.com/zchee/deoplete-clang'
 
     Plug 'https://github.com/w0rp/ale'                         " linter
-
+" Use an absolute configuration path if you want system-wide settings
+" let g:LanguageClient_settingsPath = '/home/yourusername/.config/nvim/settings.json'
     let g:LanguageClient_serverCommands = {
                 \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
                 \ 'javascript': ['javascript-typescript-stdio'],
                 \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
                 \ 'python': ['pyls'],
+                \ 'cpp': ['~/Software/cquery/build/release/bin/cquery',
+                \ '--log-file=/tmp/cq.log',
+                \ '--init={"cacheDirectory":"/var/cquery/"}']
                 \ }
     " deoplete tab-complete
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
@@ -94,7 +108,6 @@ Plug 'https://github.com/andymass/vim-matchup'
 
 Plug 'https://github.com/itchyny/vim-cursorword'
 Plug 'https://github.com/bradford-smith94/quick-scope'
-nmap <leader>q <plug>(QuickScopeToggle)
 
 Plug 'https://github.com/kshenoy/vim-signature'            " stuff for marks
 
@@ -278,27 +291,8 @@ cnoremap w!! w !sudo tee > /dev/null %<CR>
 " need to save between tabs
 set hidden
 
-" copy and paste from system clipboard
-vmap <Leader>y "+y
-vmap <Leader>Y "+Y
-nmap <Leader>y "+y
-nmap <Leader>Y "+Y
-vmap <Leader>d "+d
-nmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
-
 " change next word
 nnoremap cn *``cgn
-
-" difftools
-if &diff
-    map <leader>1 :diffget LOCAL<CR>
-    map <leader>2 :diffget BASE<CR>
-    map <leader>3 :diffget REMOTE<CR>
-endif
 
 " use search and ctrl/ to jump to the searched without differnt highliting
 function! SearchJump()
@@ -338,7 +332,7 @@ xnoremap .  :norm.<CR>
 " Apply marco to visual selection
 xnoremap Q :'<,'>:normal @q<CR>
 
-" Risize panels when vim is resized
+" Resize panels when vim is resized
 autocmd VimResized * wincmd =
 
 " easy asses to blackhole register
@@ -369,26 +363,74 @@ augroup prewrites
     autocmd BufWritePre,FileWritePre *  execute 'normal! ms' | :call KeepEx('silent! %s/\v\s+$//e') | :call histdel("search", -1) | execute 'normal! `s' | delmarks s<CR>
 augroup END
 
-" global replace
-nnoremap <Leader>s :%s///ge<left><left><left>
+let mapleader="\<SPACE>"
+nnoremap <SPACE> <Nop>
+vnoremap <SPACE> <Nop>
 
-" visual select replace
-vnoremap <Leader>s :s///ge<left><left><left>
-
-" lists all buffers and opens promt
-" nnoremap <Leader>l :ls<cr>:b<space>
-" FZF takes this spot
+" copy and paste from system clipboard
+vnoremap <Leader>y "+y
+vnoremap <Leader>Y "+Y
+nnoremap <Leader>y "+y
+nnoremap <Leader>Y "+Y
+vnoremap <Leader>d "+d
+nnoremap <Leader>d "+d
+nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
+vnoremap <Leader>p "+p
+vnoremap <Leader>P "+P
 
 " edit macro
 nnoremap <leader>m :<c-u><c-r><c-r>='let @'.  v:register .' = '.  string(getreg(v:register))<cr><c-f><left>
 
-" exicute line as ex-command
-nnoremap <Leader>k yy:@"<cr>
-vnoremap <Leader>k yy:@"<cr>
+nnoremap <Leader>v :Startify<CR>
+nnoremap <Leader>V :vs<CR>:Startify<CR>
 
-" clean hightlight on new search
-" nnoremap / :noh<cr>:set hlsearch<cr>/
-nnoremap / :noh<cr>/
+" SideSearch current word and return to original window
+vnoremap <Leader>* y :SideSearch <C-r>"<CR> | wincmd p
+
+" SideSearch current word and return to original window
+nnoremap <Leader>* :SideSearch <C-r><C-w><CR> | wincmd p
+
+nnoremap <Leader>/ :SideSearch
+nnoremap <Tab>/ :BLines<CR>
+
+nnoremap <Leader>* :Ag <C-r><C-w><CR>
+vnoremap <Leader>a y :Ag <C-r>"<CR>
+
+nnoremap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+nnoremap <Leader>a :Ag<CR>
+nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>l :Lines<CR>
+nnoremap <Leader>f :Files<CR>
+nnoremap <Leader>G :GFiles<CR>
+" exicute line as ex-command
+nnoremap <Leader>k yy :@"<cr>
+vnoremap <Leader>k y :@"<cr>
+nnoremap <Leader>r :Prosession . <CR>
+" global replace
+nnoremap <Leader>s :%s///ge<left><left><left>
+" visual select replace
+vnoremap <Leader>s :s///ge<left><left><left>
+" Quickly fix spelling errors choosing the first result
+nnoremap <Leader>z z=1<CR><CR>
+
+nnoremap <Leader>gt :Tags<CR>
+
+nnoremap <leader>qs <plug>(QuickScopeToggle)
+nnoremap <leader>tz :Goyo<CR>
+nnoremap <Leader>tb :TagbarToggle<CR>
+nnoremap <Leader>ts :set spell! <CR>  :set spelllang=en <CR>
+nnoremap <Leader>tsn :set spell! <CR> :set spelllang=nl <CR>
+nnoremap <Leader>th :set hls! <CR>
+
+" difftools
+if &diff
+    map <leader>1 :diffget LOCAL<CR>
+    map <leader>2 :diffget BASE<CR>
+    map <leader>3 :diffget REMOTE<CR>
+endif
 
 " jump assinment end line
 au FileType c,cpp,h,hpp set matchpairs+==:;
@@ -406,9 +448,6 @@ augroup vimrc
     autocmd BufWritePre /tmp/* setlocal noundofile
 augroup END
 
-" Quickly fix spelling errors choosing the first result
-nmap <Leader>z z=1<CR><CR>
-
 " hit ":W" instead of ":w"
 command! Q q
 command! W w
@@ -421,9 +460,27 @@ if has('nvim')
     highlight! link TermCursor Cursor
     highlight! TermCursorNC ctermfg =white ctermbg=15
 
-"     tnoremap <Esc> <C-\><C-n>
-"     tnoremap <C-v><Esc> <Esc>
+    "     tnoremap <Esc> <C-\><C-n>
+    "     tnoremap <C-v><Esc> <Esc>
 endif
+
+" reload vimrc when saved
+au BufWritePost .vimrc so ~/.vimrc
+
+augroup enter_cmd
+    autocmd!
+autocmd! FileType fzf setlocal nohlsearch
+    " au BufWinEnter,BufEnter * echo "erik" | setlocal nohlsearch
+    " au BufEnter * if &buftype == 'terminal' | :noh | endif
+    " au BufWinEnter,BufEnter  echo "erik"
+    " autocmd BufEnter * if &buftype == 'terminal' | :echo "erik" | :nohlsearch | endif
+    " autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' | echo "erik" | setlocal nohlsearch | endif
+    " autocmd BufWinEnter,WinEnter term://* echo "erik" | setlocal nohlsearch
+" augroup enter_cmd
+"     autocmd!
+"     autocmd CmdLineEnter :
+
+augroup END
 
 """""""""""""""""
 " Plugin settings
@@ -452,7 +509,7 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
 
 """ tagbar
 
-nmap <F8> :TagbarToggle<CR>
+nnoremap <F8> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
 
@@ -501,9 +558,6 @@ let g:startify_bookmarks = [
             \ { 'b': '~/Dotfiles/bootstrap.sh' },
             \ ]
 
-nnoremap <Leader>v :Startify<CR>
-nnoremap <Leader>V :vs<CR>:Startify<CR>
-
 """ clang
 
 " path to directory where library can be found
@@ -522,10 +576,10 @@ let g:ale_c_cpplint_options = '--linelength=100 -std=c11 -Wall -Wextra -fexcepti
 set statusline+=%{ALEGetStatusLine()}
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 " let g:ale_statusline_format = ['E %d', 'W %d', '  ok']
-nmap <silent> ]w <Plug>(ale_previous_wrap)
-nmap <silent> [w <Plug>(ale_next_wrap)
-nmap <silent> ]W <Plug>(ale_first)
-nmap <silent> [W <Plug>(ale_last)
+nnoremap <silent> ]w <Plug>(ale_previous_wrap)
+nnoremap <silent> [w <Plug>(ale_next_wrap)
+nnoremap <silent> ]W <Plug>(ale_first)
+nnoremap <silent> [W <Plug>(ale_last)
 " let g:ale_set_loclist = 0
 " let g:ale_set_quickfix = 1
 let g:ale_sign_error = '>'
@@ -546,8 +600,8 @@ let g:ale_lint_on_enter = 1
 let g:slime_target = "tmux"
 let g:slime_no_mappings = 1
 xmap <c-c>  <Plug>SlimeRegionSend
-nmap <c-c>  <Plug>SlimeParagraphSend
-nmap <c-c>  <Plug>SlimeMotionSend
+nnoremap <c-c>  <Plug>SlimeParagraphSend
+nnoremap <c-c>  <Plug>SlimeMotionSend
 
 """ airline
 
@@ -570,20 +624,9 @@ let g:side_search_splitter = 'vnew'
 " I like 40% splits, change it if you don't
 let g:side_search_split_pct = 0.4
 
-" SideSearch current word and return to original window
-vnoremap <Leader>* y :SideSearch <C-r>"<CR> | wincmd p
-
-" SideSearch current word and return to original window
-nnoremap <Leader>* :SideSearch <C-r><C-w><CR> | wincmd p
-
-nnoremap <Leader>/ :SideSearch
-
 """ fzf
 set rtp+=~/.fzf
-" Mapping selecting mappings
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
+
 " Insert mode completion
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-j> <plug>(fzf-complete-file-ag)
@@ -591,18 +634,27 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " Advanced customization using autoload functions
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
-" FZF (replaces Ctrl-P, FuzzyFinder and Command-T)
-nmap <Leader>b :Buffers<CR>
-nmap <Leader>t :Tags<CR>
-nmap <Leader>l :Lines<CR>
-nmap <Leader>f :Files<CR>
-nmap <Leader>G :GFiles<CR>
-nmap <Leader>a :Ag<CR>
-nnoremap <Leader>* :Ag <C-r><C-w><CR>
-vnoremap <Leader>a y :Ag <C-r>"<CR>
 inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
             \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
             \ fzf#wrap({'dir': expand('%:p:h')}))
+
+" in terminal mode status line update
+autocmd! FileType fzf
+autocmd  FileType fzf set laststatus=0 noshowmode noruler
+            \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+
+" An action can be a reference to a function that processes selected lines
+function! s:build_quickfix_list(lines)
+    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+    copen
+    cc
+endfunction
+
+let g:fzf_action = {
+            \ 'ctrl-q': function('s:build_quickfix_list'),
+            \ 'ctrl-t': 'tab split',
+            \ 'ctrl-x': 'split',
+            \ 'ctrl-v': 'vsplit' }
 
 """ Goyo """
 
@@ -612,7 +664,7 @@ function! s:goyo_enter()
     set noshowmode
     set noshowcmd
     set scrolloff=999
-    Limelight
+    Limelight 0.2
     set nonumber                                                  " nubers : set absolut on
     set norelativenumber                                          " nubers : set absolut on
     " ...
