@@ -53,6 +53,11 @@ function install_packages {
 	"meshlab"
 	# npm install -g http-server
 	)
+# ack
+
+# cloc
+# ddgr
+
 # wmctrl
 # gawk
 # git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
