@@ -27,7 +27,6 @@ if has('nvim')
     set inccommand=nosplit  " previeuw subsitutions
 
     Plug 'https://github.com/machakann/vim-highlightedyank'
-    " Plug 'https://github.com/roxma/nvim-completion-manager'
 
     " Just to add the python go-to-definition and similar features, autocompletion
     " from this plugin is disabled
@@ -42,10 +41,8 @@ if has('nvim')
     Plug 'https://github.com/zchee/deoplete-jedi'
     let g:deoplete#sources#jedi#show_docstring = 0
     set completeopt-=preview
-    Plug 'https://github.com/zchee/deoplete-clang'
-    " Completion from other opened files
-    Plug 'Shougo/context_filetype.vim'
-
+    " Plug 'https://github.com/zchee/deoplete-clang'
+    Plug 'https://github.com/tweekmonster/deoplete-clang2'
 
     let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so.1'
     let g:deoplete#sources#clang#clang_header = '/usr/include/clang/6.0.0/include/'
@@ -54,15 +51,17 @@ if has('nvim')
     Plug 'https://github.com/w0rp/ale'                         " linter
 " Use an absolute configuration path if you want system-wide settings
 " let g:LanguageClient_settingsPath = '/home/yourusername/.config/nvim/settings.json'
-    let g:LanguageClient_serverCommands = {
-                \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-                \ 'javascript': ['javascript-typescript-stdio'],
-                \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-                \ 'python': ['pyls'],
-                \ 'cpp': ['~/Software/cquery/build/release/bin/cquery',
-                \ '--log-file=/tmp/cq.log',
-                \ '--init={"cacheDirectory":"/var/cquery/"}']
-                \ }
+    " let g:LanguageClient_serverCommands = {
+    "             \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    "             \ 'javascript': ['javascript-typescript-stdio'],
+    "             \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+    "             \ 'python': ['pyls'],
+ " \ 'cpp': ['cquery', '--language-server', '--log-file=/tmp/cq.log'],
+    " \ 'c': ['cquery', '--language-server', '--log-file=/tmp/cq.log'],
+    "             \ }
+                " \ 'cpp': ['~/Software/cquery/build/release/bin/cquery',
+                " \ '--log-file=/tmp/cq.log',
+                " \ '--init={"cacheDirectory":"/var/cquery/"}']
     " deoplete tab-complete
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
@@ -78,15 +77,6 @@ if has('nvim')
     nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
     nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
     nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-
-    " Indent text object
-    Plug 'michaeljsmith/vim-indent-object'
-
-    " Indentation based movements
-    Plug 'jeetsukumaran/vim-indentwise'
-
-    " " Better language packs
-    " Plug 'sheerun/vim-polyglot'
 else
     Plug 'https://github.com/Valloric/YouCompleteMe' , { 'do': './install.py' }
 endif
@@ -467,21 +457,9 @@ endif
 " reload vimrc when saved
 au BufWritePost .vimrc so ~/.vimrc
 
-augroup enter_cmd
-    autocmd!
-autocmd! FileType fzf setlocal nohlsearch
-    " au BufWinEnter,BufEnter * echo "erik" | setlocal nohlsearch
-    " au BufEnter * if &buftype == 'terminal' | :noh | endif
-    " au BufWinEnter,BufEnter  echo "erik"
-    " autocmd BufEnter * if &buftype == 'terminal' | :echo "erik" | :nohlsearch | endif
-    " autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' | echo "erik" | setlocal nohlsearch | endif
-    " autocmd BufWinEnter,WinEnter term://* echo "erik" | setlocal nohlsearch
-" augroup enter_cmd
-"     autocmd!
-"     autocmd CmdLineEnter :
-
 augroup END
 
+autocmd BufNewFile,BufRead *.json set ft=javascript
 """""""""""""""""
 " Plugin settings
 """""""""""""""""
