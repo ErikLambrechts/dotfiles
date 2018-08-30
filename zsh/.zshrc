@@ -24,6 +24,21 @@ setopt CORRECT
 # ZSH_THEME="sunrise"
 ZSH_THEME="erik"
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 BULLETTRAIN_PROMPT_ORDER=(
     time
     status
@@ -135,20 +150,21 @@ setopt interactivecomments  # allow comments, even in interactive shells
 setopt printexitvalue       # for non-zero exit status
 setopt pushdignoredups      # don't push multiple copies of same dir onto stack
 # setopt pushdsilent          # don't print dir stack after pushing/popping
-setopt sharehistory         # share history across shells
+# setopt sharehistory         # share history across shells
 
 # added by Miniconda3 4.3.14 installer
 export PATH="/home/erik/miniconda3/bin:$PATH"
 export PATH=$HOME/mosek/7/tools/platform/linux64x86/bin/mosek:$PATH
 
-
-export GUROBI_HOME="/media/Data/Downloads/gurobi752/linux64"
-# "/opt/gurobi752/linux64/"
-export GRB_LICENSE_FILE="/media/Data/Licenses/Gurobi/gurobi.lic"
-# "/home/erik/Licenses/Gurobi/gurobi.lic"
+export GUROBI_HOME=$HOME/Software/gurobi/gurobi800/linux64
+export PATH="${PATH}:${GUROBI_HOME}/bin"
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
+export GRB_LICENSE_FILE="/media/Data/Licenses/gurobi.lic"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export SCIPOPTDIR="/usr/"
 
+source ~/Dotfiles/general/eco_print.sh
 export PATH=~/Software/micmac/bin:$PATH
+
