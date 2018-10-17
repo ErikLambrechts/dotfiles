@@ -477,7 +477,7 @@ augroup END
 let g:SuperTabDefaultCompletionType = "context"
 " " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
-set runtimepath+=~/.vim/my_snippets/
+set runtimepath+=~/Dotfiles/vim/.vim/my_snippets/
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
 
 """ tagbar
