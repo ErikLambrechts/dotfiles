@@ -18,10 +18,10 @@ let g:prosession_on_startup = 0
 if has('nvim')
     let g:python3_host_prog = '/usr/bin/python3'
     let g:python2_host_prog = '/usr/bin/python2'
-    Plug 'https://github.com/autozimu/LanguageClient-neovim', {
-                \ 'branch': 'next',
-                \ 'do': 'bash install.sh',
-                \ }
+    " Plug 'https://github.com/autozimu/LanguageClient-neovim', {
+    "             \ 'branch': 'next',
+    "             \ 'do': 'bash install.sh',
+    "             \ }
 
     " Plug 'donRaphaco/neotex', { 'for': 'tex' }
     set inccommand=nosplit  " previeuw subsitutions
@@ -42,7 +42,8 @@ if has('nvim')
     let g:deoplete#sources#jedi#show_docstring = 0
     set completeopt-=preview
     " Plug 'https://github.com/zchee/deoplete-clang'
-    Plug 'https://github.com/tweekmonster/deoplete-clang2'
+    " Plug 'https://github.com/tweekmonster/deoplete-clang2'
+    Plug 'https://github.com/zchee/clang-server'
 
     let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so.1'
     let g:deoplete#sources#clang#clang_header = '/usr/include/clang/6.0.0/include/'
@@ -65,30 +66,24 @@ if has('nvim')
     " deoplete tab-complete
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
-    let g:deoplete#enable_at_startup = 1
-    let g:deoplete#enable_ignore_case = 1
-    let g:deoplete#enable_smart_case = 1
-    " complete with words from any opened file
-    let g:context_filetype#same_filetypes = {}
-    let g:context_filetype#same_filetypes._ = '_'
+"     let g:deoplete#enable_at_startup = 1
+"     let g:deoplete#enable_ignore_case = 1
+"     let g:deoplete#enable_smart_case = 1
+"     " complete with words from any opened file
+"     let g:context_filetype#same_filetypes = {}
+"     let g:context_filetype#same_filetypes._ = '_'
 
-    nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-    " Or map each action separately
-    nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+"     nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+"     " Or map each action separately
+"     nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+"     nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+    " nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+    Plug 'https://github.com/huawenyu/neogdb.vim'
 else
     Plug 'https://github.com/Valloric/YouCompleteMe' , { 'do': './install.py' }
 endif
 
 Plug 'https://github.com/ervandew/supertab'
-
-
-let g:deoplete#enable_at_startup = 1
-" https://github.com/bfredl/nvim-ipy
-" Plug 'https://github.com/lervag/vimtex'
-let g:vimtex_compiler_progname = 'nvr'
-" Plug 'https://github.com/vim-latex/vim-latex'  " needs to be before tmux-navigator for  <c-j> intervarence
 
 Plug 'https://github.com/airblade/vim-gitgutter'
 Plug 'https://github.com/christoomey/vim-tmux-navigator'
