@@ -133,7 +133,6 @@ Plug 'https://github.com/rhysd/vim-grammarous'
 "" themes
 Plug 'https://github.com/vim-airline/vim-airline'
 Plug 'https://github.com/vim-airline/vim-airline-themes'
-Plug 'https://github.com/blueyed/vim-diminactive'
 Plug 'https://github.com/myusuf3/numbers.vim'              " relitive numbers
 Plug 'https://github.com/chriskempson/base16-vim'
 
@@ -180,6 +179,7 @@ autocmd FileType sh setlocal noexpandtab
 set listchars=tab:>-
 set cursorline                                              " Highlight current line
 
+highlight NormalNC ctermbg=237
 highlight Search ctermfg=Black
 highlight CursorLineNr ctermbg=0 ctermfg=7 cterm=bold
 highlight CursorLine term=bold cterm=bold
