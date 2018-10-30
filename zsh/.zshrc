@@ -24,7 +24,7 @@ setopt CORRECT
 # ZSH_THEME="sunrise"
 ZSH_THEME="erik"
 
-
+alias txPM="sh ~/Documents/tests_and_snippets/tmux/pm_tmux;"
 
 
 
