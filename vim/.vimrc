@@ -127,8 +127,6 @@ Plug 'https://github.com/jpalardy/vim-slime'               " slime : send text t
 Plug 'https://github.com/ddrscott/vim-side-search'         " search over files
 Plug 'https://github.com/xtal8/traces.vim'                 " highlight for commands
 
-" Plug 'https://github.com/JuliaEditorSupport/julia-vim'
-
 Plug 'https://github.com/metakirby5/codi.vim'
 
 Plug 'https://github.com/Ron89/thesaurus_query.vim'        " synonims
@@ -610,6 +608,11 @@ imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
+
+" preview file
+let g:fzf_files_options =
+  \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
+
 " Advanced customization using autoload functions
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
@@ -673,6 +676,8 @@ if executable('rg')
   set grepprg=rg\ --vimgrep
   command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
+
+
 
 " Files + devicons
 function! Fzf_dev()
