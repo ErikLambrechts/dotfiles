@@ -34,7 +34,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # alias impscad="/home/erik/.cabal/bin/extopenscad"
 alias project="vi \$(cat project) +vs"
 alias ccat='pygmentize -g'
-alias rg="ranger"
+# alias rg="ranger"
 alias weer="curl -4 http://wttr.in"
 
 # alias matlab="matlab -nosplash"
