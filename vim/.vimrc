@@ -24,20 +24,19 @@ let g:prosession_tmux_title = 0
 let g:prosession_on_startup = 0
 
 if has('nvim')
+    Plug 'https://github.com/machakann/vim-highlightedyank'
+
     let g:python3_host_prog = '/usr/bin/python3'
     let g:python2_host_prog = '/usr/bin/python2'
-    " Plug 'https://github.com/autozimu/LanguageClient-neovim', {
-    "             \ 'branch': 'next',
-    "             \ 'do': 'bash install.sh',
-    "             \ }
+    Plug 'https://github.com/autozimu/LanguageClient-neovim', {
+                \ 'branch': 'next',
+                \ 'do': 'bash install.sh',
+                \ }
 
     " Plug 'donRaphaco/neotex', { 'for': 'tex' }
     set inccommand=nosplit  " previeuw subsitutions
 
-    Plug 'https://github.com/machakann/vim-highlightedyank'
 
-    " Just to add the python go-to-definition and similar features, autocompletion
-    " from this plugin is disabled
     Plug 'davidhalter/jedi-vim'
     let g:jedi#completions_enabled = 0   " deoplete jedi complete compatible
     let g:jedi#auto_vim_configuration = 0
