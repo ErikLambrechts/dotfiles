@@ -1,7 +1,11 @@
 filetype off                  " required
+set encoding=UTF-8
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'https://github.com/tpope/vim-projectionist'
+Plug 'https://github.com/romainl/vim-cool'                 "  search  options
+Plug 'https://github.com/scrooloose/nerdtree'             " tree
 Plug 'https://github.com/tpope/vim-commentary'             " commentary
 Plug 'https://github.com/tpope/vim-surround'               " delete, change and add such surroundings in pairs
 Plug 'https://github.com/tpope/vim-repeat'                 " plugins support
@@ -9,9 +13,13 @@ Plug 'https://github.com/tpope/vim-endwise'                " compition for contr
 Plug 'https://github.com/tpope/vim-unimpaired'
 Plug 'https://github.com/tpope/vim-abolish'
 Plug 'https://github.com/tpope/vim-fugitive'                       " git wrapper
+
 " seesions
 Plug 'https://github.com/tpope/vim-obsession'
 Plug 'https://github.com/dhruvasagar/vim-prosession'
+
+Plug 'https://github.com/BurntSushi/ripgrep'
+
 let g:prosession_tmux_title = 0
 let g:prosession_on_startup = 0
 
@@ -43,10 +51,13 @@ if has('nvim')
     set completeopt-=preview
     " Plug 'https://github.com/zchee/deoplete-clang'
     " Plug 'https://github.com/tweekmonster/deoplete-clang2'
-    Plug 'https://github.com/zchee/clang-server'
+    " Plug 'https://github.com/zchee/clang-server'
+    Plug 'https://github.com/Shougo/deoplete-clangx'
 
-    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so.1'
-    let g:deoplete#sources#clang#clang_header = '/usr/include/clang/6.0.0/include/'
+    " let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so.1'
+    " let g:deoplete#sources#clang#clang_header = '/usr/include/clang/6.0.0/include/'
+    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-7/lib/libclang.so.1'
+    let g:deoplete#sources#clang#clang_header = '/usr/include/clang/7.0.0/include/'
     Plug 'https://github.com/wellle/tmux-complete.vim'
 
     Plug 'https://github.com/w0rp/ale'                         " linter
@@ -108,7 +119,7 @@ Plug 'https://github.com/mileszs/ack.vim'
 
 Plug 'https://github.com/octol/vim-cpp-enhanced-highlight'
 Plug 'https://github.com/godlygeek/tabular'
-Plug 'https://github.com/vim-scripts/a.vim'                " switch .cpp .h
+" Plug 'https://github.com/vim-scripts/a.vim'                " switch .cpp .h
 Plug 'https://github.com/nelstrom/vim-visual-star-search'  " search selection
 Plug 'https://github.com/mhinz/vim-startify'               " startup screen
 Plug 'https://github.com/vim-scripts/Tagbar'               " togle tagbar
@@ -261,10 +272,6 @@ nnoremap gp `[v`]
 " Make Y behave like other capitals
 nnoremap Y y$
 
-" increment numbers
-noremap + <c-a>
-noremap - <c-x>
-
 " alternative esc
 inoremap jk <Esc>
 inoremap kj <Esc>
@@ -317,7 +324,7 @@ xnoremap .  :norm.<CR>
 xnoremap Q :'<,'>:normal @q<CR>
 
 " Resize panels when vim is resized
-autocmd VimResized * wincmd =
+" autocmd VimResized * wincmd =
 
 " easy asses to blackhole register
 nnoremap _ "_
@@ -545,7 +552,7 @@ let g:ale_linters = {
 let g:ale_python_flake8_args = '--ignore=E,F403,F405,C0111,E501  --select=F,C'
 let g:ale_c_clang_options = '-std=c11 -Wall -Wextra -fexceptions -DNDEBUG'
 let g:ale_c_cpplint_options = '--linelength=100 -std=c11 -Wall -Wextra -fexceptions -DNDEBUG'
-set statusline+=%{ALEGetStatusLine()}
+" set statusline+=%{ALEGetStatusLine()}
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 " let g:ale_statusline_format = ['E %d', 'W %d', '  ok']
 nnoremap <silent> ]w <Plug>(ale_previous_wrap)
@@ -656,3 +663,49 @@ endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <silent> <leader>e :call Fzf_dev()<CR>
+
+" ripgrep
+if executable('rg')
+  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+  set grepprg=rg\ --vimgrep
+  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+endif
+
+" Files + devicons
+function! Fzf_dev()
+  let l:fzf_files_options = '--preview "bat --style=numbers,changes --color always {1..-1} | head -'.&lines.'"'
+
+  function! s:files()
+    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
+    " return s:prepend_icon(l:files)
+    return s:prepend_icon(l:files)
+  endfunction
+
+  function! s:prepend_icon(candidates)
+    let l:result = []
+    for l:candidate in a:candidates
+      " let l:filename = fnamemodify(l:candidate, ':p:t')
+      " let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
+      " call add(l:result, printf('%s %s', l:icon, l:candidate))
+      call add(l:result, printf('%s', l:candidate))
+    endfor
+
+    return l:result
+  endfunction
+
+  function! s:edit_file(item)
+    let l:pos = stridx(a:item, ' ')
+    let l:file_path = a:item[pos+1:-1]
+    execute 'silent e' l:file_path
+  endfunction
+
+  call fzf#run({
+        \ 'source': <sid>files(),
+        \ 'sink':   function('s:edit_file'),
+        \ 'options': '-m ' . l:fzf_files_options,
+        \ 'down':    '40%' })
+endfunction
