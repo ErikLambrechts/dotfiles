@@ -19,72 +19,54 @@ Plug 'https://github.com/tpope/vim-eunuch'
 " seesions
 Plug 'https://github.com/tpope/vim-obsession'
 Plug 'https://github.com/dhruvasagar/vim-prosession'
-
 let g:prosession_tmux_title = 0
 let g:prosession_on_startup = 0
+
 
 Plug 'https://github.com/BurntSushi/ripgrep'
 
 if has('nvim')
-    set inccommand=nosplit  " previeuw subsitutions
-    set completeopt-=preview
-
-    Plug 'https://github.com/machakann/vim-highlightedyank'
-
     let g:python3_host_prog = '/usr/bin/python3'
     let g:python2_host_prog = '/usr/bin/python2'
-    Plug 'https://github.com/autozimu/LanguageClient-neovim', {
-                \ 'branch': 'next',
-                \ 'do': 'bash install.sh',
-                \ }
-
-    Plug 'davidhalter/jedi-vim'
-    let g:jedi#completions_enabled = 0   " deoplete jedi complete compatible
-    let g:jedi#auto_vim_configuration = 0
-    let g:jedi#smart_auto_mappings = 0
-    let g:jedi#show_call_signatures = 0
-
-    Plug 'https://github.com/Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    let g:deoplete#enable_at_startup = 1
-    Plug 'https://github.com/zchee/deoplete-jedi'
-    let g:deoplete#sources#jedi#show_docstring = 0
-
-    Plug 'https://github.com/Shougo/deoplete-clangx'
-
-    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-7/lib/libclang.so.1'
-    let g:deoplete#sources#clang#clang_header = '/usr/include/clang/7.0.0/include/'
-    Plug 'https://github.com/wellle/tmux-complete.vim'
-
-    Plug 'https://github.com/w0rp/ale'                         " linter
-    " Use an absolute configuration path if you want system-wide settings
-    let g:LanguageClient_serverCommands = {
-                \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-                \ 'javascript': ['javascript-typescript-stdio'],
-                \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-                \ 'python': ['pyls'],
-                \ 'cpp': ['clang'],
-                \ 'c': ['clang'],
-                \ }
-
-    " deoplete tab-complete
-    inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-
-    let g:deoplete#enable_ignore_case = 1
-    let g:deoplete#enable_smart_case = 1
-    "     " complete with words from any opened file
-    "     let g:context_filetype#same_filetypes = {}
-    "     let g:context_filetype#same_filetypes._ = '_'
-
-    nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-    " Or map each action separately
-    nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-else
-    Plug 'https://github.com/Valloric/YouCompleteMe' , { 'do': './install.py' }
 endif
 
+
+Plug 'https://github.com/machakann/vim-highlightedyank'
+
+Plug 'https://github.com/w0rp/ale'                         " linter
+
+" let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-7/lib/libclang.so.1'
+" let g:deoplete#sources#clang#clang_header = '/usr/include/clang/7.0.0/include/'
+Plug 'https://github.com/SirVer/ultisnips'
+Plug 'https://github.com/honza/vim-snippets'
+
+Plug 'https://github.com/Valloric/YouCompleteMe' , { 'do': './install.py' }
+
+
+    " if you use Vundle, load plugins:
 Plug 'https://github.com/ervandew/supertab'
+let g:SuperTabDefaultCompletionType = "context"
+
+let g:SuperTabCrMapping                = 0
+let g:UltiSnipsExpandTrigger           = '<tab>'
+let g:UltiSnipsJumpForwardTrigger      = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
+let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
+
+
+
+let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_auto_select = 1
+    let g:neocomplete#enable_smart_case = 1
+    let g:neocomplete#auto_completion_start_length = 2
+
+
+
+
+
+
+
 
 Plug 'https://github.com/airblade/vim-gitgutter'
 Plug 'https://github.com/christoomey/vim-tmux-navigator'
@@ -97,8 +79,6 @@ Plug 'https://github.com/bradford-smith94/quick-scope'
 
 Plug 'https://github.com/kshenoy/vim-signature'            " stuff for marks
 
-Plug 'https://github.com/SirVer/ultisnips'
-Plug 'https://github.com/honza/vim-snippets'
 
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run install script
 Plug 'https://github.com/junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -471,11 +451,11 @@ augroup load_ultisnips
                 \| execute 'autocmd! load_ultisnips' | doautocmd FileType
 augroup END
 
-let g:SuperTabDefaultCompletionType = "context"
 " " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
 set runtimepath+=~/Dotfiles/vim/.vim/my_snippets/
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
+"
 """ tagbar
 
 nnoremap <F8> :TagbarToggle<CR>
