@@ -3,8 +3,9 @@ set encoding=UTF-8
 
 call plug#begin('~/.vim/plugged')
 
+    " Plug 'https://github.com/vim-scripts/Conque-GDB'
+
 Plug 'https://github.com/tpope/vim-projectionist'
-Plug 'https://github.com/romainl/vim-cool'                 "  search  options
 Plug 'https://github.com/scrooloose/nerdtree'             " tree
 Plug 'https://github.com/tpope/vim-commentary'             " commentary
 Plug 'https://github.com/tpope/vim-surround'               " delete, change and add such surroundings in pairs
@@ -36,8 +37,6 @@ if has('nvim')
 
     " Plug 'donRaphaco/neotex', { 'for': 'tex' }
     set inccommand=nosplit  " previeuw subsitutions
-
-
     Plug 'davidhalter/jedi-vim'
     let g:jedi#completions_enabled = 0   " deoplete jedi complete compatible
     let g:jedi#auto_vim_configuration = 0
@@ -49,9 +48,7 @@ if has('nvim')
     Plug 'https://github.com/zchee/deoplete-jedi'
     let g:deoplete#sources#jedi#show_docstring = 0
     set completeopt-=preview
-    " Plug 'https://github.com/zchee/deoplete-clang'
-    " Plug 'https://github.com/tweekmonster/deoplete-clang2'
-    " Plug 'https://github.com/zchee/clang-server'
+
     Plug 'https://github.com/Shougo/deoplete-clangx'
 
     " let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so.1'
@@ -61,34 +58,35 @@ if has('nvim')
     Plug 'https://github.com/wellle/tmux-complete.vim'
 
     Plug 'https://github.com/w0rp/ale'                         " linter
-" Use an absolute configuration path if you want system-wide settings
-" let g:LanguageClient_settingsPath = '/home/yourusername/.config/nvim/settings.json'
-    " let g:LanguageClient_serverCommands = {
-    "             \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    "             \ 'javascript': ['javascript-typescript-stdio'],
-    "             \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    "             \ 'python': ['pyls'],
- " \ 'cpp': ['cquery', '--language-server', '--log-file=/tmp/cq.log'],
-    " \ 'c': ['cquery', '--language-server', '--log-file=/tmp/cq.log'],
-    "             \ }
-                " \ 'cpp': ['~/Software/cquery/build/release/bin/cquery',
-                " \ '--log-file=/tmp/cq.log',
-                " \ '--init={"cacheDirectory":"/var/cquery/"}']
+    " Use an absolute configuration path if you want system-wide settings
+    " let g:LanguageClient_settingsPath = '/home/yourusername/.config/nvim/settings.json'
+    let g:LanguageClient_serverCommands = {
+                \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+                \ 'javascript': ['javascript-typescript-stdio'],
+                \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+                \ 'python': ['pyls'],
+                \ 'cpp': ['clang'],
+                \ 'c': ['clang'],
+                \ }
+    " \ 'cpp': ['~/Software/cquery/build/release/bin/cquery', '--language-server', '--log-file=/tmp/cq.log'],
+    "    \ 'c': ['~/Software/cquery/build/release/bin/cquery', '--language-server', '--log-file=/tmp/cq.log'],
+    " \ 'cpp': ['~/Software/cquery/build/release/bin/cquery',
+    " \ '--log-file=/tmp/cq.log',
+    " \ '--init={"cacheDirectory":"/var/cquery/"}']
     " deoplete tab-complete
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
-"     let g:deoplete#enable_at_startup = 1
-"     let g:deoplete#enable_ignore_case = 1
-"     let g:deoplete#enable_smart_case = 1
-"     " complete with words from any opened file
-"     let g:context_filetype#same_filetypes = {}
-"     let g:context_filetype#same_filetypes._ = '_'
+    let g:deoplete#enable_ignore_case = 1
+    let g:deoplete#enable_smart_case = 1
+    "     " complete with words from any opened file
+    "     let g:context_filetype#same_filetypes = {}
+    "     let g:context_filetype#same_filetypes._ = '_'
 
-"     nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-"     " Or map each action separately
-"     nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-"     nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-    " nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+    nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+    " Or map each action separately
+    nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 else
     Plug 'https://github.com/Valloric/YouCompleteMe' , { 'do': './install.py' }
 endif
@@ -330,6 +328,7 @@ vnoremap _ "_
 
 " n and N recenter when screen jumps
 function! s:nice_next(cmd)
+    set hlsearch
     let view = winsaveview()
     execute "normal! " .  a:cmd
     if view.topline != winsaveview().topline
@@ -462,6 +461,7 @@ autocmd BufNewFile,BufRead *.json set ft=javascript
 """""""""""""""""
 " Plugin settings
 """""""""""""""""
+let g:NERDTreeMouseMode = 2
 
 """ traces
 
@@ -508,6 +508,8 @@ let g:startify_list_order = [
             \ 'files',
             \ ['   My most recently used files in the current directory:'],
             \ 'dir',
+            \ ['   These are my sessions:'],
+            \ 'sessions',
             \ ['   These are my bookmarks:'],
             \ 'bookmarks',
             \ ['   These are my commands:'],
@@ -558,7 +560,7 @@ nnoremap <silent> [w <Plug>(ale_next_wrap)
 nnoremap <silent> ]W <Plug>(ale_first)
 nnoremap <silent> [W <Plug>(ale_last)
 " let g:ale_set_loclist = 0
-" let g:ale_set_quickfix = 1
+let g:ale_set_quickfix = 1
 let g:ale_sign_error = '>'
 let g:ale_sign_warning = '-'
 
@@ -612,7 +614,7 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " preview file
 let g:fzf_files_options =
-  \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
+            \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
 
 " Advanced customization using autoload functions
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
@@ -673,47 +675,48 @@ nnoremap <silent> <leader>e :call Fzf_dev()<CR>
 
 " ripgrep
 if executable('rg')
-  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-  set grepprg=rg\ --vimgrep
-  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+    let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+    set grepprg=rg\ --vimgrep
+    command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
 
 
 
 " Files + devicons
 function! Fzf_dev()
-  let l:fzf_files_options = '--preview "bat --style=numbers,changes --color always {1..-1} | head -'.&lines.'"'
+    let l:fzf_files_options = '--preview "bat --style=numbers,changes --color always {1..-1} | head -'.&lines.'"'
 
-  function! s:files()
-    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
-    " return s:prepend_icon(l:files)
-    return s:prepend_icon(l:files)
-  endfunction
+    function! s:files()
+        let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
+        " return s:prepend_icon(l:files)
+        return s:prepend_icon(l:files)
+    endfunction
 
-  function! s:prepend_icon(candidates)
-    let l:result = []
-    for l:candidate in a:candidates
-      " let l:filename = fnamemodify(l:candidate, ':p:t')
-      " let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
-      " call add(l:result, printf('%s %s', l:icon, l:candidate))
-      call add(l:result, printf('%s', l:candidate))
-    endfor
+    function! s:prepend_icon(candidates)
+        let l:result = []
+        for l:candidate in a:candidates
+            " let l:filename = fnamemodify(l:candidate, ':p:t')
+            " let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
+            " call add(l:result, printf('%s %s', l:icon, l:candidate))
+            call add(l:result, printf('%s', l:candidate))
+        endfor
 
-    return l:result
-  endfunction
+        return l:result
+    endfunction
 
-  function! s:edit_file(item)
-    let l:pos = stridx(a:item, ' ')
-    let l:file_path = a:item[pos+1:-1]
-    execute 'silent e' l:file_path
-  endfunction
+    function! s:edit_file(item)
+        let l:pos = stridx(a:item, ' ')
+        let l:file_path = a:item[pos+1:-1]
+        execute 'silent e' l:file_path
+    endfunction
 
-  call fzf#run({
-        \ 'source': <sid>files(),
-        \ 'sink':   function('s:edit_file'),
-        \ 'options': '-m ' . l:fzf_files_options,
-        \ 'down':    '40%' })
+    call fzf#run({
+                \ 'source': <sid>files(),
+                \ 'sink':   function('s:edit_file'),
+                \ 'options': '-m ' . l:fzf_files_options,
+                \ 'down':    '40%' })
 endfunction
+
 autocmd cursorhold * set nohlsearch
 noremap / :set hlsearch<cr>/
 noremap ? :set hlsearch<cr>?
