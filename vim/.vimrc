@@ -379,7 +379,7 @@ nnoremap <Leader>z z=1<CR><CR>
 
 nnoremap <Leader>gt :Tags<CR>
 
-nnoremap <leader>qs <plug>(QuickScopeToggle)
+nnoremap <leader>qs :execute "normal \<Plug>(QuickScopeToggle)"<CR>
 nnoremap <leader>tz :Goyo<CR>
 nnoremap <Leader>tb :TagbarToggle<CR>
 nnoremap <Leader>ts :set spell! <CR>  :set spelllang=en <CR>
