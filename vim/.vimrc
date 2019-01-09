@@ -23,6 +23,7 @@ let g:prosession_tmux_title = 0
 let g:prosession_on_startup = 0
 
 
+Plug 'https://github.com/mileszs/ack.vim'
 Plug 'https://github.com/BurntSushi/ripgrep'
 
 if has('nvim')
@@ -86,7 +87,6 @@ Plug 'https://github.com/junegunn/fzf.vim'
 " Both options are optional. You don't have to install fzf in ~/.fzf
 " and you don't have to run install script if you use fzf only in Vim.
 
-Plug 'https://github.com/mileszs/ack.vim'
 
 Plug 'https://github.com/octol/vim-cpp-enhanced-highlight'
 Plug 'https://github.com/godlygeek/tabular'
