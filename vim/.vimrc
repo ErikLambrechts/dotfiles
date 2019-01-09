@@ -90,7 +90,6 @@ Plug 'https://github.com/junegunn/fzf.vim'
 
 Plug 'https://github.com/octol/vim-cpp-enhanced-highlight'
 Plug 'https://github.com/godlygeek/tabular'
-" Plug 'https://github.com/vim-scripts/a.vim'                " switch .cpp .h
 Plug 'https://github.com/nelstrom/vim-visual-star-search'  " search selection
 Plug 'https://github.com/mhinz/vim-startify'               " startup screen
 Plug 'https://github.com/vim-scripts/Tagbar'               " togle tagbar
