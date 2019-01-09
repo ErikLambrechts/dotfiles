@@ -59,7 +59,7 @@ let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
 let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_auto_select = 1
     let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#auto_completion_start_length = 2
+let g:neocomplete#auto_completion_start_length = 1
 
 
 
