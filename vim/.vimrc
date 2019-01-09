@@ -20,12 +20,15 @@ Plug 'https://github.com/tpope/vim-eunuch'
 Plug 'https://github.com/tpope/vim-obsession'
 Plug 'https://github.com/dhruvasagar/vim-prosession'
 
-Plug 'https://github.com/BurntSushi/ripgrep'
-
 let g:prosession_tmux_title = 0
 let g:prosession_on_startup = 0
 
+Plug 'https://github.com/BurntSushi/ripgrep'
+
 if has('nvim')
+    set inccommand=nosplit  " previeuw subsitutions
+    set completeopt-=preview
+
     Plug 'https://github.com/machakann/vim-highlightedyank'
 
     let g:python3_host_prog = '/usr/bin/python3'
@@ -35,8 +38,6 @@ if has('nvim')
                 \ 'do': 'bash install.sh',
                 \ }
 
-    " Plug 'donRaphaco/neotex', { 'for': 'tex' }
-    set inccommand=nosplit  " previeuw subsitutions
     Plug 'davidhalter/jedi-vim'
     let g:jedi#completions_enabled = 0   " deoplete jedi complete compatible
     let g:jedi#auto_vim_configuration = 0
@@ -47,19 +48,15 @@ if has('nvim')
     let g:deoplete#enable_at_startup = 1
     Plug 'https://github.com/zchee/deoplete-jedi'
     let g:deoplete#sources#jedi#show_docstring = 0
-    set completeopt-=preview
 
     Plug 'https://github.com/Shougo/deoplete-clangx'
 
-    " let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so.1'
-    " let g:deoplete#sources#clang#clang_header = '/usr/include/clang/6.0.0/include/'
     let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-7/lib/libclang.so.1'
     let g:deoplete#sources#clang#clang_header = '/usr/include/clang/7.0.0/include/'
     Plug 'https://github.com/wellle/tmux-complete.vim'
 
     Plug 'https://github.com/w0rp/ale'                         " linter
     " Use an absolute configuration path if you want system-wide settings
-    " let g:LanguageClient_settingsPath = '/home/yourusername/.config/nvim/settings.json'
     let g:LanguageClient_serverCommands = {
                 \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
                 \ 'javascript': ['javascript-typescript-stdio'],
@@ -68,11 +65,7 @@ if has('nvim')
                 \ 'cpp': ['clang'],
                 \ 'c': ['clang'],
                 \ }
-    " \ 'cpp': ['~/Software/cquery/build/release/bin/cquery', '--language-server', '--log-file=/tmp/cq.log'],
-    "    \ 'c': ['~/Software/cquery/build/release/bin/cquery', '--language-server', '--log-file=/tmp/cq.log'],
-    " \ 'cpp': ['~/Software/cquery/build/release/bin/cquery',
-    " \ '--log-file=/tmp/cq.log',
-    " \ '--init={"cacheDirectory":"/var/cquery/"}']
+
     " deoplete tab-complete
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
@@ -483,7 +476,6 @@ let g:SuperTabDefaultCompletionType = "context"
 let g:UltiSnipsExpandTrigger = "<tab>"
 set runtimepath+=~/Dotfiles/vim/.vim/my_snippets/
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
-
 """ tagbar
 
 nnoremap <F8> :TagbarToggle<CR>
