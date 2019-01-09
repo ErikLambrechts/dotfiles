@@ -646,8 +646,8 @@ function! s:goyo_enter()
     set noshowcmd
     set scrolloff=999
     Limelight 0.2
-    set nonumber                                                  " nubers : set absolut on
-    set norelativenumber                                          " nubers : set absolut on
+    set nonumber                                                  " nubers : set absolut off
+    set norelativenumber                                          " nubers : set absolut off
     " ...
 endfunction
 
