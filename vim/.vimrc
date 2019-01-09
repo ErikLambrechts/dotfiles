@@ -689,6 +689,7 @@ function! Fzf_dev()
                 \ 'down':    '40%' })
 endfunction
 
+" hide search
 autocmd cursorhold * set nohlsearch
 noremap / :set hlsearch<cr>/
 noremap ? :set hlsearch<cr>?
