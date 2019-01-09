@@ -714,3 +714,6 @@ function! Fzf_dev()
         \ 'options': '-m ' . l:fzf_files_options,
         \ 'down':    '40%' })
 endfunction
+autocmd cursorhold * set nohlsearch
+noremap / :set hlsearch<cr>/
+noremap ? :set hlsearch<cr>?
