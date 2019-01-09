@@ -13,6 +13,7 @@ Plug 'https://github.com/tpope/vim-endwise'                " compition for contr
 Plug 'https://github.com/tpope/vim-unimpaired'
 Plug 'https://github.com/tpope/vim-abolish'
 Plug 'https://github.com/tpope/vim-fugitive'                       " git wrapper
+Plug 'https://github.com/tpope/vim-eunuch'
 
 " seesions
 Plug 'https://github.com/tpope/vim-obsession'
