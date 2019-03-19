@@ -156,12 +156,15 @@ setopt pushdignoredups      # don't push multiple copies of same dir onto stack
 export PATH="/home/erik/miniconda3/bin:$PATH"
 export PATH=$HOME/mosek/7/tools/platform/linux64x86/bin/mosek:$PATH
 
-export GUROBI_HOME=/opt/gurobi800/linux64
-export GUROBI_LIBRARY=/opt/gurobi800/linux64/lib
+export GUROBI_HOME=/opt/gurobi810/linux64
+export GUROBI_LIBRARY=/opt/gurobi810/linux64/lib
 export PATH="${PATH}:${GUROBI_HOME}/bin"
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
-export GRB_LICENSE_FILE="/media/Data/Licenses/gurobi.lic"
+export GRB_LICENSE_FILE="/media/Data/Licenses/Gurobi/gurobi.lic"
 
+export GUROBI_HOME="/opt/gurobi810/linux64"
+export PATH="${PATH}:${GUROBI_HOME}/bin"
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export SCIPOPTDIR="/usr/"
