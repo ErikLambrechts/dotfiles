@@ -1,5 +1,4 @@
-filetype off                  " required
-set encoding=UTF-8
+filetype off                  " required set encoding=UTF-8
 
 call plug#begin('~/.vim/plugged')
 
@@ -7,6 +6,9 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'https://github.com/tpope/vim-projectionist'
 Plug 'https://github.com/scrooloose/nerdtree'             " tree
+map <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeMouseMode = 2
+
 Plug 'https://github.com/tpope/vim-commentary'             " commentary
 Plug 'https://github.com/tpope/vim-surround'               " delete, change and add such surroundings in pairs
 Plug 'https://github.com/tpope/vim-repeat'                 " plugins support
@@ -16,12 +18,30 @@ Plug 'https://github.com/tpope/vim-abolish'
 Plug 'https://github.com/tpope/vim-fugitive'                       " git wrapper
 Plug 'https://github.com/tpope/vim-eunuch'
 
-" seesions
-Plug 'https://github.com/tpope/vim-obsession'
-Plug 'https://github.com/dhruvasagar/vim-prosession'
-let g:prosession_tmux_title = 0
-let g:prosession_on_startup = 0
+Plug 'https://github.com/troydm/zoomwintab.vim'
 
+" seesions
+" Plug 'https://github.com/tpope/vim-obsession'
+" Plug 'https://github.com/dhruvasagar/vim-prosession'
+" let g:prosession_tmux_title = 0
+" let g:prosession_on_startup = 0
+Plug 'https://github.com/lervag/vimtex', { 'for': 'tex' }
+Plug 'https://github.com/GCBallesteros/vim-autocite'
+
+Plug 'https://github.com/rstacruz/vim-closer'
+Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
 
 Plug 'https://github.com/mileszs/ack.vim'
 Plug 'https://github.com/BurntSushi/ripgrep'
@@ -36,36 +56,140 @@ Plug 'https://github.com/machakann/vim-highlightedyank'
 
 Plug 'https://github.com/w0rp/ale'                         " linter
 
-" let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-7/lib/libclang.so.1'
-" let g:deoplete#sources#clang#clang_header = '/usr/include/clang/7.0.0/include/'
 Plug 'https://github.com/SirVer/ultisnips'
 Plug 'https://github.com/honza/vim-snippets'
 
-Plug 'https://github.com/Valloric/YouCompleteMe' , { 'do': './install.py' }
 
 
-    " if you use Vundle, load plugins:
-Plug 'https://github.com/ervandew/supertab'
-let g:SuperTabDefaultCompletionType = "context"
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" deoplete options
 
-let g:SuperTabCrMapping                = 0
-let g:UltiSnipsExpandTrigger           = '<tab>'
-let g:UltiSnipsJumpForwardTrigger      = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
-let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
+set runtimepath+=~/.vim/plugged/deoplete.nvim/
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
 
-
-
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_auto_select = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#auto_completion_start_length = 1
+Plug 'https://github.com/Shougo/neoinclude.vim/'
+Plug 'https://github.com/Shougo/deoplete-clangx'
+" Change clang binary path
+call deoplete#custom#var('clangx', 'clang_binary', '/usr/local/bin/clang')
+" Change clang options
+call deoplete#custom#var('clangx', 'default_c_options', '')
+call deoplete#custom#var('clangx', 'default_cpp_options', '')
 
 
+Plug 'https://github.com/autozimu/LanguageClient-neovim', {
+            \ 'branch': 'next',
+            \ 'do': 'bash install.sh',
+            \ }
+Plug 'https://github.com/zchee/deoplete-jedi'
+
+Plug 'https://github.com/wellle/tmux-complete.vim'
+
+call deoplete#custom#option({
+            \ 'camel_case': v:true,
+            \ 'min_pattern_length': 1,
+            \ 'smart_case': v:true,
+            \ })
+            " \ 'sources': {
+            " \     'python': ['LanguageClient'],
+            " \     'python3': ['LanguageClient'],
+            " \     'cpp': ['LanguageClient'],
+            " \     'c': ['LanguageClient'],
+            " \     'rust': ['LanguageClient'],
+            " \     'vim': ['vim']
+            " \ }})
+let deoplete#tag#cache_limit_size = 5000000
+
+let g:deoplete#sources = {}
+let g:deoplete#sources._ = ['file', 'buffer']
+let g:deoplete#sources.python = ['LanguageClient', 'file', 'buffer', 'jedi', 'ultisnips']
+let g:deoplete#sources.python3 = ['LanguageClient', 'file', 'buffer', 'jedi', 'ultisnips']
+let g:deoplete#sources.cpp = ['LanguageClient', 'file', 'buffer', 'tag', 'ultisnips']
+let g:deoplete#sources.c = ['LanguageClient', 'file', 'buffer', 'tag', 'ultisnips']
+let g:deoplete#sources.tex = ['ultisnips', 'file', 'buffer', 'omni']
+
+let g:deoplete#sources.vim = ['vim', 'file', 'buffer', 'ultisnips']
+" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+endfunction
+
+" deoplete tab-complete
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 
 
+
+
+" (Optionally) automatically start language servers.
+let g:LanguageClient_autoStart = 1
+
+
+" keybindings for language client
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
+nnoremap <silent> gs :call LanguageClient_textDocument_documentSymbol()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+let g:LanguageClient_serverCommands = {
+  \ "cpp": ["clangd-7"],
+  \ "c": ["clangd-7"]
+  \ }
+
+
+" " set completeopt=menu,longest
+" " set completeopt-=noinsert
+set completeopt=menu,preview,noselect,noinsert
+" " set completeopt=menu,preview,noselect
+" " set completeopt=menu,preview,noinsert
+" " set completeopt=menu,preview
+
+
+
+
+
+
+
+" """""""""""""""""""""""""""""
+" Plug 'https://github.com/Valloric/YouCompleteMe' , { 'do': './install.py' }
+" Plug 'https://github.com/ervandew/supertab'
+" let g:SuperTabDefaultCompletionType = "context"
+
+" let g:SuperTabCrMapping                = 1
+" let g:UltiSnipsExpandTrigger           = '<tab>'
+" let g:UltiSnipsJumpForwardTrigger      = '<tab>'
+" let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
+" let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
+
+
+" let g:SuperTabLongestHighlight = 1
+"   let g:ycm_min_num_of_chars_for_completion = 1
+
+
+
+
+
+
+"   let g:ycm_complete_in_comments = 1
+"   let g:ycm_collect_identifiers_from_tags_files = 1
+
+" " inoremap <expr> <cr> pumvisible()?("\<C-y>"):("\<cr>")
+" inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
+" set completeopt+=longest
+
+
+
+
+
+
+
+
+" set wildmode=longest,list,full
+" " set wildmode=longest:full,full
+""""""""""""""""""""
 
 
 
@@ -97,6 +221,7 @@ Plug 'https://github.com/vim-scripts/Tagbar'               " togle tagbar
 Plug 'https://github.com/jpalardy/vim-slime'               " slime : send text to interpreter
 Plug 'https://github.com/ddrscott/vim-side-search'         " search over files
 Plug 'https://github.com/xtal8/traces.vim'                 " highlight for commands
+let g:traces_whole_file_range = 0
 
 Plug 'https://github.com/metakirby5/codi.vim'
 
@@ -109,6 +234,7 @@ Plug 'https://github.com/vim-airline/vim-airline-themes'
 Plug 'https://github.com/myusuf3/numbers.vim'              " relitive numbers
 Plug 'https://github.com/chriskempson/base16-vim'
 
+""" zen mode
 Plug 'https://github.com/junegunn/goyo.vim'                " clean centered view
 Plug 'https://github.com/junegunn/limelight.vim'           " highlight current paragraf
 
@@ -120,6 +246,9 @@ syntax on
 "Colorscheme Settings"
 let base16colorspace=256
 colorscheme base16-bright
+
+set autoread
+
 
 " " backup/persistance settings
 set backupdir=~/.vim/tmp/backup//
@@ -178,8 +307,19 @@ set showmatch                                               " Show matching brac
 set scrolloff=2
 set sidescrolloff=12
 
-set hlsearch                                                " trun highlight on
-set incsearch                                               " trun highlight on while searching
+augroup highlight_search
+    autocmd!
+    set hlsearch                                                " trun highlight on
+    set incsearch                                               " trun highlight on while searching
+
+    " hide search
+    autocmd cursorhold * set nohlsearch
+    noremap * :set hlsearch<cr>*
+    noremap # :set hlsearch<cr>#
+    noremap / :set hlsearch<cr>/
+    noremap ? :set hlsearch<cr>?
+augroup END
+
 set showcmd                                                 " shows command
 set wildmenu                                                " Make the command-line completion better
 set clipboard+=unnamed                                      " Add the unnamed register to the clipboard
@@ -193,7 +333,7 @@ set foldmethod=indent                                       " fold based on inde
 
 set shortmess+=I                                            " no splash screen
 
-set completeopt+=noinsert                                   " doe not insert from menu
+" set completeopt+=noinsert                                   " doe not insert from menu
 set nocopyindent                                            " indedent is not recalculated
 set sessionoptions-=options
 
@@ -357,9 +497,9 @@ nnoremap <Tab>/ :BLines<CR>
 nnoremap <Leader>* :Ag <C-r><C-w><CR>
 vnoremap <Leader>a y :Ag <C-r>"<CR>
 
-nnoremap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
+nnoremap <leader><tab> :exe "normal <Plug>(fzf-maps-n)"<CR>
+xmap <leader><tab> :exe "normal <Plug>(fzf-maps-x)"<CR>
+omap <leader><tab> :exe "normal <Plug>(fzf-maps-o)"<CR>
 nnoremap <Leader>a :Ag<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>l :Lines<CR>
@@ -399,6 +539,7 @@ au FileType c,cpp,h,hpp set matchpairs+==:;
 if !isdirectory("/tmp/.vim-undo-dir")
     call mkdir("/tmp/.vim-undo-dir", "", 0700)
 endif
+
 " set undodir=/tmp/.vim-undo-dir
 set undodir=~/.vim/undodir
 set undofile
@@ -427,17 +568,34 @@ endif
 " reload vimrc when saved
 au BufWritePost .vimrc so ~/.vimrc
 
-augroup END
-
 autocmd BufNewFile,BufRead *.json set ft=javascript
+autocmd BufNewFile,BufRead *.c set ft=cpp
+autocmd BufNewFile,BufRead *.h set ft=cpp
+
+function! FindProjectRoot()
+    let lookForList=['.projections.json', '.git/']
+    for lookFor in lookForList
+        let pathMaker='%:p'
+        echo expand(pathMaker)
+        while(len(expand(pathMaker))>1)
+            let pathMaker=pathMaker.':h'
+            let fileToCheck=expand(pathMaker).'/'.lookFor
+            if filereadable(fileToCheck)||isdirectory(fileToCheck)
+                " cd expand(pathMaker)
+                let &path.=','.(expand(pathMaker))
+                let &path.=','.(expand(pathMaker)).'/*'
+                let &path.=','.(expand(pathMaker)).'/**/*'
+                return 0
+            endif
+        endwhile
+    endfor
+    echoerr 'no project root found'
+    return 0
+endfunction
+
 """""""""""""""""
 " Plugin settings
 """""""""""""""""
-let g:NERDTreeMouseMode = 2
-
-""" traces
-
-let g:traces_whole_file_range = 0
 
 " """ ultisnip, vim-snippets and YCM setting
 let g:UltiSnipsSnippetsDir = "~/Dotfiles/vim/.vim/my_snippets/"
@@ -446,14 +604,19 @@ let g:UltiSnipsEditSplit = "context"
 " autoload snippets
 augroup load_ultisnips
     autocmd!
-    autocmd FileType python,c,c++,latex call plug#load('ultisnips')
+    autocmd FileType python, c, cpp, latex call plug#load('ultisnips')
                 \| execute 'autocmd! load_ultisnips' | doautocmd FileType
 augroup END
 
 " " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
 set runtimepath+=~/Dotfiles/vim/.vim/my_snippets/
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
+let g:UltiSnipsSnippetDirectories=["UltiSnips", $HOME."my_snippets"]
+
+
+
+
+"
 "
 """ tagbar
 
@@ -477,10 +640,10 @@ let g:startify_custom_header = [
 let g:startify_list_order = [
             \ ['   My most recently used files'],
             \ 'files',
-            \ ['   My most recently used files in the current directory:'],
-            \ 'dir',
             \ ['   These are my sessions:'],
             \ 'sessions',
+            \ ['   My most recently used files in the current directory:'],
+            \ 'dir',
             \ ['   These are my bookmarks:'],
             \ 'bookmarks',
             \ ['   These are my commands:'],
@@ -488,7 +651,7 @@ let g:startify_list_order = [
             \ ]
 
 let g:startify_enable_special         = 1
-let g:startify_files_number           = 8
+let g:startify_files_number           = 6
 let g:startify_relative_path          = 1
 let g:startify_change_to_dir          = 1
 let g:startify_update_oldfiles        = 1
@@ -503,6 +666,7 @@ let g:startify_skiplist = [
 let g:startify_bookmarks = [
             \ { 'v': '~/.vimrc' },
             \ { 'z': '~/.zshrc' },
+            \ { 's': '~/.config/sway/config' },
             \ { 'a': '~/.aliases' },
             \ { 't': '~/.tmux.conf' },
             \ { 'b': '~/Dotfiles/bootstrap.sh' },
@@ -522,7 +686,7 @@ let g:ale_linters = {
             \}
 let g:ale_python_flake8_args = '--ignore=E,F403,F405,C0111,E501  --select=F,C'
 let g:ale_c_clang_options = '-std=c11 -Wall -Wextra -fexceptions -DNDEBUG'
-let g:ale_c_cpplint_options = '--linelength=100 -std=c11 -Wall -Wextra -fexceptions -DNDEBUG'
+let g:ale_c_cpplint_options = '--linelength=100 -std=c14 -Wall -Wextra -fexceptions -DNDEBUG'
 " set statusline+=%{ALEGetStatusLine()}
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 " let g:ale_statusline_format = ['E %d', 'W %d', '  ok']
@@ -622,6 +786,7 @@ function! s:goyo_enter()
     Limelight 0.2
     set nonumber                                                  " nubers : set absolut off
     set norelativenumber                                          " nubers : set absolut off
+    highlight NormalNC ctermbg=black
     " ...
 endfunction
 
@@ -633,7 +798,10 @@ function! s:goyo_leave()
     set scrolloff=5
     Limelight!
     set number                                                  " nubers : set absolut on
-    set relativenumber                                          " nubers : set absolut on
+        set relativenumber                                          " nubers : set absolut on
+    highlight NormalNC ctermbg=237
+
+
     " ...
 endfunction
 
@@ -649,8 +817,3 @@ if executable('rg')
     set grepprg=rg\ --vimgrep
     command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
-
-" hide search
-autocmd cursorhold * set nohlsearch
-noremap / :set hlsearch<cr>/
-noremap ? :set hlsearch<cr>?
