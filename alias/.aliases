@@ -92,3 +92,5 @@ alias gn="gnome-terminal"
 alias arduino="sudo /opt/arduino-1.8.5/arduino"
 alias bCNC="python ~/Software/bCNC/bCNC.py"
 alias bcnc="python ~/Software/bCNC/bCNC.py"
+
+alias error_red="2> >(while read line; do echo -e "$(tput setaf 2)$line$(tput sgr0)" >&2; done)"
