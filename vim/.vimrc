@@ -235,6 +235,22 @@ imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
 
+nnoremap <Tab>/ :BLines<CR>
+
+nnoremap <Leader>* :Ag <C-r><C-w><CR>
+vnoremap <Leader>a y :Ag <C-r>"<CR>
+
+nnoremap <leader><tab> :exe "normal <Plug>(fzf-maps-n)"<CR>
+xmap <leader><tab> :exe "normal <Plug>(fzf-maps-x)"<CR>
+omap <leader><tab> :exe "normal <Plug>(fzf-maps-o)"<CR>
+nnoremap <Leader>a :Ag<CR>
+nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>l :Lines<CR>
+nnoremap <Leader>f :Files<CR>
+nnoremap <Leader>G :GFiles<CR>
+
+nnoremap <Leader>gt :Tags<CR>
+
 " preview file
 let g:fzf_files_options =
             \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
@@ -384,17 +400,16 @@ xmap a, <Plug>(swap-textobject-a)
 
 "{{{ themes
 Plug 'https://github.com/itchyny/vim-cursorword'
+Plug 'https://github.com/chriskempson/base16-vim'
 "{{{ quick-scope
 Plug 'https://github.com/bradford-smith94/quick-scope'
 nnoremap <leader>qs :execute "normal \<Plug>(QuickScopeToggle)"<CR>
 "}}}
-Plug 'https://github.com/chriskempson/base16-vim'
 "{{{ airline
 Plug 'https://github.com/vim-airline/vim-airline'
 Plug 'https://github.com/vim-airline/vim-airline-themes'
-let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+let g:airline_symbols = {}
 let g:airline#extensions#whitespace#enabled = 0
-let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', '%4v '])
 let g:airline_symbols.linenr = ''
 let g:airline_symbols.maxlinenr = ''
 "}}}
@@ -458,8 +473,6 @@ let base16colorspace=256
 colorscheme base16-bright
 "}}}
 
-set autoread
-
 "{{{ backup/persistance settings
 set backupdir=~/.vim/tmp/backup//
 set directory=~/.vim/tmp/swap//
@@ -493,10 +506,10 @@ set novisualbell
 
 set nostartofline
 
-set tabstop=4
+set tabstop=2
 set softtabstop=0
 set expandtab
-set shiftwidth=4
+set shiftwidth=2
 set smarttab
 set listchars=tab:>-
 
@@ -553,10 +566,9 @@ set wildmenu                                                " Make the command-l
 set clipboard+=unnamed                                      " Add the unnamed register to the clipboard
 set autoread                                                " Automatically read a file that has changed
 
-
 set shortmess+=I                                            " no splash screen
 
-set completeopt-=noinsert                                   " doe not insert from menu
+" set completeopt-=noinsert                                   " doe not insert from menu
 set nocopyindent                                            " indedent is not recalculated
 set sessionoptions-=options
 
@@ -582,10 +594,6 @@ set guioptions-=L               " remove left-hand scroll bar
 " scroll in insert mode
 inoremap <C-E> <C-X><C-E>
 inoremap <C-Y> <C-X><C-Y>
-
-" store and restore folds
-autocmd BufWinLeave *.* mkview!
-autocmd BufWinEnter *.* silent loadview
 
 " foldmethod for python
 autocmd FileType python setlocal foldmethod=indent
@@ -702,31 +710,19 @@ nnoremap <Leader>P "+P
 vnoremap <Leader>p "+p
 vnoremap <Leader>P "+P
 "}}}
+
 " edit macro
 nnoremap <leader>m :<c-u><c-r><c-r>='let @'.  v:register .' = '.  string(getreg(v:register))<cr><c-f><left>
 
-nnoremap <Tab>/ :BLines<CR>
-
-nnoremap <Leader>* :Ag <C-r><C-w><CR>
-vnoremap <Leader>a y :Ag <C-r>"<CR>
-
-nnoremap <leader><tab> :exe "normal <Plug>(fzf-maps-n)"<CR>
-xmap <leader><tab> :exe "normal <Plug>(fzf-maps-x)"<CR>
-omap <leader><tab> :exe "normal <Plug>(fzf-maps-o)"<CR>
-nnoremap <Leader>a :Ag<CR>
-nnoremap <Leader>b :Buffers<CR>
-nnoremap <Leader>l :Lines<CR>
-nnoremap <Leader>f :Files<CR>
-nnoremap <Leader>G :GFiles<CR>
 " exicute line as ex-command
 nnoremap <Leader>k yy :@"<cr>
 vnoremap <Leader>k y :@"<cr>
+
 " global replace
 nnoremap <Leader>s :%s///ge<left><left><left>
 " visual select replace
 vnoremap <Leader>s :s///ge<left><left><left>
 
-nnoremap <Leader>gt :Tags<CR>
 
 nnoremap <Leader>th :set hls! <CR>
 
@@ -807,6 +803,10 @@ endif
 "}}}
 
 "{{{ folds setup
+
+" store and restore folds
+autocmd BufWinLeave *.* mkview!
+autocmd BufWinEnter *.* silent loadview
 
 set foldenable                                              " enable folding
 set fillchars=fold:\-
