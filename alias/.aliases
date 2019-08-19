@@ -1,5 +1,5 @@
 alias start="gnome-terminal -x zsh -c \"source ~/.zshrc; bash ~/Projects/super_geheim_scheidsrechter_ding/src/tmux_run; \""
-echo "start?"
+alias phd="bash ~/Dropbox/PhD/.tmux_start"
 
 alias e=" e"
 alias fg=" fg"
@@ -36,8 +36,6 @@ alias project="vi \$(cat project) +vs"
 alias ccat='pygmentize -g'
 # alias rg="ranger"
 alias weer="curl -4 http://wttr.in"
-
-# alias matlab="matlab -nosplash"
 
 ## Colorize the ls output ##
 alias ls='ls --color=auto'
@@ -90,7 +88,10 @@ alias findfile='find . -type f -name'
 
 alias gn="gnome-terminal"
 alias arduino="sudo /opt/arduino-1.8.5/arduino"
-alias bCNC="python ~/Software/bCNC/bCNC.py"
-alias bcnc="python ~/Software/bCNC/bCNC.py"
+# alias bCNC="python ~/Software/bCNC/bCNC.py"
+# alias bcnc="python ~/Software/bCNC/bCNC.py"
 
 alias error_red="2> >(while read line; do echo -e "$(tput setaf 2)$line$(tput sgr0)" >&2; done)"
+
+alias f=firefox
+
