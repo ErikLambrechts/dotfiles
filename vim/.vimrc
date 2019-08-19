@@ -571,6 +571,7 @@ set shortmess+=I                                            " no splash screen
 " set completeopt-=noinsert                                   " doe not insert from menu
 set nocopyindent                                            " indedent is not recalculated
 set sessionoptions-=options
+set hidden " need to save between tabs
 
 
 "{{{ Types of files to ignore when autocompleting things
@@ -595,9 +596,6 @@ set guioptions-=L               " remove left-hand scroll bar
 inoremap <C-E> <C-X><C-E>
 inoremap <C-Y> <C-X><C-Y>
 
-" foldmethod for python
-autocmd FileType python setlocal foldmethod=indent
-
 " select pasted
 nnoremap gp `[v`]
 
@@ -611,11 +609,26 @@ inoremap kj <Esc>
 " save file as root
 cnoremap w!! w !sudo tee > /dev/null %<CR>
 
-" need to save between tabs
-set hidden
 
 " change next word
 nnoremap cn *``cgn
+
+"
+" redrawn highlights
+map <F3> :syn sync clear <CR>
+
+" smart j and k movement
+nnoremap <expr> j v:count ?  (v:count > 5 ?  "m'" . v:count : '') .  'j' : 'gj'
+nnoremap <expr> k v:count ?  (v:count > 5 ?  "m'" . v:count : '') .  'k' : 'gk'
+
+" edit macro
+nnoremap <leader>m :<c-u><c-r><c-r>='let @'.  v:register .' = '.  string(getreg(v:register))<cr><c-f><left>
+
+" exicute line as ex-command
+nnoremap <Leader>k yy :@"<cr>
+vnoremap <Leader>k y :@"<cr>
+
+nnoremap <Leader>th :set hls! <CR>
 
 "{{{ searchjump
 " use search and ctrl/ to jump to the searched without differnt highliting
@@ -643,22 +656,13 @@ endfunction
 nnoremap s :<C-U>exec "normal i".RepeatChar(nr2char(getchar()), v:count1)<CR>
 nnoremap S :<C-U>exec "normal a".RepeatChar(nr2char(getchar()), v:count1)<CR>
 "}}}
-"
-" redrawn highlights
-map <F3> :syn sync clear <CR>
-
-" smart j and k movement
-nnoremap <expr> j v:count ?  (v:count > 5 ?  "m'" . v:count : '') .  'j' : 'gj'
-nnoremap <expr> k v:count ?  (v:count > 5 ?  "m'" . v:count : '') .  'k' : 'gk'
-
+"{{{ apply dot/macor to visual selection
 " dot command on visual selection
 xnoremap .  :norm.<CR>
 
 " Apply marco to visual selection
 xnoremap Q :'<,'>:normal @q<CR>
-
-
-
+"}}}
 "{{{ Resize panels when vim is resized
 " autocmd VimResized * wincmd =
 "}}}
@@ -666,7 +670,6 @@ xnoremap Q :'<,'>:normal @q<CR>
 nnoremap _ "_
 vnoremap _ "_
 "}}}
-
 "{{{ n and N recenter when screen jumps
 function! s:nice_next(cmd)
     set hlsearch
@@ -679,7 +682,6 @@ endfunction
 nnoremap <silent> n :call <SID>nice_next('n')<cr>
 nnoremap <silent> N :call <SID>nice_next('N')<cr>
 "}}}
-
 "{{{ restore view after exicuting arg
 function! KeepEx(arg)
     let l:winview = winsaveview()
@@ -710,22 +712,12 @@ nnoremap <Leader>P "+P
 vnoremap <Leader>p "+p
 vnoremap <Leader>P "+P
 "}}}
-
-" edit macro
-nnoremap <leader>m :<c-u><c-r><c-r>='let @'.  v:register .' = '.  string(getreg(v:register))<cr><c-f><left>
-
-" exicute line as ex-command
-nnoremap <Leader>k yy :@"<cr>
-vnoremap <Leader>k y :@"<cr>
-
+"{{{ fast subsitute
 " global replace
 nnoremap <Leader>s :%s///ge<left><left><left>
 " visual select replace
 vnoremap <Leader>s :s///ge<left><left><left>
-
-
-nnoremap <Leader>th :set hls! <CR>
-
+"}}}
 "{{{ spelling
 nnoremap <Leader>ts :set spell! <CR>  :set spelllang=en <CR>
 nnoremap <Leader>tsn :set spell! <CR> :set spelllang=nl <CR>
@@ -764,9 +756,9 @@ if has('nvim')
     "     tnoremap <C-v><Esc> <Esc>
 endif
 "}}}
-"
-" reload vimrc when saved
+"{{{ reload vimrc when saved
 autocmd BufWritePost .vimrc so ~/.vimrc
+"}}}
 "{{{ set filetype
 autocmd BufNewFile,BufRead *.json set ft=javascript
 autocmd BufNewFile,BufRead *.c set ft=cpp
@@ -801,7 +793,6 @@ if executable('rg')
     command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
 "}}}
-
 "{{{ folds setup
 
 " store and restore folds
