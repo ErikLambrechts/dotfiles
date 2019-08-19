@@ -2,13 +2,26 @@ filetype off                  " required set encoding=UTF-8
 
 call plug#begin('~/.vim/plugged')
 
-    " Plug 'https://github.com/vim-scripts/Conque-GDB'
+" Plug 'https://github.com/vim-scripts/Conque-GDB'
+
+"{{{  vim-anyfold
+Plug 'https://github.com/pseewald/vim-anyfold'
+autocmd Filetype * AnyFoldActivate               " activate for all filetypes
+let g:anyfold_fold_comments=1
+set foldlevel=1
+hi Folded term=underline
+function! MyFoldText()
+    let line = getline(v:foldstart)
+    let folded_line_num = v:foldend - v:foldstart
+    let line_text = substitute(line, '^"{\+', '', 'g')
+    let fillcharcount = &textwidth - len(line_text) - len(folded_line_num)
+    return '+'. repeat('-', 4) . line_text . repeat('.', fillcharcount) . ' (' . folded_line_num . ' L)'
+endfunction
+
+set foldtext=MyFoldText()
+"}}}
 
 Plug 'https://github.com/tpope/vim-projectionist'
-Plug 'https://github.com/scrooloose/nerdtree'             " tree
-map <C-n> :NERDTreeToggle<CR>
-let g:NERDTreeMouseMode = 2
-
 Plug 'https://github.com/tpope/vim-commentary'             " commentary
 Plug 'https://github.com/tpope/vim-surround'               " delete, change and add such surroundings in pairs
 Plug 'https://github.com/tpope/vim-repeat'                 " plugins support
@@ -18,31 +31,48 @@ Plug 'https://github.com/tpope/vim-abolish'
 Plug 'https://github.com/tpope/vim-fugitive'                       " git wrapper
 Plug 'https://github.com/tpope/vim-eunuch'
 
+Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
+" set to 1, nvim will open the preview window after entering the markdown buffer default: 0
+let g:mkdp_auto_start = 0
+
+"{{{ spellrotate
+Plug 'https://github.com/tweekmonster/spellrotate.vim'
+nmap <silent> zn <Plug>(SpellRotateForward)
+nmap <silent> zp <Plug>(SpellRotateBackward)
+vmap <silent> zn <Plug>(SpellRotateForwardV)
+vmap <silent> zp <Plug>(SpellRotateBackwardV)
+"}}}
+
+Plug 'https://github.com/posva/vim-vue'
+Plug 'https://github.com/ap/vim-css-color'
+
 Plug 'https://github.com/troydm/zoomwintab.vim'
 
-" seesions
-" Plug 'https://github.com/tpope/vim-obsession'
-" Plug 'https://github.com/dhruvasagar/vim-prosession'
-" let g:prosession_tmux_title = 0
-" let g:prosession_on_startup = 0
+" latex
 Plug 'https://github.com/lervag/vimtex', { 'for': 'tex' }
 Plug 'https://github.com/GCBallesteros/vim-autocite'
 
 Plug 'https://github.com/rstacruz/vim-closer'
+
+"{{{ nerd tree
+Plug 'https://github.com/scrooloose/nerdtree'             " tree
+map <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeMouseMode = 2
 Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
 let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
-
+            \ "Modified"  : "✹",
+            \ "Staged"    : "✚",
+            \ "Untracked" : "✭",
+            \ "Renamed"   : "➜",
+            \ "Unmerged"  : "═",
+            \ "Deleted"   : "✖",
+            \ "Dirty"     : "✗",
+            \ "Clean"     : "✔︎",
+            \ 'Ignored'   : '☒',
+            \ "Unknown"   : "?"
+            \ }
+"}}}
+"
 Plug 'https://github.com/mileszs/ack.vim'
 Plug 'https://github.com/BurntSushi/ripgrep'
 
@@ -61,135 +91,121 @@ Plug 'https://github.com/honza/vim-snippets'
 
 
 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" deoplete options
 
-set runtimepath+=~/.vim/plugged/deoplete.nvim/
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
+Plug 'https://github.com/neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 
-Plug 'https://github.com/Shougo/neoinclude.vim/'
-Plug 'https://github.com/Shougo/deoplete-clangx'
-" Change clang binary path
-call deoplete#custom#var('clangx', 'clang_binary', '/usr/local/bin/clang')
-" Change clang options
-call deoplete#custom#var('clangx', 'default_c_options', '')
-call deoplete#custom#var('clangx', 'default_cpp_options', '')
+" if hidden is not set, TextEdit might fail.
+set hidden
+
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 
-Plug 'https://github.com/autozimu/LanguageClient-neovim', {
-            \ 'branch': 'next',
-            \ 'do': 'bash install.sh',
-            \ }
-Plug 'https://github.com/zchee/deoplete-jedi'
+inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
+let g:coc_snippet_next = '<TAB>'
+let g:coc_snippet_prev = '<S-TAB>'
 
-Plug 'https://github.com/wellle/tmux-complete.vim'
-
-call deoplete#custom#option({
-            \ 'camel_case': v:true,
-            \ 'min_pattern_length': 1,
-            \ 'smart_case': v:true,
-            \ })
-            " \ 'sources': {
-            " \     'python': ['LanguageClient'],
-            " \     'python3': ['LanguageClient'],
-            " \     'cpp': ['LanguageClient'],
-            " \     'c': ['LanguageClient'],
-            " \     'rust': ['LanguageClient'],
-            " \     'vim': ['vim']
-            " \ }})
-let deoplete#tag#cache_limit_size = 5000000
-
-let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['file', 'buffer']
-let g:deoplete#sources.python = ['LanguageClient', 'file', 'buffer', 'jedi', 'ultisnips']
-let g:deoplete#sources.python3 = ['LanguageClient', 'file', 'buffer', 'jedi', 'ultisnips']
-let g:deoplete#sources.cpp = ['LanguageClient', 'file', 'buffer', 'tag', 'ultisnips']
-let g:deoplete#sources.c = ['LanguageClient', 'file', 'buffer', 'tag', 'ultisnips']
-let g:deoplete#sources.tex = ['ultisnips', 'file', 'buffer', 'omni']
-
-let g:deoplete#sources.vim = ['vim', 'file', 'buffer', 'ultisnips']
-" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" deoplete tab-complete
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[c` and `]c` for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+    if &filetype == 'vim'
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
+endfunction
+" Show signature help on placeholder jump
+autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+vmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Use `:Format` for format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+
+" Add diagnostic info for https://github.com/itchyny/lightline.vim
+let g:lightline = {
+            \ 'colorscheme': 'wombat',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ 'component_function': {
+            \   'cocstatus': 'coc#status'
+            \ },
+            \ }
 
 
 
-
-
-" (Optionally) automatically start language servers.
-let g:LanguageClient_autoStart = 1
-
-
-" keybindings for language client
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
-nnoremap <silent> gs :call LanguageClient_textDocument_documentSymbol()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-let g:LanguageClient_serverCommands = {
-  \ "cpp": ["clangd-7"],
-  \ "c": ["clangd-7"]
-  \ }
-
-
-" " set completeopt=menu,longest
-" " set completeopt-=noinsert
-set completeopt=menu,preview,noselect,noinsert
-" " set completeopt=menu,preview,noselect
-" " set completeopt=menu,preview,noinsert
-" " set completeopt=menu,preview
-
-
-
-
-
-
-
-" """""""""""""""""""""""""""""
-" Plug 'https://github.com/Valloric/YouCompleteMe' , { 'do': './install.py' }
-" Plug 'https://github.com/ervandew/supertab'
-" let g:SuperTabDefaultCompletionType = "context"
-
-" let g:SuperTabCrMapping                = 1
-" let g:UltiSnipsExpandTrigger           = '<tab>'
-" let g:UltiSnipsJumpForwardTrigger      = '<tab>'
-" let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
-" let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
-" let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
-
-
-" let g:SuperTabLongestHighlight = 1
-"   let g:ycm_min_num_of_chars_for_completion = 1
-
-
-
-
-
-
-"   let g:ycm_complete_in_comments = 1
-"   let g:ycm_collect_identifiers_from_tags_files = 1
-
-" " inoremap <expr> <cr> pumvisible()?("\<C-y>"):("\<cr>")
-" inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
-" set completeopt+=longest
-
-
-
-
-
-
-
-
-" set wildmode=longest,list,full
-" " set wildmode=longest:full,full
-""""""""""""""""""""
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 
 
@@ -234,9 +250,53 @@ Plug 'https://github.com/vim-airline/vim-airline-themes'
 Plug 'https://github.com/myusuf3/numbers.vim'              " relitive numbers
 Plug 'https://github.com/chriskempson/base16-vim'
 
-""" zen mode
+"{{{ """ zen mode
+"{{{ Goyo """
+
 Plug 'https://github.com/junegunn/goyo.vim'                " clean centered view
+function! s:goyo_enter()
+    silent !tmux set status off
+    silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+    set noshowmode
+    set noshowcmd
+    set scrolloff=999
+    Limelight 0.2
+    set nonumber                                                  " nubers : set absolut off
+    set norelativenumber                                          " nubers : set absolut off
+    highlight NormalNC ctermbg=black
+    " ...
+endfunction
+
+function! s:goyo_leave()
+    silent !tmux set status on
+    silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+    set showmode
+    set showcmd
+    set scrolloff=5
+    Limelight!
+    set number                                                  " nubers : set absolut on
+    set relativenumber                                          " nubers : set absolut on
+    highlight NormalNC ctermbg=237
+
+
+    " ...
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+"}}}
+
 Plug 'https://github.com/junegunn/limelight.vim'           " highlight current paragraf
+"}}}
+
+Plug 'https://github.com/machakann/vim-swap'
+omap i, <Plug>(swap-textobject-i)
+xmap i, <Plug>(swap-textobject-i)
+omap a, <Plug>(swap-textobject-a)
+xmap a, <Plug>(swap-textobject-a)
+
+Plug 'tmux-plugins/vim-tmux-focus-events'
 
 call plug#end()            " required
 
@@ -326,17 +386,18 @@ set clipboard+=unnamed                                      " Add the unnamed re
 set autoread                                                " Automatically read a file that has changed
 
 set foldenable                                              " enable folding
-set foldlevelstart=10                                       " open most folds by default
-set foldnestmax=10                                          " 10 nested fold max
-set foldmethod=indent                                       " fold based on indent level
+" set foldlevelstart=10                                       " open most folds by default
+" set foldnestmax=10                                          " 10 nested fold max
+set foldmethod=marker                                       " fold based on indent level
 " autocmd BufRead *.vim,vimrc set foldmethod=manual
 
 set shortmess+=I                                            " no splash screen
 
-" set completeopt+=noinsert                                   " doe not insert from menu
+set completeopt-=noinsert                                   " doe not insert from menu
 set nocopyindent                                            " indedent is not recalculated
 set sessionoptions-=options
 
+"{{{
 " Types of files to ignore when autocompleting things
 set wildignore+=*.o,*.class,*.git,*.svn,*.pyc
 set wildignore+=.hg,.git,.svn                    " Version control
@@ -347,13 +408,14 @@ set wildignore+=*.spl                            " compiled spelling word lists
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=migrations                       " Django migrations
 set wildignore+=*.pyc                            " Python byte code
-
+"}}}
+"{{{
 ""gui options"
 set guioptions-=m               " remove menu bar
 set guioptions-=T               " remove toolbar
 set guioptions-=r               " remove right-hand scroll bar
 set guioptions-=L               " remove left-hand scroll bar
-
+"}}}
 " line lenght indecators
 if (exists('+colorcolumn'))
     set colorcolumn=80,120
@@ -431,14 +493,19 @@ xnoremap .  :norm.<CR>
 " Apply marco to visual selection
 xnoremap Q :'<,'>:normal @q<CR>
 
+
+
+"{{{
 " Resize panels when vim is resized
 " autocmd VimResized * wincmd =
-
+"}}}
+"{{{
 " easy asses to blackhole register
 nnoremap _ "_
 vnoremap _ "_
+"}}}
 
-" n and N recenter when screen jumps
+"{{{ n and N recenter when screen jumps
 function! s:nice_next(cmd)
     set hlsearch
     let view = winsaveview()
@@ -449,20 +516,21 @@ function! s:nice_next(cmd)
 endfunction
 nnoremap <silent> n :call <SID>nice_next('n')<cr>
 nnoremap <silent> N :call <SID>nice_next('N')<cr>
+"}}}
 
-"restore view after exicuting arg
+"{{{ restore view after exicuting arg
 function! KeepEx(arg)
     let l:winview = winsaveview()
     execute a:arg
     call winrestview(l:winview)
 endfunction
-
-" removing tailing whitespace on file save
+"}}}
+"{{{ removing tailing whitespace on file save
 augroup prewrites
     autocmd!
     autocmd BufWritePre,FileWritePre *  execute 'normal! ms' | :call KeepEx('silent! %s/\v\s+$//e') | :call histdel("search", -1) | execute 'normal! `s' | delmarks s<CR>
 augroup END
-
+"}}}
 let mapleader="\<SPACE>"
 nnoremap <SPACE> <Nop>
 vnoremap <SPACE> <Nop>
@@ -508,13 +576,13 @@ nnoremap <Leader>G :GFiles<CR>
 " exicute line as ex-command
 nnoremap <Leader>k yy :@"<cr>
 vnoremap <Leader>k y :@"<cr>
-nnoremap <Leader>r :Prosession . <CR>
 " global replace
 nnoremap <Leader>s :%s///ge<left><left><left>
 " visual select replace
 vnoremap <Leader>s :s///ge<left><left><left>
 " Quickly fix spelling errors choosing the first result
 nnoremap <Leader>z z=1<CR><CR>
+nnoremap <silent> <leader>Z u:<C-U>call FixLast(v:count1)<CR><c-n>
 
 nnoremap <Leader>gt :Tags<CR>
 
@@ -524,6 +592,14 @@ nnoremap <Leader>tb :TagbarToggle<CR>
 nnoremap <Leader>ts :set spell! <CR>  :set spelllang=en <CR>
 nnoremap <Leader>tsn :set spell! <CR> :set spelllang=nl <CR>
 nnoremap <Leader>th :set hls! <CR>
+
+function! FixLast(count)
+    augroup FixLastGroup
+        autocmd InsertLeave * call feedkeys("\<C-o>", "n") | autocmd! FixLastGroup InsertLeave *
+    augroup END
+    call feedkeys(a:count."[sa\<C-x>s", "n")
+endfunction
+
 
 " difftools
 if &diff
@@ -611,31 +687,30 @@ augroup END
 " " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
 set runtimepath+=~/Dotfiles/vim/.vim/my_snippets/
-let g:UltiSnipsSnippetDirectories=["UltiSnips", $HOME."my_snippets"]
+" let g:UltiSnipsSnippetDirectories=["UltiSnips", $HOME."my_snippets"]
 
 
 
 
 "
 "
-""" tagbar
+"{{{ tagbar
 
 nnoremap <F8> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
-
-""" startify
-
+"}}}
+"{{{ startify
 autocmd User Startified setlocal cursorline
-let g:startify_custom_header = [
-            \ '                               ',
-            \ '            __                 ',
-            \ '    __  __ /\_\    ___ ___     ',
-            \ '   /\ \/\ \\/\ \ /'' __` __`\  ',
-            \ '   \ \ \_/ |\ \ \/\ \/\ \/\ \  ',
-            \ '    \ \___/  \ \_\ \_\ \_\ \_\ ',
-            \ '     \/__/    \/_/\/_/\/_/\/_/ ',
-            \ ]
+let g:startify_custom_header = ['']
+"             \ '                               ',
+"             \ '            __                 ',
+"             \ '    __  __ /\_\    ___ ___     ',
+"             \ '   /\ \/\ \\/\ \ /'' __` __`\  ',
+"             \ '   \ \ \_/ |\ \ \/\ \/\ \/\ \  ',
+"             \ '    \ \___/  \ \_\ \_\ \_\ \_\ ',
+"             \ '     \/__/    \/_/\/_/\/_/\/_/ ',
+"             \ ]
 
 let g:startify_list_order = [
             \ ['   My most recently used files'],
@@ -671,13 +746,12 @@ let g:startify_bookmarks = [
             \ { 't': '~/.tmux.conf' },
             \ { 'b': '~/Dotfiles/bootstrap.sh' },
             \ ]
-
+"}}}
 """ clang
 
 " path to directory where library can be found
 " let g:clang_library_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
-
-""" ale
+"{{{ """ ale
 
 let g:ale_linters = {
             \   'python': ['flake8'],
@@ -708,22 +782,22 @@ let g:ale_lint_on_text_changed = 'never'
 " You can disable this option too
 " if you don't want linters to run on opening a file
 let g:ale_lint_on_enter = 1
-
-""" slime
-
+"}}}
+"{{{  slime
 let g:slime_target = "tmux"
 let g:slime_no_mappings = 1
 xmap <c-c>  <Plug>SlimeRegionSend
 nnoremap <c-c>  <Plug>SlimeParagraphSend
 nnoremap <c-c>  <Plug>SlimeMotionSend
+"}}}
 
-""" airline
-
+"{{{ airline
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', '%4v '])
 let g:airline_symbols.linenr = ''
 let g:airline_symbols.maxlinenr = ''
+"}}}
 
 """ sidesearch
 " How should we execute the search?
@@ -775,45 +849,12 @@ let g:fzf_action = {
             \ 'ctrl-x': 'split',
             \ 'ctrl-v': 'vsplit' }
 
-""" Goyo """
-
-function! s:goyo_enter()
-    silent !tmux set status off
-    silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
-    set noshowmode
-    set noshowcmd
-    set scrolloff=999
-    Limelight 0.2
-    set nonumber                                                  " nubers : set absolut off
-    set norelativenumber                                          " nubers : set absolut off
-    highlight NormalNC ctermbg=black
-    " ...
-endfunction
-
-function! s:goyo_leave()
-    silent !tmux set status on
-    silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
-    set showmode
-    set showcmd
-    set scrolloff=5
-    Limelight!
-    set number                                                  " nubers : set absolut on
-        set relativenumber                                          " nubers : set absolut on
-    highlight NormalNC ctermbg=237
 
 
-    " ...
-endfunction
-
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" ripgrep
+"{{{ ripgrep
 if executable('rg')
     let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
     set grepprg=rg\ --vimgrep
     command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
+"}}}
