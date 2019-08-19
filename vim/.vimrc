@@ -2,63 +2,39 @@ filetype off                  " required set encoding=UTF-8
 
 "{{{ plugins
 call plug#begin('~/.vim/plugged')
-
+"{{{ tpope
 Plug 'https://github.com/tpope/vim-projectionist'
 Plug 'https://github.com/tpope/vim-commentary'             " commentary
 Plug 'https://github.com/tpope/vim-surround'               " delete, change and add such surroundings in pairs
 Plug 'https://github.com/tpope/vim-repeat'                 " plugins support
-Plug 'https://github.com/tpope/vim-endwise'                " compition for contructions
+Plug 'https://github.com/tpope/vim-endwise'                " completion for contructions
 Plug 'https://github.com/tpope/vim-unimpaired'
 Plug 'https://github.com/tpope/vim-abolish'
 Plug 'https://github.com/tpope/vim-fugitive'                       " git wrapper
 Plug 'https://github.com/tpope/vim-eunuch'
-"{{{ spellrotate
-Plug 'https://github.com/tweekmonster/spellrotate.vim'
-nmap <silent> zn <Plug>(SpellRotateForward)
-nmap <silent> zp <Plug>(SpellRotateBackward)
-vmap <silent> zn <Plug>(SpellRotateForwardV)
-vmap <silent> zp <Plug>(SpellRotateBackwardV)
 "}}}
-
-Plug 'https://github.com/posva/vim-vue'
-Plug 'https://github.com/ap/vim-css-color'
-
+"{{{ tmux
+Plug 'https://github.com/christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'https://github.com/troydm/zoomwintab.vim'
-"{{{ markdown
-Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
-" set to 1, nvim will open the preview window after entering the markdown buffer default: 0
-let g:mkdp_auto_start = 0
+
+"{{{ slime
+Plug 'https://github.com/jpalardy/vim-slime'               " slime : send text to interpreter
+let g:slime_target = "tmux"
+let g:slime_no_mappings = 1
+xmap <c-c>  <Plug>SlimeRegionSend
+nnoremap <c-c>  <Plug>SlimeParagraphSend
+nnoremap <c-c>  <Plug>SlimeMotionSend
 "}}}
-"{{{ latex
-Plug 'https://github.com/lervag/vimtex', { 'for': 'tex' }
-Plug 'https://github.com/GCBallesteros/vim-autocite'
 "}}}
+
 Plug 'https://github.com/rstacruz/vim-closer'                       " close brackets
-
-"{{{ nerd tree
-Plug 'https://github.com/scrooloose/nerdtree'             " tree
-map <C-n> :NERDTreeToggle<CR>
-let g:NERDTreeMouseMode = 2
-Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
-let g:NERDTreeIndicatorMapCustom = {
-            \ "Modified"  : "✹",
-            \ "Staged"    : "✚",
-            \ "Untracked" : "✭",
-            \ "Renamed"   : "➜",
-            \ "Unmerged"  : "═",
-            \ "Deleted"   : "✖",
-            \ "Dirty"     : "✗",
-            \ "Clean"     : "✔︎",
-            \ 'Ignored'   : '☒',
-            \ "Unknown"   : "?"
-            \ }
-"}}}
-
+Plug 'https://github.com/wellle/targets.vim'              " extra objects
 Plug 'https://github.com/mileszs/ack.vim'
 Plug 'https://github.com/BurntSushi/ripgrep'
+Plug 'https://github.com/godlygeek/tabular'
 
-Plug 'https://github.com/machakann/vim-highlightedyank'
+Plug 'https://github.com/Ron89/thesaurus_query.vim'        " synonyms
+Plug 'https://github.com/rhysd/vim-grammarous'
 
 "{{{ ale
 Plug 'https://github.com/w0rp/ale'                         " linter
@@ -211,17 +187,22 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 "}}}
-
-
-Plug 'https://github.com/airblade/vim-gitgutter'
-Plug 'https://github.com/christoomey/vim-tmux-navigator'
-
-Plug 'https://github.com/wellle/targets.vim'
-Plug 'https://github.com/andymass/vim-matchup'
-
-
-Plug 'https://github.com/kshenoy/vim-signature'            " stuff for marks
-
+"{{{ language specific
+"{{{ web languages
+Plug 'https://github.com/posva/vim-vue'
+Plug 'https://github.com/ap/vim-css-color'
+"}}}
+"{{{ markdown
+Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
+" set to 1, nvim will open the preview window after entering the markdown buffer default: 0
+let g:mkdp_auto_start = 0
+"}}}
+"{{{ latex
+Plug 'https://github.com/lervag/vimtex', { 'for': 'tex' }
+Plug 'https://github.com/GCBallesteros/vim-autocite'
+"}}}
+Plug 'https://github.com/octol/vim-cpp-enhanced-highlight'
+"}}}
 "{{{ fzf
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run install script
 Plug 'https://github.com/junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -282,11 +263,24 @@ let g:fzf_action = {
 " Both options are optional. You don't have to install fzf in ~/.fzf
 " and you don't have to run install script if you use fzf only in Vim.
 "}}}
-
-Plug 'https://github.com/octol/vim-cpp-enhanced-highlight'
-Plug 'https://github.com/godlygeek/tabular'
-Plug 'https://github.com/nelstrom/vim-visual-star-search'  " search selection
-
+"{{{ nerd tree
+Plug 'https://github.com/scrooloose/nerdtree'             " tree
+map <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeMouseMode = 2
+Plug 'https://github.com/Xuyuanp/nerdtree-git-plugin'
+let g:NERDTreeIndicatorMapCustom = {
+            \ "Modified"  : "✹",
+            \ "Staged"    : "✚",
+            \ "Untracked" : "✭",
+            \ "Renamed"   : "➜",
+            \ "Unmerged"  : "═",
+            \ "Deleted"   : "✖",
+            \ "Dirty"     : "✗",
+            \ "Clean"     : "✔︎",
+            \ 'Ignored'   : '☒',
+            \ "Unknown"   : "?"
+            \ }
+"}}}
 "{{{ startify
 Plug 'https://github.com/mhinz/vim-startify'               " startup screen
 
@@ -348,17 +342,6 @@ nnoremap <F8> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
 "}}}
-
-
-"{{{ slime
-Plug 'https://github.com/jpalardy/vim-slime'               " slime : send text to interpreter
-let g:slime_target = "tmux"
-let g:slime_no_mappings = 1
-xmap <c-c>  <Plug>SlimeRegionSend
-nnoremap <c-c>  <Plug>SlimeParagraphSend
-nnoremap <c-c>  <Plug>SlimeMotionSend
-"}}}
-
 "{{{ sidesearch
 Plug 'https://github.com/ddrscott/vim-side-search'         " search over files
 " SideSearch current word and return to original window
@@ -380,30 +363,27 @@ let g:side_search_splitter = 'vnew'
 " I like 40% splits, change it if you don't
 let g:side_search_split_pct = 0.4
 "}}}
-"{{{ traces
-Plug 'https://github.com/xtal8/traces.vim'                 " highlight for commands
-let g:traces_whole_file_range = 0
-"}}}
-
-Plug 'https://github.com/metakirby5/codi.vim'
-
-Plug 'https://github.com/Ron89/thesaurus_query.vim'        " synonims
-Plug 'https://github.com/rhysd/vim-grammarous'
-
-"{{{ argument swap
+"{{{ argument swap   gs/g>/g<
 Plug 'https://github.com/machakann/vim-swap'
 omap i, <Plug>(swap-textobject-i)
 xmap i, <Plug>(swap-textobject-i)
 omap a, <Plug>(swap-textobject-a)
 xmap a, <Plug>(swap-textobject-a)
 "}}}
-
-"{{{ themes
-Plug 'https://github.com/itchyny/vim-cursorword'
+"{{{ visual enhancements
 Plug 'https://github.com/chriskempson/base16-vim'
+
+Plug 'https://github.com/nelstrom/vim-visual-star-search'  " search selection
+Plug 'https://github.com/airblade/vim-gitgutter'
+Plug 'https://github.com/machakann/vim-highlightedyank'
+Plug 'https://github.com/itchyny/vim-cursorword'
+Plug 'https://github.com/andymass/vim-matchup'             " highlight matching flow words
+Plug 'https://github.com/kshenoy/vim-signature'            " stuff for marks
+Plug 'https://github.com/troydm/zoomwintab.vim'            " <c-w>o
 "{{{ quick-scope
 Plug 'https://github.com/bradford-smith94/quick-scope'
 nnoremap <leader>qs :execute "normal \<Plug>(QuickScopeToggle)"<CR>
+nnoremap <leader>tq :execute "normal \<Plug>(QuickScopeToggle)"<CR>
 "}}}
 "{{{ airline
 Plug 'https://github.com/vim-airline/vim-airline'
@@ -462,6 +442,10 @@ Plug 'https://github.com/junegunn/limelight.vim'           " highlight current p
 "}}}
 
 "}}}
+"{{{ traces
+Plug 'https://github.com/xtal8/traces.vim'                 " highlight for commands
+let g:traces_whole_file_range = 0
+"}}}
 "}}}
 call plug#end()            " required
 "}}}
@@ -472,7 +456,6 @@ syntax on
 let base16colorspace=256
 colorscheme base16-bright
 "}}}
-
 "{{{ backup/persistance settings
 set backupdir=~/.vim/tmp/backup//
 set directory=~/.vim/tmp/swap//
@@ -501,9 +484,8 @@ augroup vimrc
     autocmd BufWritePre /tmp/* setlocal noundofile
 augroup END
 "}}}
-
+"{{{ sensical defaults
 set novisualbell
-
 set nostartofline
 
 set tabstop=2
@@ -513,6 +495,46 @@ set shiftwidth=2
 set smarttab
 set listchars=tab:>-
 
+set wrapscan                                                " Wrap around searching
+set nowrap
+set lazyredraw                                              " Don't redraw while executing macros (good performance config)
+set ignorecase                                              " Use case insensitive search, except when using capital letters
+set smartcase
+set backspace=indent,eol,start                              " Allow backspacing over autoindent, line breaks and start of insert action
+set laststatus=2                                            " Always display the status line, even if only one window is displayed
+set mouse=a                                                 " Enable use of the mouse for all modes
+set showmatch                                               " Show matching brackets when text indicator is over them
+set scrolloff=2
+set sidescrolloff=12
+set showcmd                                                 " shows command
+set wildmenu                                                " Make the command-line completion better
+set clipboard+=unnamed                                      " Add the unnamed register to the clipboard
+set autoread                                                " Automatically read a file that has changed
+
+set shortmess+=I                                            " no splash screen
+
+" set completeopt-=noinsert                                   " doe not insert from menu
+set nocopyindent                                            " indedent is not recalculated
+set sessionoptions-=options
+set hidden " need to save between tabs
+"}}}
+"{{{ Types of files to ignore when autocompleting things
+set wildignore+=*.o,*.class,*.git,*.svn,*.pyc
+set wildignore+=.hg,.git,.svn                    " Version control
+set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.spl                            " compiled spelling word lists
+set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=migrations                       " Django migrations
+set wildignore+=*.pyc                            " Python byte code
+"}}}
+"{{{ gui options"
+set guioptions-=m               " remove menu bar
+set guioptions-=T               " remove toolbar
+set guioptions-=r               " remove right-hand scroll bar
+set guioptions-=L               " remove left-hand scroll bar
+"}}}
 "{{{ highlights
 set cursorline                                              " Highlight current line
 
@@ -550,86 +572,43 @@ if (exists('+colorcolumn'))
 endif
 "}}}
 "}}}
-set wrapscan                                                " Wrap around searching
-set nowrap
-set lazyredraw                                              " Don't redraw while executing macros (good performance config)
-set ignorecase                                              " Use case insensitive search, except when using capital letters
-set smartcase
-set backspace=indent,eol,start                              " Allow backspacing over autoindent, line breaks and start of insert action
-set laststatus=2                                            " Always display the status line, even if only one window is displayed
-set mouse=a                                                 " Enable use of the mouse for all modes
-set showmatch                                               " Show matching brackets when text indicator is over them
-set scrolloff=2
-set sidescrolloff=12
-set showcmd                                                 " shows command
-set wildmenu                                                " Make the command-line completion better
-set clipboard+=unnamed                                      " Add the unnamed register to the clipboard
-set autoread                                                " Automatically read a file that has changed
-
-set shortmess+=I                                            " no splash screen
-
-" set completeopt-=noinsert                                   " doe not insert from menu
-set nocopyindent                                            " indedent is not recalculated
-set sessionoptions-=options
-set hidden " need to save between tabs
-
-
-"{{{ Types of files to ignore when autocompleting things
-set wildignore+=*.o,*.class,*.git,*.svn,*.pyc
-set wildignore+=.hg,.git,.svn                    " Version control
-set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
-set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
-set wildignore+=*.spl                            " compiled spelling word lists
-set wildignore+=*.sw?                            " Vim swap files
-set wildignore+=migrations                       " Django migrations
-set wildignore+=*.pyc                            " Python byte code
-"}}}
-"{{{ gui options"
-set guioptions-=m               " remove menu bar
-set guioptions-=T               " remove toolbar
-set guioptions-=r               " remove right-hand scroll bar
-set guioptions-=L               " remove left-hand scroll bar
-"}}}
-
-" scroll in insert mode
+"{{{ scroll in insert mode
 inoremap <C-E> <C-X><C-E>
 inoremap <C-Y> <C-X><C-Y>
-
-" select pasted
+"}}}
+"{{{ select pasted
 nnoremap gp `[v`]
-
-" Make Y behave like other capitals
+"}}}
+"{{{ Make Y behave like other capitals
 nnoremap Y y$
-
-" alternative esc
+"}}}
+"{{{ alternative esc
 inoremap jk <Esc>
 inoremap kj <Esc>
-
-" save file as root
+"}}}
+"{{{ save file as root
 cnoremap w!! w !sudo tee > /dev/null %<CR>
-
-
-" change next word
+"}}}
+"{{{ change next word
 nnoremap cn *``cgn
-
-"
-" redrawn highlights
+"}}}
+"{{{ redrawn highlights
 map <F3> :syn sync clear <CR>
-
-" smart j and k movement
+"}}}
+"{{{ smart j and k movement
 nnoremap <expr> j v:count ?  (v:count > 5 ?  "m'" . v:count : '') .  'j' : 'gj'
 nnoremap <expr> k v:count ?  (v:count > 5 ?  "m'" . v:count : '') .  'k' : 'gk'
-
-" edit macro
+"}}}
+"{{{ toggle highlight
+nnoremap <Leader>th :set hls! <CR>
+"}}}
+"{{{ edit macro
 nnoremap <leader>m :<c-u><c-r><c-r>='let @'.  v:register .' = '.  string(getreg(v:register))<cr><c-f><left>
-
-" exicute line as ex-command
+"}}}
+"{{{ exicute line as ex-command
 nnoremap <Leader>k yy :@"<cr>
 vnoremap <Leader>k y :@"<cr>
-
-nnoremap <Leader>th :set hls! <CR>
-
+"}}}
 "{{{ searchjump
 " use search and ctrl/ to jump to the searched without differnt highliting
 function! SearchJump()
@@ -682,6 +661,8 @@ endfunction
 nnoremap <silent> n :call <SID>nice_next('n')<cr>
 nnoremap <silent> N :call <SID>nice_next('N')<cr>
 "}}}
+"{{{ removing tailing whitespace on file save
+
 "{{{ restore view after exicuting arg
 function! KeepEx(arg)
     let l:winview = winsaveview()
@@ -689,7 +670,6 @@ function! KeepEx(arg)
     call winrestview(l:winview)
 endfunction
 "}}}
-"{{{ removing tailing whitespace on file save
 augroup prewrites
     autocmd!
     autocmd BufWritePre,FileWritePre *  execute 'normal! ms' | :call KeepEx('silent! %s/\v\s+$//e') | :call histdel("search", -1) | execute 'normal! `s' | delmarks s<CR>
@@ -721,14 +701,16 @@ vnoremap <Leader>s :s///ge<left><left><left>
 "{{{ spelling
 nnoremap <Leader>ts :set spell! <CR>  :set spelllang=en <CR>
 nnoremap <Leader>tsn :set spell! <CR> :set spelllang=nl <CR>
-" Quickly fix spelling errors choosing the first result
-nnoremap <Leader>z z=1<CR><CR>
+
 function! FixLast(count)
     augroup FixLastGroup
         autocmd InsertLeave * call feedkeys("\<C-o>", "n") | autocmd! FixLastGroup InsertLeave *
     augroup END
     call feedkeys(a:count."[sa\<C-x>s", "n")
 endfunction
+
+" Quickly fix spelling errors choosing the first result
+nnoremap <Leader>z z=1<CR><CR>
 nnoremap <silent> <leader>Z u:<C-U>call FixLast(v:count1)<CR><c-n>
 "}}}
 "{{{ difftools
