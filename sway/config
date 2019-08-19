@@ -4,23 +4,23 @@
 #
 # Read `man 5 sway` for a complete reference.
 ### Variables
-	exec --no-startup-id xrdb ~/.Xresources
+exec --no-startup-id xrdb ~/.Xresources
 
 #
 # Logo key. Use Mod1 for Alt.
-	set $mod Mod4
-	set $altkey Mod1
+set $mod Mod4
+set $Alt Mod1
 #font config
 #
-	font pango:Monaco,9
+font pango:Monaco,9
 # Your preferred terminal emulator
-	set $term gnome-terminal
+set $term gnome-terminal
 # Your preferred application launcher
-	set $menu j4-dmenu-desktop
+set $menu j4-dmenu-desktop
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/sway/)
-	output * bg /home/windy/Pictures/Wallpapers/pexels-photo-93685.jpg fill
+output * bg ~/Pictures/Wallpapers/rqPjmK5.jpg
 
 
 
@@ -34,94 +34,154 @@
 #
 ##"2:14:SynPS/2_Synaptics_TouchPad" {
 
-     ##"identifier": "0:0:Dell_WMI_hotkeys",
-     ##"identifier": "1:1:AT_Translated_Set_2_keyboard",
+##"identifier": "0:0:Dell_WMI_hotkeys",
+##"identifier": "1:1:AT_Translated_Set_2_keyboard",
+#
+    input "1:1:AT_Translated_Set_2_keyboard"{
+        # xkb_options ctrl:nocaps
+        xkb_options caps:ctrl
+    }
+    input "1739:31251:DLL07BF:01_06CB:7A13_To"
+    {
+    natural_scroll enabled
+	tap enabled
+	#Clickfinger works even if this is enabled
+	click_method button_areas
+	#click_method clickfinger
+	accel_profile adaptive
+	dwt enabled
+	#dwt disabled
+	drag_lock enabled
 
+        # accel_profile adaptive
+            tap enabled
+            scroll_method  edge
+            left_handed enabled
+natural_scroll enabled
+            dwt enabled
+      middle_emulation enabled
+    }
 #       middle_emulation enabled
-	input "*2:1:PS\/2_Generic_Mouse" {
-		   accel_profile adaptive
-		   dwt enabled
-		   tap enabled
-		   scroll_method  edge
-	   }
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
- #:::::::::disable_window_borders::::::::
-	 for_window [class="^.*"] border pixel 0
-	 new_window pixel 1
-	 new_float  normal
+bindsym $mod+Shift+b exec $browser
+
+#
+# Audio controls
+#
+
+    set $vol_cmd pactl set-sink-volume @DEFAULT_SINK@
+        bindsym XF86AudioRaiseVolume exec --no-startup-id $vol_cmd +5% && pkill -RTMIN+10 i3blocks
+        bindsym XF86AudioLowerVolume exec --no-startup-id $vol_cmd -5% && pkill -RTMIN+10 i3blocks
+        bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# key name found with `xev`
+# player name found with:
+# dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames | grep org.mpris.MediaPlayer2 | awk -F\" '{print $2}' | cut -d '.' -f4- | sort
+#set $player org.mpris.MediaPlayer2.google-play-music-desktop-player
+
+        bindsym XF86Tools exec playerctl play-pause
+        bindsym XF86Bluetooth exec playerctl next
+
+#set $player org.mpris.MediaPlayer2.spotify
+#bindsym XF86Tools exec dbus-send \
+#    --print-reply \
+#    --dest=$player \
+#    /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+#
+#
+#bindsym XF86Bluetooth exec dbus-send \
+#    --print-reply \
+#    --dest=$player \
+#    /org/mpris/MediaPlayer2 \
+#    org.mpris.MediaPlayer2.Player.Next
+
+
+#
+# Sreen brightness controls
+#
+# if this breaks, consider running the script to configure with acpi
+# it tends to break after running the gnome/Ubuntu desktop
+#
+        bindsym XF86MonBrightnessUp exec brightnessctl set +20
+bindsym XF86MonBrightnessDown exec brightnessctl set 20-
+#
+#:::::::::disable_window_borders::::::::
+for_window [class="^.*"] border pixel 0
+new_window pixel 1
+new_float  normal
 
 #:::::i3_ gaps::::::::::::::
-	set $default_gaps_inner 10
-	set $default_gaps_outer 5
-	gaps inner $default_gaps_inner
-	gaps outer $default_gaps_outer
-	smart_gaps on
+set $default_gaps_inner 10
+set $default_gaps_outer 5
+gaps inner $default_gaps_inner
+gaps outer $default_gaps_outer
+smart_gaps on
 
-	bindsym $mod+Shift+s sticky toggle
+bindsym $mod+Shift+s sticky toggle
 
 ### Key bindings
 #
 # Basics:
 #
-    # start a terminal
-    bindsym $mod+Return exec $term
+# start a terminal
+bindsym $mod+Return exec $term
 
-    # kill focused window
-    bindsym $mod+q kill
+# kill focused window
+bindsym $mod+q kill
 
-    # start your launcher
-	bindsym $mod+d exec dmenu_run -i -fn 'monaco-9:bold:pixelsize=12' -nb '#585858' -nf '#15B3E8' -sf '#000000' -sb '#F2FA00'
-    # Drag floating windows by holding down $mod and left mouse button.
-    # Resize them with right mouse button + $mod.
-    # Despite the name, also works for non-floating windows.
-    # Change normal to inverse to use left mouse button for resizing and right
-    # mouse button for dragging.
-    floating_modifier $mod normal
+# start your launcher
+bindsym $mod+d exec dmenu_run -i -fn 'monaco-9:bold:pixelsize=12' -nb '#585858' -nf '#15B3E8' -sf '#000000' -sb '#F2FA00'
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
 
 
 # Home row direction keys, like vim
-	set $left h
-	set $down j
-	set $up k
-	set $right l
+set $left h
+set $down j
+set $up k
+set $right l
 
 # bindsym $mod+p exec $term --name=launcher -e "$SHELL -c 'sway-launcher'"
 # for_window [app_id="^launcher$"] floating enable, border none
 
 # reload the configuration file
-    bindsym $mod+Shift+r reload
+bindsym $mod+Shift+r reload
 
- # exit sway (logs you out of your wayland session)
-    bindsym $mod+Shift+e exit
+# exit sway (logs you out of your wayland session)
+bindsym $mod+Shift+e exit
 
 #sway lock
-    # bindsym Alt+l exec  swaylock -i /home/windy/Pictures/wallpapers/wallhaven-295990.png
+bindsym $Mod1+l exec  swaylock -i ~/Pictures/Wallpapers/1440 Little Shadow by Zim2687.jpg
 # Moving around:
 #
-    # Move your focus around
-    bindsym $mod+$left focus left
-    bindsym $mod+$down focus down
-    bindsym $mod+$up focus up
-    bindsym $mod+$right focus right
-    # or use $mod+[up|down|left|right]
-    bindsym $mod+Left focus left
-    bindsym $mod+Down focus down
-    bindsym $mod+Up focus up
-    bindsym $mod+Right focus right
+# Move your focus around
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+# or use $mod+[up|down|left|right]
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
 
-    # _move_ the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
-    bindsym $mod+Shift+$right move right
-    # ditto, with arrow keys
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
+# _move_ the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+# ditto, with arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
 #
 
 # enable floating mode for all Specified windows
@@ -153,101 +213,110 @@ assign [class="(?i)wireshark-gtk"] → $ws8
 assign [class="^Firefox$" instance="^Navigator$"] → $ws9
 assign [class="^Tor Browser$" instance="^Navigator$"] → $ws9
 
-    # switch to workspace
-    bindsym $mod+1 workspace $ws1
-    bindsym $mod+2 workspace $ws2
-    bindsym $mod+3 workspace $ws3
-    bindsym $mod+4 workspace $ws4
-    bindsym $mod+5 workspace $ws5
-    bindsym $mod+6 workspace $ws6
-    bindsym $mod+7 workspace $ws7
-    bindsym $mod+8 workspace $ws8
-    bindsym $mod+9 workspace $ws9
-    bindsym $mod+0 workspace $ws10
-    # move focused container to workspace
-    bindsym $mod+Shift+1 move container to workspace $ws1
-    bindsym $mod+Shift+2 move container to workspace $ws2
-    bindsym $mod+Shift+3 move container to workspace $ws3
-    bindsym $mod+Shift+4 move container to workspace $ws4
-    bindsym $mod+Shift+5 move container to workspace $ws5
-    bindsym $mod+Shift+6 move container to workspace $ws6
-    bindsym $mod+Shift+7 move container to workspace $ws7
-    bindsym $mod+Shift+8 move container to workspace $ws8
-    bindsym $mod+Shift+9 move container to workspace $ws9
-    bindsym $mod+Shift+0 move container to workspace $ws10
-    # Note: w --no-startup-id orkspaces can have any name you want, not just numbers.
-    # We just use 1-10 as the default.
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+# Note: w --no-startup-id orkspaces can have any name you want, not just numbers.
+# We just use 1-10 as the default.
 #
+
+
+
+
+
+bindsym $mod+f exec firefox
+bindsym $mod+f exec firefox
+
+
 # Layout stuff:
 #
-    # You can "split" the current object of your focus with
-    # $mod+b or $mod+v, for horizontal and vertical splits
-    # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
 
-    # Switch the current container between different layout styles
-    bindsym $mod+s layout stacking
-   bindsym $mod+w layout tabbed
-   bindsym $mod+e layout toggle split
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
 
-    # Make the current focus fullscreen
-    bindsym $mod+f fullscreen
+# Make the current focus fullscreen
+# bindsym $mod+f fullscreen
 
-    # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
 
-    # Swap focus between the tiling area and the floating area
-    bindsym $mod+space focus mode_toggle
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
 
-    # move focus to the parent container
-   # bindsym $mod+a focus parent
+# move focus to the parent container
+# bindsym $mod+a focus parent
 #
 # Scratchpad:
 #
-    # Sway has a "scratchpad", which is a bag of holding for windows.
-    # You can send windows there and get them back later.
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
 
-    # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
 
-    # Show the next scratchpad window or hide the focused scratchpad window.
-    # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
 #
 # Resizing containers:
 #
 mode "resize" {
-    # left will shrink the containers width
-    # right will grow the containers width
-    # up will shrink the containers height
-    # down will grow the containers height
+# left will shrink the containers width
+# right will grow the containers width
+# up will shrink the containers height
+# down will grow the containers height
     bindsym $left resize shrink width 10 px or 10 ppt
-    bindsym $down resize grow height 10 px or 10 ppt
-    bindsym $up resize shrink height 10 px or 10 ppt
-    bindsym $right resize grow width 10 px or 10 ppt
+        bindsym $down resize grow height 10 px or 10 ppt
+        bindsym $up resize shrink height 10 px or 10 ppt
+        bindsym $right resize grow width 10 px or 10 ppt
 
-    # ditto, with arrow keys
-    bindsym Left resize shrink width 10 px or 10 ppt
-    bindsym Down resize grow height 10 px or 10 ppt
-    bindsym Up resize shrink height 10 px or 10 ppt
-    bindsym Right resize grow width 10 px or 10 ppt
+# ditto, with arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
 
-    # return to default mode
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+# return to default mode
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
 
-#:::::::::control de volume:::::::::::::
+##:::::::::control de volume:::::::::::::
 
-bindsym XF86AudioMute exec --no-startup-id  amixer set Master toggle
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 5%+
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 5%-
+#bindsym XF86AudioMute exec --no-startup-id  amixer set Master toggle
+#bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 5%+
+#bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 5%-
 
-#brightness control
-bindsym XF86MonBrightnessUp exec --no-startup-id sudo bright_Up
-bindsym XF86MonBrightnessDown exec --no-startup-id sudo bright_Down
+##brightness control
+#bindsym XF86MonBrightnessUp exec --no-startup-id sudo bright_Up
+#bindsym XF86MonBrightnessDown exec --no-startup-id sudo bright_Down
 
 #
 # Status Bar:
@@ -255,32 +324,32 @@ bindsym XF86MonBrightnessDown exec --no-startup-id sudo bright_Down
 # Read `man 5 sway-bar` for more information about this section.
 
 bar {
-	status_command  i3status
-    position top
-	font  Monaco,Bold 11px
-	separator_symbol "   "
-	mode dock
+    status_command  i3status
+        position top
+        font  Monaco,Bold 11px
+        separator_symbol "   "
+        mode dock
 
-    colors {
-        statusline   #78da59
-        #statusline #62AEEE
-        #background #585858
-        background #585858
-		#separator #ffff00
-		separator #fff32e
-							#border 	#bg		#txt
-        focused_workspace	#585858	#585858	#66FF66
-        inactive_workspace	#585858	#585858	 #78da59
-		active_workspace	#777F8B	#777F8B	#ecedee
-    	 urgent_workspace	#DEDFE3	#DEDFE3	#767E8A
+        colors {
+            statusline   #78da59
+#statusline #62AEEE
+#background #585858
+                background #585858
+#separator #ffff00
+                separator #fff32e
+#border 	#bg		#txt
+                focused_workspace	#585858	#585858	#66FF66
+                inactive_workspace	#585858	#585858	 #78da59
+                active_workspace	#777F8B	#777F8B	#ecedee
+                urgent_workspace	#DEDFE3	#DEDFE3	#767E8A
 
 
 
-		# focused_workspace	#585858	#585858	#66FF66
-        #inactive_workspace	#585858	#585858	 #8C8C8C
-		#active_workspace	#777F8B	#777F8B	#ecedee
-    	#  urgent_workspace	#DEDFE3	#DEDFE3	#767E8A
-    }
+# focused_workspace	#585858	#585858	#66FF66
+#inactive_workspace	#585858	#585858	 #8C8C8C
+#active_workspace	#777F8B	#777F8B	#ecedee
+#  urgent_workspace	#DEDFE3	#DEDFE3	#767E8A
+        }
 ###########:::::::::::::::: MARCO DE VENTANA ::::::::::::::::::#
 #################################################################
 # class           		 border  backgr  text   indicator child_border
@@ -290,3 +359,36 @@ bar {
 #client.urgent   		#4a4b4c #4a4b4c #fdfdfd  #fbfbfb   #4a4c4b
 #client.placeholder     		#000000 #0c0c0c #ffffff  #000000   #0c0c0c
 #client.background       	#111111
+#
+
+bar {
+    position top
+    height 32
+    status_command i3blocks
+    mode hide
+#Ubuntu Font offsets material Design icons
+
+#Ubuntu Font offsets material Design icons
+#   font pango:UbuntuNerdFont 12
+#   font pango:FuraMonoNerdFont 12
+    font pango:FantasqueSansMonoNerdFont, Regular 15
+    separator_symbol "|"
+    colors {
+        background #35445830
+	separator #330066
+	statusline #fdf6e3
+    }
+}
+
+#Should theoretically update i3blocks, but doesnt work
+#exec_always pkill -RTMIN+10 i3blocks
+#exec_always pkill -SIGRTMIN+12 i3blocks
+
+
+### Beginning of /home/marten/.config/sway/config.d/swayidle
+
+exec swayidle \
+	before-sleep swaylock \
+	timeout 180 swaylock \
+	timeout 300 "systemctl suspend"
+
