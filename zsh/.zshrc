@@ -81,7 +81,7 @@ HIST_STAMPS="dd/mm/yyyy"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-plugins=(git zsh-256color tmux vi-mode fzf zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(virtualenv git zsh-256color tmux vi-mode fzf zsh-autosuggestions zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 # Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
 export KEYTIMEOUT=1
@@ -149,12 +149,9 @@ setopt ignoreeof            # prevent accidental C-d from exiting shell
 setopt interactivecomments  # allow comments, even in interactive shells
 setopt printexitvalue       # for non-zero exit status
 setopt pushdignoredups      # don't push multiple copies of same dir onto stack
-# setopt pushdsilent          # don't print dir stack after pushing/popping
+setopt pushdsilent          # don't print dir stack after pushing/popping
 # setopt sharehistory         # share history across shells
 
-# added by Miniconda3 4.3.14 installer
-export PATH="/home/erik/miniconda3/bin:$PATH"
-export PATH=$HOME/mosek/7/tools/platform/linux64x86/bin/mosek:$PATH
 
 export GUROBI_HOME=/opt/gurobi810/linux64
 export GUROBI_LIBRARY=/opt/gurobi810/linux64/lib
@@ -177,3 +174,35 @@ export PATH=$PATH:$HOME/.local/bin
 
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+function prev() {
+  PREV=$(fc -lrn | head -n 1)
+  sh -c "pet new `printf %q "$PREV"`"
+}
+
+function pet-select() {
+  BUFFER=$(pet search --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle redisplay
+}
+zle -N pet-select
+stty -ixon
+bindkey '^s' pet-select
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+# __conda_setup="$('/home/erik/Software/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/home/erik/Software/anaconda3/etc/profile.d/conda.sh" ]; then
+#         . "/home/erik/Software/anaconda3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/home/erik/Software/anaconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
+# <<< conda initialize <<<
+
+source ~/Software/pomodoro/pomodoro.sh
+fpath=(~/.zsh.d/ $fpath)
