@@ -3,8 +3,12 @@ alias phd="bash ~/Dropbox/PhD/.tmux_start"
 
 alias e=" e"
 alias fg=" fg"
+alias bg=" bg"
 alias ls=" ls"
 alias cd=" cd"
+alias v=" v"
+alias n=" n"
+
 alias install="sudo apt-get install"
 
 # Language aliases
