@@ -25,8 +25,7 @@ nnoremap <c-c>  <Plug>SlimeParagraphSend
 nnoremap <c-c>  <Plug>SlimeMotionSend
 "}}}
 "}}}
-
-Plug 'https://github.com/rstacruz/vim-closer'                       " close brackets
+Plug 'https://github.com/jiangmiao/auto-pairs'
 Plug 'https://github.com/wellle/targets.vim'              " extra objects
 Plug 'https://github.com/mileszs/ack.vim'
 Plug 'https://github.com/BurntSushi/ripgrep'
