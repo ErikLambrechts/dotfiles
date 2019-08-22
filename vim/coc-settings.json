@@ -1,0 +1,16 @@
+{
+    "c.preferences.colorSupport": true,
+        // make vim select first item on completion
+        "suggest.noselect": false,
+        // when snippet activated and pumvisible, prefer complete completion.
+        "suggest.preferCompleteThanJumpPlaceholder": true,
+        "languageserver": {
+            "clangd": {
+                "command": "clangd",
+                "rootPatterns": ["compile_flags.txt", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+                "filetypes": ["c", "cpp", "objc", "objcpp"]
+            },
+        },
+        "snippets.ultisnips.directories": ["UltiSnips", "~/Dotfiles/vim/.vim/my_snippets/"]
+}
+
