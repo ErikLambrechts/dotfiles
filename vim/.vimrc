@@ -106,7 +106,7 @@ set signcolumn=yes
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
@@ -117,9 +117,9 @@ endfunction
 
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
-
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
+" inoremap <expr><cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<cr>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() :
+                                           \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " Use `[c` and `]c` to navigate diagnostics
 nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
@@ -673,9 +673,9 @@ augroup prewrites
 augroup END
 "}}}
 "{{{ set leader
-let mapleader="\<SPACE>"
 nnoremap <SPACE> <Nop>
 vnoremap <SPACE> <Nop>
+let mapleader="\<SPACE>"
 "}}}
 "{{{ copy and paste from system clipboard
 vnoremap <Leader>y "+y
