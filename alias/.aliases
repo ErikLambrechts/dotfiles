@@ -51,7 +51,6 @@ alias ll='ls -la'
 alias l.='ls -d .* --color=auto'
 
  ## a quick way to get out of current directory ##
-alias ..='cd ..'
 alias ..='cd ..'         # Go up one directory
 alias cd..='cd ..'       # Common misspelling for going up one directory
 alias ...='cd ../..'     # Go up two directories
@@ -62,7 +61,6 @@ alias -- -='cd -'        # Go back
 alias h='history'
 
 alias e=exit
-# alias ee="kill $(jobs -p);exit"
 alias c=clear
 
 alias v=nvim
