@@ -7,7 +7,6 @@ Plug 'https://github.com/tpope/vim-projectionist'
 Plug 'https://github.com/tpope/vim-commentary'             " commentary
 Plug 'https://github.com/tpope/vim-surround'               " delete, change and add such surroundings in pairs
 Plug 'https://github.com/tpope/vim-repeat'                 " plugins support
-Plug 'https://github.com/tpope/vim-endwise'                " completion for contructions
 Plug 'https://github.com/tpope/vim-unimpaired'
 Plug 'https://github.com/tpope/vim-abolish'
 Plug 'https://github.com/tpope/vim-fugitive'                       " git wrapper
