@@ -740,7 +740,6 @@ endif
 autocmd BufWritePost .vimrc so ~/.vimrc
 "}}}
 "{{{ set filetype
-autocmd BufNewFile,BufRead *.json set ft=javascript
 autocmd BufNewFile,BufRead *.c set ft=cpp
 autocmd BufNewFile,BufRead *.h set ft=cpp
 "}}}
