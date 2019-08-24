@@ -217,19 +217,19 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 nnoremap <Tab>/ :BLines<CR>
 
-nnoremap <Leader>* :Ag <C-r><C-w><CR>
-vnoremap <Leader>a y :Ag <C-r>"<CR>
+nnoremap <leader>* :Ag <C-r><C-w><CR>
+vnoremap <leader>a y :Ag <C-r>"<CR>
 
 nnoremap <leader><tab> :exe "normal <Plug>(fzf-maps-n)"<CR>
 xmap <leader><tab> :exe "normal <Plug>(fzf-maps-x)"<CR>
 omap <leader><tab> :exe "normal <Plug>(fzf-maps-o)"<CR>
-nnoremap <Leader>a :Ag<CR>
-nnoremap <Leader>b :Buffers<CR>
-nnoremap <Leader>l :Lines<CR>
-nnoremap <Leader>f :Files<CR>
-nnoremap <Leader>G :GFiles<CR>
+nnoremap <leader>a :Ag<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>l :Lines<CR>
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>G :GFiles<CR>
 
-nnoremap <Leader>gt :Tags<CR>
+nnoremap <leader>gt :Tags<CR>
 
 " preview file
 let g:fzf_files_options =
@@ -283,8 +283,8 @@ let g:NERDTreeIndicatorMapCustom = {
 "{{{ startify
 Plug 'https://github.com/mhinz/vim-startify'               " startup screen
 
-nnoremap <Leader>v :Startify<CR>
-nnoremap <Leader>V :vs<CR>:Startify<CR>
+nnoremap <leader>v :Startify<CR>
+nnoremap <leader>V :vs<CR>:Startify<CR>
 
 autocmd User Startified setlocal cursorline
 let g:startify_custom_header = ['']
@@ -335,7 +335,7 @@ let g:startify_bookmarks = [
 "{{{ tagbar
 Plug 'https://github.com/vim-scripts/Tagbar'               " togle tagbar
 
-nnoremap <Leader>tb :TagbarToggle<CR>
+nnoremap <leader>tb :TagbarToggle<CR>
 nnoremap <F8> :TagbarToggle<CR>
 
 let g:tagbar_autofocus = 1
@@ -344,12 +344,12 @@ let g:tagbar_autoclose = 1
 "{{{ sidesearch
 Plug 'https://github.com/ddrscott/vim-side-search'         " search over files
 " SideSearch current word and return to original window
-vnoremap <Leader>* y :SideSearch <C-r>"<CR> | wincmd p
+vnoremap <leader>* y :SideSearch <C-r>"<CR> | wincmd p
 
 " SideSearch current word and return to original window
-nnoremap <Leader>* :SideSearch <C-r><C-w><CR> | wincmd p
+nnoremap <leader>* :SideSearch <C-r><C-w><CR> | wincmd p
 
-nnoremap <Leader>/ :SideSearch
+nnoremap <leader>/ :SideSearch
 " How should we execute the search?
 " " --heading and --stats are required!
 let g:side_search_prg = 'ag --word-regexp'
@@ -405,11 +405,13 @@ Plug 'https://github.com/junegunn/goyo.vim'                " clean centered view
 nnoremap <leader>tz :Goyo<CR>
 
 function! s:goyo_enter()
+  if executable('tmux') && strlen($TMUX)
     silent !tmux set status off
     silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
-    set noshowmode
-    set noshowcmd
-    set scrolloff=999
+  endif
+  set noshowmode
+  set noshowcmd
+  set scrolloff=999
     Limelight 0.2
     set nonumber                                                  " nubers : set absolut off
     set norelativenumber                                          " nubers : set absolut off
@@ -418,11 +420,13 @@ function! s:goyo_enter()
 endfunction
 
 function! s:goyo_leave()
+  if executable('tmux') && strlen($TMUX)
     silent !tmux set status on
     silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
-    set showmode
-    set showcmd
-    set scrolloff=5
+  endif
+  set showmode
+  set showcmd
+  set scrolloff=5
     Limelight!
     set number                                                  " nubers : set absolut on
     set relativenumber                                          " nubers : set absolut on
@@ -599,14 +603,14 @@ nnoremap <expr> j v:count ?  (v:count > 5 ?  "m'" . v:count : '') .  'j' : 'gj'
 nnoremap <expr> k v:count ?  (v:count > 5 ?  "m'" . v:count : '') .  'k' : 'gk'
 "}}}
 "{{{ toggle highlight
-nnoremap <Leader>th :set hls! <CR>
+nnoremap <leader>th :set hls! <CR>
 "}}}
 "{{{ edit macro
 nnoremap <leader>m :<c-u><c-r><c-r>='let @'.  v:register .' = '.  string(getreg(v:register))<cr><c-f><left>
 "}}}
 "{{{ exicute line as ex-command
-nnoremap <Leader>k yy :@"<cr>
-vnoremap <Leader>k y :@"<cr>
+nnoremap <leader>k yy :@"<cr>
+vnoremap <leader>k y :@"<cr>
 "}}}
 "{{{ searchjump
 " use search and ctrl/ to jump to the searched without differnt highliting
@@ -680,37 +684,38 @@ vnoremap <SPACE> <Nop>
 let mapleader="\<SPACE>"
 "}}}
 "{{{ copy and paste from system clipboard
-vnoremap <Leader>y "+y
-vnoremap <Leader>Y "+Y
-nnoremap <Leader>y "+y
-nnoremap <Leader>Y "+Y
-vnoremap <Leader>d "+d
-nnoremap <Leader>d "+d
-nnoremap <Leader>p "+p
-nnoremap <Leader>P "+P
-vnoremap <Leader>p "+p
-vnoremap <Leader>P "+P
+vnoremap <leader>y "+y
+vnoremap <leader>Y "+Y
+nnoremap <leader>y "+y
+nnoremap <leader>Y "+Y
+vnoremap <leader>d "+d
+nnoremap <leader>d "+d
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
 "}}}
 "{{{ fast subsitute
 " global replace
-nnoremap <Leader>s :%s///ge<left><left><left>
+nnoremap <leader>s :%s///ge<left><left><left>
 " visual select replace
-vnoremap <Leader>s :s///ge<left><left><left>
+vnoremap <leader>s :s///ge<left><left><left>
 "}}}
 "{{{ spelling
-nnoremap <Leader>ts :set spell! <CR>  :set spelllang=en <CR>
-nnoremap <Leader>tsn :set spell! <CR> :set spelllang=nl <CR>
+nnoremap <leader>tss :set nospell! <CR>
+nnoremap <leader>ts :set spell! <CR>  :set spelllang=en <CR>
+nnoremap <leader>tsn :set spell! <CR> :set spelllang=nl <CR>
 
 function! FixLast(count)
-    augroup FixLastGroup
-        autocmd InsertLeave * call feedkeys("\<C-o>", "n") | autocmd! FixLastGroup InsertLeave *
-    augroup END
-    call feedkeys(a:count."[sa\<C-x>s", "n")
+  augroup FixLastGroup
+    autocmd InsertLeave * call feedkeys("\<C-o>", "n") | autocmd! FixLastGroup InsertLeave *
+  augroup END
+  call feedkeys(a:count."[sa\<C-x>s", "n")
 endfunction
 
 " Quickly fix spelling errors choosing the first result
-nnoremap <Leader>z z=1<CR><CR>
-nnoremap <silent> <leader>Z u:<C-U>call FixLast(v:count1)<CR><c-n>
+nnoremap <leader>z z=1<CR><CR>]s
+nnoremap <silent> <leader>Z :<C-U>call FixLast(v:count1)<CR><c-n>
 "}}}
 "{{{ difftools
 if &diff
@@ -733,7 +738,7 @@ if has('nvim')
     highlight! link TermCursor Cursor
     highlight! TermCursorNC ctermfg =white ctermbg=15
 
-    "     tnoremap <Esc> <C-\><C-n>
+    "     two remap <Esc> <C-\><C-n>
     "     tnoremap <C-v><Esc> <Esc>
 endif
 "}}}
