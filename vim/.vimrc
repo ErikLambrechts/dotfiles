@@ -199,6 +199,7 @@ Plug 'https://github.com/lervag/vimtex', { 'for': 'tex' }
 Plug 'https://github.com/GCBallesteros/vim-autocite'
 "}}}
 Plug 'https://github.com/octol/vim-cpp-enhanced-highlight'
+Plug 'https://github.com/cespare/vim-toml'
 "}}}
 "{{{ fzf
 " PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run install script
