@@ -743,6 +743,9 @@ autocmd BufWritePost .vimrc so ~/.vimrc
 "{{{ set filetype
 autocmd BufNewFile,BufRead *.c set ft=cpp
 autocmd BufNewFile,BufRead *.h set ft=cpp
+autocmd BufNewFile,BufRead *.toml set ft=toml
+autocmd BufNewFile,BufRead *.tex set ft=tex
+autocmd BufNewFile,BufRead CMakeLists.txt set filetype=cmake
 "}}}
 "{{{ find project root
 function! FindProjectRoot()
